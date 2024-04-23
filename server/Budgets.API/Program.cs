@@ -10,9 +10,7 @@ builder.Services.AddDbContext<BudgetsDbContext>(options => options.UseSqlServer(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//TODO: REMOVE WHEN DB IS READY
-// Console.WriteLine(builder.Configuration["dbconnectionstr"]);
-// builder.Configuration["dbconnectionstr"];
+
 
 var app = builder.Build();
 
@@ -25,6 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//TODO: REMOVE ALL OF THIS
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -47,6 +46,7 @@ app.MapGet("/weatherforecast", () =>
 
 app.Run();
 
+//TODO : REMOVE ALL OF THIS
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
