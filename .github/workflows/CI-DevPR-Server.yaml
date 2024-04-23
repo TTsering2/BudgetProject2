@@ -19,7 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
+
+    - name: Change to server directory
+      run: cd ../../server
+
+    - name: List files
+      run: ls -la
+
     - name: Set up .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
