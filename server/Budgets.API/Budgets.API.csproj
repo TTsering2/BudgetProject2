@@ -1,15 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>c50666ae-7bc8-4ca4-8ca6-38827e38631f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include = "../Budgets.Models/Budgets.Models.csproj" />
-    <ProjectReference Include = "../Budgets.Data/Budgets.Data.csproj" />
-    <ProjectReference Include = "../Budgets.DTOs/Budgets.DTOs.csproj" />
+    <ProjectReference Include="../Budgets.Models/Budgets.Models.csproj" />
+    <ProjectReference Include="../Budgets.Data/Budgets.Data.csproj" />
+    <ProjectReference Include="../Budgets.DTOs/Budgets.DTOs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
