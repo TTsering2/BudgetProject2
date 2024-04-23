@@ -7,5 +7,6 @@ public class User
     public string Username { get; set; }
     public string Password { get; set; }
     public IEnumerable<Expense> Expenses { get; set; }
-    public IEnumerable<Income> incomes { get; set; }
+    public IEnumerable<Income> Incomes { get; set; }
+    public IEnumerable<Stock> Stocks { get; set; }
 }
