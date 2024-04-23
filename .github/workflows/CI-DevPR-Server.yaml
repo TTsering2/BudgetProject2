@@ -27,7 +27,7 @@ jobs:
 
     - name: Restore, build, and test server solution
       run: |
-        cd ${GITHUB_WORKSPACE}/server
+        cd ${GITHUB_WORKSPACE}/./server
         dotnet restore Budgets.sln
         dotnet build Budgets.sln --no-restore
         dotnet test Budgets.sln --no-build --verbosity normal
