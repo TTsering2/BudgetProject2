@@ -26,7 +26,8 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
+##TODO: MIGHT NEED TO UNCOMMENT THIS TMRW
+# *.sln
 *.sw?
 
 # dotenv files
