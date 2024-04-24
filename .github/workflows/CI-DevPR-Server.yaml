@@ -1,39 +1,39 @@
-# # Title: CI-DevPR-Server
-# # Author:      @Ttsering2
-# # Date:         2022-11-15
-# # Description:  CI for pull requests to dev branch of server
+# Title: CI-DevPR-Server
+# Author:      @Ttsering2
+# Date:         2022-11-15
+# Description:  CI for pull requests to dev branch of server
 
-# name: CI-DEVPR-Server
+name: CI-DEVPR-Server
 
-# on: 
-#   push:
-#     branches: 
-#       - dev
-#   pull_request:
-#     branches:
-#       - dev 
-#   workflow_dispatch:
+on: 
+  push:
+    branches: 
+      - dev
+  pull_request:
+    branches:
+      - dev 
+  workflow_dispatch:
 
-# jobs:
-#   build_and_test:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v2
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
 
-#     - name: Change to server directory
-#       run: cd ../../server
+    - name: Change to server directory
+      run: cd /server
 
-#     - name: List files
-#       run: ls -la
+    - name: List files
+      run: ls -la
 
-#     - name: Set up .NET Core SDK
-#       uses: actions/setup-dotnet@v1
-#       with:
-#         dotnet-version: '8.0.x'
+    # - name: Set up .NET Core SDK
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     dotnet-version: '8.0.x'
 
-#     - name: Restore, build, and test server solution
-#       run: |
-#         cd ${GITHUB_WORKSPACE}/./server
-#         dotnet restore Budgets.sln
-#         dotnet build Budgets.sln --no-restore
-#         dotnet test Budgets.sln --no-build --verbosity normal
+    # - name: Restore, build, and test server solution
+    #   run: |
+    #     cd ${GITHUB_WORKSPACE}/./server
+    #     dotnet restore Budgets.sln
+    #     dotnet build Budgets.sln --no-restore
+    #     dotnet test Budgets.sln --no-build --verbosity normal
