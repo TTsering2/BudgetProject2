@@ -1,7 +1,7 @@
 using Budgets.DTOs;
 using Budgets.Models;
 
-interface IUserService{
+public interface IUserService{
 
     public List<User> ListUsers();
     public User AddUser(User user);
