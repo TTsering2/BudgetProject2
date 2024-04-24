@@ -7,8 +7,7 @@
   </PropertyGroup>
     <ItemGroup>
     <ProjectReference Include = "../Budgets.Models/Budgets.Models.csproj" />
-    <ProjectReference Include = "../Budgets.Data/Budgets.Data.csproj" />
-    <ProjectReference Include = "../Budgets.API/Budgets.API.csproj" />
+
   </ItemGroup>
 
 </Project>
