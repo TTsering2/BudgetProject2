@@ -20,20 +20,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Change to server directory
-      run: cd /server
+    # - name: Change to server directory
+    #   run: cd /server
 
-    - name: List files
-      run: ls -la
+    # - name: List files
+    #   run: ls -la
+    - name: List repository root
+      run: cd ${{ github.workspace }}/server
 
-    # - name: Set up .NET Core SDK
-    #   uses: actions/setup-dotnet@v1
-    #   with:
-    #     dotnet-version: '8.0.x'
+    - name: Set up .NET Core SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
 
-    # - name: Restore, build, and test server solution
-    #   run: |
-    #     cd ${GITHUB_WORKSPACE}/./server
-    #     dotnet restore Budgets.sln
-    #     dotnet build Budgets.sln --no-restore
-    #     dotnet test Budgets.sln --no-build --verbosity normal
+    - name: Restore, build, and test server solution
+      run: |
+        cd ${GITHUB_WORKSPACE}/./server
+        dotnet restore Budgets.sln
+        dotnet build Budgets.sln --no-restore
+        dotnet test Budgets.sln --no-build --verbosity normal
