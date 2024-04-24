@@ -20,11 +20,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Change to server directory
-      run: cd /server
+    # - name: Change to server directory
+    #   run: cd /server
 
-    - name: List files
-      run: ls -la
+    # - name: List files
+    #   run: ls -la
+    - name: List repository root
+      run: ls -la ${{ github.workspace }}
 
     # - name: Set up .NET Core SDK
     #   uses: actions/setup-dotnet@v1
