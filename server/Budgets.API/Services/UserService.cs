@@ -30,19 +30,25 @@ public class UserService
 
     }
     public User? UpdateUser(User user){
-        if(GetUserById(user.Id) == null){
+        User userToUpdate = GetUserById(user.Id);
+        if(userToUpdate == null){
             return null;
         }
         else{
-            return _userRepository.UpdateUser(user);
+            userToUpdate.Name = user.Name;
+            userToUpdate.Username = user.Username;
+            userToUpdate.Password = user.Password;
+
+            return _userRepository.UpdateUser(userToUpdate);
         }
     }
-    public User? DeleteUser(User user){
-         if(GetUserById(user.Id) == null){
+    public User? DeleteUser(int id){
+        User userToDelete = _userRepository.GetUserById(id);
+         if(userToDelete == null){
             return null;
         }
         else{
-            return _userRepository.DeleteUser(user);
+            return _userRepository.DeleteUser(userToDelete);
         }
     }
 
