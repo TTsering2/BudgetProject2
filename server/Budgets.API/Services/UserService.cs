@@ -52,5 +52,19 @@ public class UserService
         }
     }
 
+    public bool ValidateUserStatus(string username, string password){
+
+        User userToValidate = _userRepository.GetUserByUsername(username);
+        if(userToValidate != null){
+            if(userToValidate.Password == password){
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+
 
 }

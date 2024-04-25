@@ -11,7 +11,7 @@ public interface IUserService{
     public User GetUserByUserName(string username);
     
     //Implement validation of login status
-    //public bool ValidateUserStatus(string validationToken);
+    public bool ValidateUserStatus(string username, string password);
 
 
 

@@ -1,6 +1,5 @@
 using Budgets.DTOs;
 using Budgets.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("/api/[controller]")]
@@ -55,4 +54,18 @@ public class UserController: ControllerBase
         }
     }
 
+    /*Verification*/
+    [HttpPost("login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult Login(string username, string password){
+    
+        bool AuthUser = _userService.ValidateUserStatus(username,password);
+        if(AuthUser){
+            User user = _userService.GetUserByUserName(username);
+            return Ok(new { UserId = user.Id });
+        }
+        else{
+            return Unauthorized();
+        }
+    }
 }
