@@ -5,8 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "server", "server", "{D174C91E-A0A5-4A2D-B796-E2623579BB59}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Budget.Models", "server\Budget.Models\Budget.Models.csproj", "{4C0A0560-1B5F-483E-9A6B-0669EB557EBB}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
