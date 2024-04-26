@@ -17,7 +17,7 @@ public class ValidatorTests
     public void ValidateName_ReturnsExpectedResult(string companyName, bool expectedResult)
     {
         // Act
-        var result = Validator.ValidateName(companyName);
+        var result = StockValidator.ValidateName(companyName);
 
         // Assert
         Assert.Equal(expectedResult, result);
@@ -29,7 +29,7 @@ public class ValidatorTests
     public void ValidatePrice_ReturnsExpectedResult(double price, bool expectedResult)
     {
         // Act
-        var result = Validator.ValidatePrice(price);
+        var result = StockValidator.ValidatePrice(price);
 
         // Assert
         Assert.Equal(expectedResult, result);
@@ -41,7 +41,7 @@ public class ValidatorTests
     public void ValidateQuantity_ReturnsExpectedResult(int quantity, bool expectedResult)
     {
         // Act
-        var result = Validator.ValidateQuantity(quantity);
+        var result = StockValidator.ValidateQuantity(quantity);
 
         // Assert
         Assert.Equal(expectedResult, result);
@@ -55,9 +55,11 @@ public class ValidatorTests
     public void ValidateAll_ReturnsExpectedResult(string companyName, double price, int quantity, bool expectedResult)
     {
         // Act
-        var result = Validator.ValidateAll(companyName, price, quantity);
+        var result = StockValidator.ValidateAll(companyName, price, quantity);
 
         // Assert
         Assert.Equal(expectedResult, result);
     }
 }
+
+//

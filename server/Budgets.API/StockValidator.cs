@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-public static class Validator
+public static class StockValidator
 {
     public static bool ValidateName(string companyName){
         if(string.IsNullOrEmpty(companyName) || Regex.IsMatch(companyName, @"[!@#$%^&*]")){

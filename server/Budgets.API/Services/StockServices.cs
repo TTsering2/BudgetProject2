@@ -52,7 +52,7 @@ public class StockServices : IStockServices
     // Add a Stock
     public Stock AddStock(Stock stock) {
 
-        if(Validator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)) {
+        if(StockValidator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)) {
             return _stockRepository.AddStock(stock);    
         }
         else{
@@ -63,7 +63,7 @@ public class StockServices : IStockServices
 
     // Update a Stock
     public Stock UpdateStock(Stock stock) {
-        if(Validator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)){
+        if(StockValidator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)){
             return _stockRepository.UpdateStock(stock);
         }
         else{
