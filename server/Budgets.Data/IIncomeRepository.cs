@@ -4,7 +4,7 @@ using Budgets.DTOs;
 
 namespace Budgets.Data;
 /*  Interface for the Income Repo class*/
-public interface IRepository{
+public interface IIncomeRepository{
     Task<IEnumerable<IncomeDTO>> ListAsync();
     Task<IncomeDTO> GetByIdAsync(int id);
     Task<IncomeDTO> AddAsync(IncomeCreateDTO entity);

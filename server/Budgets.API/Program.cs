@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BudgetsDbContext>(options => options.UseSqlServer(builder.Configuration["dbconnectionstr"]));
 
 // Adding Repo class for Income
-builder.Services.AddScoped<IRepository, IncomeRepo>();
+builder.Services.AddScoped<IIncomeRepository, IncomeRepo>();
 builder.Services.AddScoped<IBudgetService, IncomeService>();
 
 

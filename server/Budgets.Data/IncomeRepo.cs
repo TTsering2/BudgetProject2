@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Budgets.Data;
 
-public class IncomeRepo : IRepository{
+public class IncomeRepo : IIncomeRepository{
 
     private readonly BudgetsDbContext _dbContext;
 
