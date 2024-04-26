@@ -18,6 +18,21 @@ public class UserController: ControllerBase
         return Ok(_userService.ListUsers());
     }
 
+    [HttpGet("id/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult GetUserById(int id)
+    {
+        return Ok(_userService.GetUserById(id));
+    }
+
+    
+    [HttpGet("username/{username}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IActionResult GetUserByUsername(string username)
+    {
+        return Ok(_userService.GetUserByUserName(username));
+    }
+
     [HttpPost]
     public IActionResult AddUser(User user){
         User result = _userService.AddUser(user);
