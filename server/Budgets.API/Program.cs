@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Budgets.Data;
+using Budgets.Services;
+
 using Budgets.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;//////
 using BudgetProject2;
@@ -12,6 +14,9 @@ builder.Services.AddSwaggerGen();
 // Add services to the container.
 builder.Services.AddDbContext<BudgetsDbContext>(options => 
 options.UseSqlServer(builder.Configuration["dbconnectionstr"]));
+
+builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<IStockServices, StockServices>();
 builder.Services.AddControllers();
 
 
@@ -38,12 +43,31 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseRouting();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseHttpsRedirection();
 
+//TODO: REMOVE ALL OF THIS
+// var summaries = new[]
+// {
+//     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+// };
+
+// app.MapGet("/weatherforecast", () =>
+// {
+//     var forecast =  Enumerable.Range(1, 5).Select(index =>
+//         new WeatherForecast
+//         (
+//             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+//             Random.Shared.Next(-20, 55),
+//             summaries[Random.Shared.Next(summaries.Length)]
+//         ))
+//         .ToArray();
+//     return forecast;
+// })
+// .WithName("GetWeatherForecast")
+// .WithOpenApi();
+
+app.MapControllers();
 app.Run();
 
 
