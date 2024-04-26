@@ -1,21 +1,22 @@
 
 using System.ComponentModel.DataAnnotations;
+using Budgets.Models;
+namespace BudgetProject2;
 
-namespace budgettracker;
-public class ExpensesService : IBudgetService<Expenses>
+public class ExpensesService : IBudgetService<Expense>
 {   
-    private readonly IRepository<Expenses> _ExpensesRepository;
+    private readonly IRepository<Expense> _ExpensesRepository;
 
-    public ExpensesService (IRepository<Expenses> _ExpensesRepository){
+    public ExpensesService (IRepository<Expense> _ExpensesRepository){
         this._ExpensesRepository = _ExpensesRepository;
-    }
+    } 
 
-    public IEnumerable<Expenses> ListItems() {
+    public IEnumerable<Expense> ListItems() {
         return _ExpensesRepository.List();
     }
 
-    public Expenses AddItem(Expenses data){
-        if(Validator.ValidateAll(data.Name, data.Type, data.Amount)){
+    public Expense AddItem(Expense data){
+        if(Validator.ValidateAll(data.Title, data.Type, data.Amount)){
             return _ExpensesRepository.Add(data);
         }
         else{
@@ -23,9 +24,9 @@ public class ExpensesService : IBudgetService<Expenses>
         }
 
     }
-    public bool DeleteItem(Expenses data){
+    public bool DeleteItem(Expense data){
         //Find id of the expense
-        Expenses expenseToDelete = _ExpensesRepository.GetById(data.ExpenseId);
+        Expense expenseToDelete = _ExpensesRepository.GetById(data.Id);
 
         if(expenseToDelete != null){
             _ExpensesRepository.Delete(expenseToDelete);
@@ -35,12 +36,12 @@ public class ExpensesService : IBudgetService<Expenses>
             return false;
         }
     }
-    public Expenses? UpdateItem(Expenses data){
-           Expenses ExpenseToUpdate = _ExpensesRepository.GetById(data.ExpenseId);
+    public Expense? UpdateItem(Expense data){
+           Expense ExpenseToUpdate = _ExpensesRepository.GetById(data.Id);
             if(ExpenseToUpdate != null){
-                if(Validator.ValidateAll(data.Name, data.Type, data.Amount)){
+                if(Validator.ValidateAll(data.Title, data.Type, data.Amount)){
                     ExpenseToUpdate.Amount = data.Amount;
-                    ExpenseToUpdate.Name = data.Name;
+                    ExpenseToUpdate.Title = data.Title;
                     ExpenseToUpdate.Type = data.Type;
                     _ExpensesRepository.Update(ExpenseToUpdate);
                     return ExpenseToUpdate;
@@ -51,7 +52,7 @@ public class ExpensesService : IBudgetService<Expenses>
     }
 
 
-    public Expenses GetItemById(int id){
+    public Expense GetItemById(int id){
         return _ExpensesRepository.GetById(id);
     }
 }
