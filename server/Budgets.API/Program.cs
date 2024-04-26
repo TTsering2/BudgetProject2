@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Budgets.Data;
 using Budgets.Services;
 
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+
 using Budgets.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;//////
 using BudgetProject2;
@@ -15,6 +17,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BudgetsDbContext>(options => 
 options.UseSqlServer(builder.Configuration["dbconnectionstr"]));
 
+// Adding Repo class for Income
+builder.Services.AddScoped<IIncomeRepository, IncomeRepo>();
+builder.Services.AddScoped<IBudgetService, IncomeService>();
+
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<IStockServices, StockServices>();
 builder.Services.AddControllers();
@@ -26,6 +32,10 @@ builder.Services.AddScoped<IRepository<Expense>, ExpenseRepo>();//////From Budge
 builder.Services.AddScoped<ExpensesService>();
 
 
+
+// Adding Repo class for Income
+builder.Services.AddScoped<IIncomeRepository, IncomeRepo>();
+builder.Services.AddScoped<IBudgetService, IncomeService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
