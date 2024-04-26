@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 
-public static class Validator
+public class ValidatorExpenses
 {
-    public static bool ValidateTitle(string title){
+     public static bool ValidateTitle(string title){
         if(Regex.IsMatch(title, @"[!@#$%^&*]") || title == "" || title == null){
             return false;
         }
@@ -41,6 +41,5 @@ public static class Validator
             return false;
         }
     }
-
 
 }

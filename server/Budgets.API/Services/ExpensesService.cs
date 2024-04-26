@@ -16,7 +16,7 @@ public class ExpensesService : IBudgetService<Expense>
     }
 
     public Expense AddItem(Expense data){
-        if(Validator.ValidateAll(data.Title, data.Type, data.Amount)){
+        if(ValidatorExpenses.ValidateAll(data.Title, data.Type, data.Amount)){
             return _ExpensesRepository.Add(data);
         }
         else{
@@ -39,7 +39,7 @@ public class ExpensesService : IBudgetService<Expense>
     public Expense? UpdateItem(Expense data){
            Expense ExpenseToUpdate = _ExpensesRepository.GetById(data.Id);
             if(ExpenseToUpdate != null){
-                if(Validator.ValidateAll(data.Title, data.Type, data.Amount)){
+                if(ValidatorExpenses.ValidateAll(data.Title, data.Type, data.Amount)){
                     ExpenseToUpdate.Amount = data.Amount;
                     ExpenseToUpdate.Title = data.Title;
                     ExpenseToUpdate.Type = data.Type;

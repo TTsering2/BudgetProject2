@@ -6,8 +6,8 @@ namespace Budgets.Services;
 
 public class IncomeService : IBudgetService{
 
-    private readonly IRepository _repo;
-    public IncomeService (IRepository repo){
+    private readonly IncomeRepo _repo;
+    public IncomeService (IncomeRepo repo){
         _repo = repo;
     }
 
