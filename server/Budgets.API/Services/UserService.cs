@@ -5,8 +5,10 @@ using Budgets.Models;
 public class UserService
 {   
     private readonly IUserRepository _userRepository;
-    public UserService(IUserRepository userRepository){
+    private readonly IValidator _validator;
+    public UserService(IUserRepository userRepository, IValidator validator){
         _userRepository = userRepository;
+        _validator = validator;
     }
     public List<User> ListUsers(){
         return _userRepository.ListUsers().ToList();
@@ -21,13 +23,13 @@ public class UserService
 
     public User? AddUser(User user){
         //If we already have user with this name
-        if(GetUserByUserName(user.Username) != null){
-            return null;
-        }
-        else{
-            return _userRepository.AddUser(user);
+        if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
+            if(_userRepository.GetUserByUsername(user.Username) == null){
+                return _userRepository.AddUser(user);
+            }
         }
 
+            return null;
     }
     public User? UpdateUser(User user){
         User userToUpdate = GetUserById(user.Id);
@@ -35,20 +37,27 @@ public class UserService
             return null;
         }
         else{
-            userToUpdate.Name = user.Name;
-            userToUpdate.Username = user.Username;
-            userToUpdate.Password = user.Password;
-
-            return _userRepository.UpdateUser(userToUpdate);
+            if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
+                userToUpdate.Name = user.Name;
+                userToUpdate.Username = user.Username;
+                userToUpdate.Password = user.Password;
+                 if(_userRepository.GetUserByUsername(user.Username) == null){
+                    return _userRepository.UpdateUser(userToUpdate);
+                }
+            }
+            
         }
+
+        return null;
     }
-    public User? DeleteUser(int id){
+    public bool DeleteUser(int id){
         User userToDelete = _userRepository.GetUserById(id);
          if(userToDelete == null){
-            return null;
+            return false;
         }
         else{
-            return _userRepository.DeleteUser(userToDelete);
+             _userRepository.DeleteUser(userToDelete);
+             return true;
         }
     }
 

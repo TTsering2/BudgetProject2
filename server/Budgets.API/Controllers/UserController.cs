@@ -44,8 +44,8 @@ public class UserController: ControllerBase
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult DeleteUser(int userId){
-        User result = _userService.DeleteUser(userId);
-        if(result != null){
+        bool result = _userService.DeleteUser(userId);
+        if(result){
             return Accepted(result);
         }
         else{
