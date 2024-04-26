@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Budgets.Data;
+using Budgets.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DI services to the container
 builder.Services.AddDbContext<BudgetsDbContext>(options => options.UseSqlServer(builder.Configuration["dbconnectionstr"]));
+
+builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<IStockServices, StockServices>();
 
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -48,6 +53,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+app.MapControllers();
 app.Run();
 
 //TODO : REMOVE ALL OF THIS
