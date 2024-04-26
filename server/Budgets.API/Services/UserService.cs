@@ -5,8 +5,8 @@ using Budgets.Models;
 public class UserService
 {   
     private readonly IUserRepository _userRepository;
-    private readonly IValidator _validator;
-    public UserService(IUserRepository userRepository, IValidator validator){
+    private readonly IUserValidator _validator;
+    public UserService(IUserRepository userRepository, IUserValidator validator){
         _userRepository = userRepository;
         _validator = validator;
     }

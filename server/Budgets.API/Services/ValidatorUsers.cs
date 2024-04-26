@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-public class ValidatorUsers : IValidator {
+public class ValidatorUsers : IUserValidator {
 
    public ValidatorUsers(){}
     public bool ValidateUsername(string username){

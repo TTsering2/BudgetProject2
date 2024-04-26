@@ -15,7 +15,7 @@ public class UserRepository : IUserRepository
     public User GetUserById(int id){
         return _dbContext.Users.Find(id);
     }
-    public User GetUserByUsername(string username){
+    public User? GetUserByUsername(string username){
         return _dbContext.Users.Where(user => user.Username == username).FirstOrDefault();
     }
     public User AddUser(User user){
@@ -34,4 +34,5 @@ public class UserRepository : IUserRepository
         return user;
 
     }
+
 }

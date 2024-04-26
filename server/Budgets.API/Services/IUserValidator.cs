@@ -1,4 +1,4 @@
-public interface IValidator {
+public interface IUserValidator {
 
     public bool ValidateUsername(string username);
     public bool ValidateName(string name);
