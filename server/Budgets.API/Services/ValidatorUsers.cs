@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 
-public class Validator : IValidator {
+public class ValidatorUsers : IValidator {
 
-   public Validator(){}
+   public ValidatorUsers(){}
     public bool ValidateUsername(string username){
 
        if (!ValidateAgainstEscapeCharacters(username)){
@@ -35,12 +35,13 @@ public class Validator : IValidator {
         bool isPswValid = ValidatePsw(psw);
     
         if(isNameValid && isUserNameValid && isPswValid){
-            return true;
+
+           return true;
+
         }
-        else{
-            return false;
-        }
+        return false;
     }
+
 
     public bool ValidateAgainstEscapeCharacters(string input){
 
