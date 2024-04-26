@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Budgets.Data;
+using Budgets.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DI services to the container
 builder.Services.AddDbContext<BudgetsDbContext>(options => options.UseSqlServer(builder.Configuration["dbconnectionstr"]));
+
+// Adding Repo class for Income
+builder.Services.AddScoped<IRepository, IncomeRepo>();
+builder.Services.AddScoped<IBudgetService, IncomeService>();
 
 
 builder.Services.AddControllers().AddJsonOptions(options =>
