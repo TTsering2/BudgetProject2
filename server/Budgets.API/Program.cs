@@ -20,6 +20,9 @@ builder.Services.AddScoped<IStockServices, StockServices>();
 
 
 //TODO: PLUG IN EXPENSE REPO AND SERVICE 
+//Add expense repository and service
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+
 
 // Add user repository and service
 builder.Services.AddScoped<IUserRepository, UserRepository>();
