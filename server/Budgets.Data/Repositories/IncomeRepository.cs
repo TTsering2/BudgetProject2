@@ -1,4 +1,4 @@
-using Budgets.Data;
+// using Budgets.Data;
 using Budgets.DTOs;
 using Budgets.Models;
 using Microsoft.EntityFrameworkCore;
@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace Budgets.Data;
 
-public class IncomeRepo : IIncomeRepository{
+public class IncomeRepository : IIncomeRepository{
 
     private readonly BudgetsDbContext _dbContext;
 
-    public IncomeRepo(BudgetsDbContext context){
-        this._dbContext = context;
+    public IncomeRepository(BudgetsDbContext context){
+       _dbContext = context;
     }
-
-
 
     public async Task<IEnumerable<IncomeDTO>> ListAsync(){
         List<IncomeDTO> income = await _dbContext.Incomes
