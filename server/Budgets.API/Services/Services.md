@@ -1,1 +1,0 @@
-Please ensure all services are moved here and keep naming convention for interfaces and the implementing class appropriately. 

@@ -1,8 +1,8 @@
 using Budgets.Data;
 using Budgets.DTOs;
 using Budgets.Models;
-
-public class UserService
+using Budgets.Services;
+public class UserService : IUserService
 {   
     private readonly IUserRepository _userRepository;
     private readonly IUserValidator _validator;

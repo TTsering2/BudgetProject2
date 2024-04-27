@@ -3,7 +3,8 @@ using Budgets.DTOs;
 
 /*      Interface for Income service    */
 namespace Budgets.Services;
-public interface IBudgetService{
+public interface IIncomeService
+{
     Task <IEnumerable<IncomeDTO>>ListItemsAsync();
     Task <IncomeDTO> AddItemAsync (IncomeCreateDTO data);
     Task DeleteItemsAsync(int data);

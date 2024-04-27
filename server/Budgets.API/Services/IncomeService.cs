@@ -4,10 +4,10 @@ using Budgets.Data;
 
 namespace Budgets.Services;
 
-public class IncomeService : IBudgetService{
+public class IncomeService : IIncomeService{
 
-    private readonly IncomeRepo _repo;
-    public IncomeService (IncomeRepo repo){
+    private readonly IIncomeRepository _repo;
+    public IncomeService (IIncomeRepository repo){
         _repo = repo;
     }
 
