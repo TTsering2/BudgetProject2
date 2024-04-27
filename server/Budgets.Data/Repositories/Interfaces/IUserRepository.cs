@@ -10,5 +10,4 @@ public interface IUserRepository
     public User AddUser(User user);
     public User UpdateUser(User user);
     public User DeleteUser(User user);
-
 }
