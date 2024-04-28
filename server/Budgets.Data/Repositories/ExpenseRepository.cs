@@ -33,7 +33,7 @@ public class ExpenseRepository : IExpenseRepository
     }
 
     // Get expense by userId and expenseId
-    public async Task<ExpenseDTO>? GetByUserIdAndExpenseIdAsync(int userId, int expenseId)
+    public async Task<ExpenseDTO>? GetExpenseByUserIdAndExpenseIdAsync(int userId, int expenseId)
     {
         ExpenseDTO expense = await _context.Expenses
             .Where(e => e.UserId == userId && e.Id == expenseId)
@@ -52,7 +52,7 @@ public class ExpenseRepository : IExpenseRepository
     } 
 
     //Get expense by userId and expense type
-    public async Task<IEnumerable<ExpenseDTO>>? GetByUserIdAndExpenseTypeAsync(int userId, string expenseType)
+    public async Task<IEnumerable<ExpenseDTO>>? GetExpensesByUserIdAndExpenseTypeAsync(int userId, string expenseType)
     {
         IEnumerable<ExpenseDTO> expenses = await _context.Expenses
             .Where(e => e.UserId == userId && e.Type == expenseType)
@@ -114,5 +114,24 @@ public class ExpenseRepository : IExpenseRepository
             oldExpense.Date = entity.Date ?? oldExpense.Date;
         }
         await _context.SaveChangesAsync();
-    }        
+    }  
+
+    public async Task<IEnumerable<ExpenseDTO>>? GetExpensesByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
+    {
+        IEnumerable<ExpenseDTO> expenses = await _context.Expenses
+            .Where(e => e.UserId == userId && e.Date >= startDate && e.Date <= endDate)
+            .Include(e => e.User)
+            .Select(e => new ExpenseDTO 
+            {
+                Id = e.Id,
+                Title = e.Title,
+                Type = e.Type,
+                Amount = e.Amount,
+                Date = e.Date,
+                Username = e.User.Username;
+            })
+            .ToListAsync();
+
+        return expenses;
+    }
 }
