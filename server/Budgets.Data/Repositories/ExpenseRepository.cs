@@ -95,7 +95,7 @@ public class ExpenseRepository : IExpenseRepository
 
         _context.Expenses.Remove(expense);
         await _context.SaveChangesAsync();
-    } 
+    }
 
     public async Task UpdateAnExpenseAsync(int expenseId, ExpenseUpdateDTO entity)
     {
@@ -128,7 +128,7 @@ public class ExpenseRepository : IExpenseRepository
                 Type = e.Type,
                 Amount = e.Amount,
                 Date = e.Date,
-                Username = e.User.Username;
+                Username = e.User.Username
             })
             .ToListAsync();
 
