@@ -43,11 +43,11 @@ public class ExpenseController : ControllerBase
     //get an expense by a user and expense id
     //GET api/expense/userId={userId}/expenseId={expenseId}
     [HttpGet("userId={userId}/expenseId={expenseId}")]
-    public async Task<ActionResult<ExpenseDTO>> GetByUserIdAndExpenseId(int userId, int expenseId)
+    public async Task<ActionResult<ExpenseDTO>> GetExpenseByUserIdAndExpenseId(int userId, int expenseId)
     {
         try
         {
-            ExpenseDTO expense = await _expenseService.GetByUserIdAndExpenseIdAsync(userId, expenseId);
+            ExpenseDTO expense = await _expenseService.GetExpenseByUserIdAndExpenseIdAsync(userId, expenseId);
             if(expense == null)
             {
                 return NotFound("Expense not found.");
@@ -67,7 +67,7 @@ public class ExpenseController : ControllerBase
     {
         try
         {
-            IEnumerable<ExpenseDTO> expenses = await _expenseService.GetByUserIdAndExpenseTypeAsync(userId, expenseType);
+            IEnumerable<ExpenseDTO> expenses = await _expenseService.GetExpensesByUserIdAndExpenseTypeAsync(userId, expenseType);
             if(expenses == null || !expenses.Any())
             {
                 return NotFound("No expenses found for the given expense type and User.");
@@ -127,4 +127,23 @@ public class ExpenseController : ControllerBase
         }
     }
 
+    //Get all expenses by a user and date range
+    //GET api/expense/userId={userId}/startDate={startDate}/endDate={endDate}
+    [HttpGet("userId={userId}/startDate={startDate}/endDate={endDate}")]
+    public async Task<ActionResult<IEnumerable<ExpenseDTO>>> GetExpensesByUserIdAndDateRange(int userId, DateTime startDate, DateTime endDate)
+    {
+        try
+        {
+            IEnumerable<ExpenseDTO> expenses = await _expenseService.GetExpensesByUserIdAndDateRangeAsync(userId, startDate, endDate);
+            if(expenses == null || !expenses.Any())
+            {
+                return NotFound("No expenses found for the given date range and User.");
+            }
+            return Ok(expenses);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving expenses: {ex.Message}");
+        }
+    }
 }

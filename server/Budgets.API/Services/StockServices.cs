@@ -38,7 +38,6 @@ public class StockServices : IStockServices
 
     // Get a stock by Id
     public Stock? GetStockById (int Id) {
-
         try{
             return _stockRepository.GetStockById(Id);
         }
