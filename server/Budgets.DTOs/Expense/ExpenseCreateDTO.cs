@@ -1,4 +1,4 @@
-public class CreateExpenseDTO
+public class ExpenseCreateDTO
 {    
     public string Title { get; set; }
     public string Type { get; set; }

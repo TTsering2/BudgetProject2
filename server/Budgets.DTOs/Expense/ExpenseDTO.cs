@@ -1,4 +1,4 @@
-namespace Budgets.DTOs
+namespace Budgets.DTOs;
 
 public class ExpenseDTO
 {    

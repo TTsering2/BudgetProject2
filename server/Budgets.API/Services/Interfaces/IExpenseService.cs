@@ -1,11 +1,10 @@
 using Budgets.Models;
 using Budgets.DTOs;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using Budgets.Data;
 
-namespace Budgets.Data;
+namespace Budgets.Services;
 
-public interface IExpenseRepository
+public interface IExpenseService
 {
     Task<IEnumerable<ExpenseDTO>>? GetExpensesByUserIdAsync(int userId);
     Task<ExpenseDTO>? GetByUserIdAndExpenseIdAsync(int userId, int expenseId);
@@ -13,4 +12,5 @@ public interface IExpenseRepository
     Task AddAnExpenseAsync(ExpenseCreateDTO expense);
     Task DeleteAnExpenseAsync(int expenseId);
     Task UpdateAnExpenseAsync(int expenseId, ExpenseUpdateDTO expense);
+
 }

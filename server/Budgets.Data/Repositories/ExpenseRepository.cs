@@ -33,7 +33,7 @@ public class ExpenseRepository : IExpenseRepository
     }
 
     // Get expense by userId and expenseId
-    public async ExpenseDTO GetByUserIdAndExpenseIdAsync(int userId, int expenseId)
+    public async Task<ExpenseDTO>? GetByUserIdAndExpenseIdAsync(int userId, int expenseId)
     {
         ExpenseDTO expense = await _context.Expenses
             .Where(e => e.UserId == userId && e.Id == expenseId)
@@ -79,7 +79,7 @@ public class ExpenseRepository : IExpenseRepository
             Amount = entity.Amount,
             Date = entity.Date,
             UserId = entity.UserId
-        }
+        };
 
         _context.Expenses.Add(newExpense);
         await _context.SaveChangesAsync();
@@ -100,22 +100,19 @@ public class ExpenseRepository : IExpenseRepository
     public async Task UpdateAnExpenseAsync(int expenseId, ExpenseUpdateDTO entity)
     {
         //find expense first by id
-        Expense expense = await _context.Expenses
+        Expense oldExpense = await _context.Expenses
             .Include(e => e.User) //include user info
             .FirstOrDefaultAsync(e => e.Id == expenseId);
 
-        if(expense == null)
+        if(oldExpense == null)
         {
             throw new Exception($"Expense with ID {expenseId} not found.");
+        } else {
+            oldExpense.Title = entity.Title ?? oldExpense.Title;
+            oldExpense.Type = entity.Type ?? oldExpense.Type;
+            oldExpense.Amount = entity.Amount ?? oldExpense.Amount;
+            oldExpense.Date = entity.Date ?? oldExpense.Date;
         }
-
-        expense = {
-            Title == null ? expense.Title : entity.Title,
-            Type == null ? expense.Type : entity.Type,
-            Amount == null ? expense.Amount : entity.Amount,
-            Date == null ? expense.Date : entity.Date
-        }
-
         await _context.SaveChangesAsync();
     }        
 }
