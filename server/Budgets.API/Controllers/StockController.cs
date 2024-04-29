@@ -9,16 +9,12 @@ namespace Budget.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class StockController : ControllerBase {
-    private readonly IStockRepository _stockRepository;
     private readonly IStockServices _stockServices;
 
-    public StockController(IStockRepository stockRepository, IStockServices stockServices){
-        _stockRepository = stockRepository;
+    public StockController(IStockServices stockServices){
+
         _stockServices = stockServices;
     }
-
-
-
 
     // Get all Stocks for a given User  
     [HttpGet("user/{UserId}")]

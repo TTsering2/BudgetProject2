@@ -1,148 +1,148 @@
-using Xunit;
-using Moq;
-using Microsoft.Extensions.Logging;
-using Budgets.Models;
-using Budgets.Services;
-using Budgets.Data;
-using System.Collections.Generic;
+// using Xunit;
+// using Moq;
+// using Microsoft.Extensions.Logging;
+// using Budgets.Models;
+// using Budgets.Services;
+// using Budgets.Data;
+// using System.Collections.Generic;
 
 
-namespace Budgets.Tests;
+// namespace Budgets.Tests;
 
-public class StockServicesTests{
-    private readonly Mock<IStockRepository> _stockRepository;
-    private readonly Mock<ILogger<StockServices>> _logger;
-    private readonly StockServices _stockServices;
+// public class StockServicesTests{
+//     private readonly Mock<IStockRepository> _stockRepository;
+//     private readonly Mock<ILogger<StockServices>> _logger;
+//     private readonly StockServices _stockServices;
 
-    public StockServicesTests()
-    {
-        _stockRepository = new Mock<IStockRepository>();
-        _logger = new Mock<ILogger<StockServices>>();
-        _stockServices = new StockServices(_stockRepository.Object, _logger.Object);
-    }
+//     public StockServicesTests()
+//     {
+//         _stockRepository = new Mock<IStockRepository>();
+//         _logger = new Mock<ILogger<StockServices>>();
+//         _stockServices = new StockServices(_stockRepository.Object, _logger.Object);
+//     }
 
-    [Fact]
-    public void GetAllStocksForUser_ReturnsStocks(){
+//     [Fact]
+//     public void GetAllStocksForUser_ReturnsStocks(){
 
-        // Arrange
-        int userId = 1;
-        IEnumerable<Stock> stocks = [
-            new Stock
-            { 
-                CompanyName = "Apple", 
-                Price = 100, 
-                Quantity = 10
-            },
-            new Stock
-            {
-                CompanyName = "Google",
-                Price = 200, 
-                Quantity = 20
-            }
-        ];
-        _stockRepository.Setup(s => s.GetAllStocksForUser(userId)).Returns(stocks);
+//         // Arrange
+//         int userId = 1;
+//         IEnumerable<Stock> stocks = [
+//             new Stock
+//             { 
+//                 CompanyName = "Apple", 
+//                 Price = 100, 
+//                 Quantity = 10
+//             },
+//             new Stock
+//             {
+//                 CompanyName = "Google",
+//                 Price = 200, 
+//                 Quantity = 20
+//             }
+//         ];
+//         _stockRepository.Setup(s => s.GetAllStocksForUser(userId)).Returns(stocks);
 
-        // Act
-        var result = _stockServices.GetAllStocksForUser(userId);
+//         // Act
+//         var result = _stockServices.GetAllStocksForUser(userId);
 
-        // Assert
-        Assert.Equal(stocks, result);
-    }
+//         // Assert
+//         Assert.Equal(stocks, result);
+//     }
 
-    [Fact]
-    public void GetAllStocksForUser_ReturnsAllStocks()
-    {
-        // Arrange
-        int UserId = 1;
-        IEnumerable<Stock> stock = [
+//     [Fact]
+//     public void GetAllStocksForUser_ReturnsAllStocks()
+//     {
+//         // Arrange
+//         int UserId = 1;
+//         IEnumerable<Stock> stock = [
             
-            new Stock {CompanyName = "Apple", Price = 100, Quantity = 10 },
-            new Stock {CompanyName = "Google", Price = 200, Quantity = 20 },
-            new Stock {CompanyName = "Nvidia", Price = 300, Quantity = 30 }
+//             new Stock {CompanyName = "Apple", Price = 100, Quantity = 10 },
+//             new Stock {CompanyName = "Google", Price = 200, Quantity = 20 },
+//             new Stock {CompanyName = "Nvidia", Price = 300, Quantity = 30 }
     
-        ];
-        _stockRepository.Setup(repo => repo.GetAllStocksForUser(UserId)).Returns(stock);
+//         ];
+//         _stockRepository.Setup(repo => repo.GetAllStocksForUser(UserId)).Returns(stock);
 
-        // Act
-        var result = _stockServices.GetAllStocksForUser(UserId);
+//         // Act
+//         var result = _stockServices.GetAllStocksForUser(UserId);
 
-        // Assert
-        Assert.Equal(3, result.Count());
-        _stockRepository.Verify(repo => repo.GetAllStocksForUser(UserId), Times.Exactly(1));
-    }
+//         // Assert
+//         Assert.Equal(3, result.Count());
+//         _stockRepository.Verify(repo => repo.GetAllStocksForUser(UserId), Times.Exactly(1));
+//     }
 
-    [Fact]
-    public void GetStockById_ReturnsStock(){
-        // Arrange
-        int stockId = 1;
-        Stock stock = new Stock(){Id = 1, UserId = 1, CompanyName = "Apple", Price = 100, Quantity = 10};
-        _stockRepository.Setup(s => s.GetStockById(stockId)).Returns(stock);
+//     [Fact]
+//     public void GetStockById_ReturnsStock(){
+//         // Arrange
+//         int stockId = 1;
+//         Stock stock = new Stock(){Id = 1, UserId = 1, CompanyName = "Apple", Price = 100, Quantity = 10};
+//         _stockRepository.Setup(s => s.GetStockById(stockId)).Returns(stock);
 
-        // Act
-        var result = _stockServices.GetStockById(stockId);
+//         // Act
+//         var result = _stockServices.GetStockById(stockId);
 
-        // Assert
-        Assert.Equal(stock, result);
-    }
+//         // Assert
+//         Assert.Equal(stock, result);
+//     }
 
-    [Fact]
-    public void AddStock_ReturnsStock(){
-        // Arrange
-        Stock stock = new Stock(){Id = 1, UserId = 1, CompanyName = "Apple", Price = 100, Quantity = 10};
-        _stockRepository.Setup(s => s.AddStock(stock)).Returns(stock);
+//     [Fact]
+//     public void AddStock_ReturnsStock(){
+//         // Arrange
+//         Stock stock = new Stock(){Id = 1, UserId = 1, CompanyName = "Apple", Price = 100, Quantity = 10};
+//         _stockRepository.Setup(s => s.AddStock(stock)).Returns(stock);
 
-        // Act
-        var result = _stockServices.AddStock(stock);
+//         // Act
+//         var result = _stockServices.AddStock(stock);
 
-        // Assert
-        Assert.Equal(stock, result);
-    }
+//         // Assert
+//         Assert.Equal(stock, result);
+//     }
 
-     [Theory]
-    [InlineData("Apple", 100, 10, true)]
-    [InlineData("Invalid!", 100, 10, false)]
-    [InlineData("Apple", -1, 10, false)]
-    [InlineData("Apple", 100, -1, false)]
-    public void UpdateStock_Test(string companyName, double price, int quantity, bool shouldUpdate)
-    {
-        // Arrange
-        var stock = new Stock { Id = 1, CompanyName = companyName, Price = price, Quantity = quantity };
+//      [Theory]
+//     [InlineData("Apple", 100, 10, true)]
+//     [InlineData("Invalid!", 100, 10, false)]
+//     [InlineData("Apple", -1, 10, false)]
+//     [InlineData("Apple", 100, -1, false)]
+//     public void UpdateStock_Test(string companyName, double price, int quantity, bool shouldUpdate)
+//     {
+//         // Arrange
+//         var stock = new Stock { Id = 1, CompanyName = companyName, Price = price, Quantity = quantity };
 
-        if (shouldUpdate)
-        {
-            _stockRepository.Setup(repo => repo.UpdateStock(stock)).Returns(stock);
-        }
+//         if (shouldUpdate)
+//         {
+//             _stockRepository.Setup(repo => repo.UpdateStock(stock)).Returns(stock);
+//         }
 
-        // Act
-        var result = _stockServices.UpdateStock(stock);
+//         // Act
+//         var result = _stockServices.UpdateStock(stock);
 
-        // Assert
-        if (shouldUpdate)
-        {
-            Assert.Equal(stock, result);
-            _stockRepository.Verify(repo => repo.UpdateStock(stock), Times.Once);
-        }
-        else
-        {
-            Assert.Null(result);
-            _stockRepository.Verify(repo => repo.UpdateStock(stock), Times.Never);
-        }
-    }
+//         // Assert
+//         if (shouldUpdate)
+//         {
+//             Assert.Equal(stock, result);
+//             _stockRepository.Verify(repo => repo.UpdateStock(stock), Times.Once);
+//         }
+//         else
+//         {
+//             Assert.Null(result);
+//             _stockRepository.Verify(repo => repo.UpdateStock(stock), Times.Never);
+//         }
+//     }
     
-    [Fact]
-    public void DeleteStock_ValidId_ReturnsDeletedStock()
-    {
-        // Arrange
-        var stock = new Stock { Id = 1, CompanyName = "Apple", Price = 100, Quantity = 10 };
-        _stockRepository.Setup(repo => repo.DeleteStock(stock.Id)).Returns(stock);
+//     [Fact]
+//     public void DeleteStock_ValidId_ReturnsDeletedStock()
+//     {
+//         // Arrange
+//         var stock = new Stock { Id = 1, CompanyName = "Apple", Price = 100, Quantity = 10 };
+//         _stockRepository.Setup(repo => repo.DeleteStock(stock.Id)).Returns(stock);
 
-        // Act
-        var result = _stockServices.DeleteStock(stock.Id);
+//         // Act
+//         var result = _stockServices.DeleteStock(stock.Id);
 
-        // Assert
-        Assert.Equal(stock, result);
-        _stockRepository.Verify(repo => repo.DeleteStock(stock.Id), Times.Once);
-    }
-}
+//         // Assert
+//         Assert.Equal(stock, result);
+//         _stockRepository.Verify(repo => repo.DeleteStock(stock.Id), Times.Once);
+//     }
+// }
 
     

@@ -15,11 +15,11 @@ namespace Budgets.Controller;
 [Route("api/[controller]")]
 [ApiController]
 public class IncomeController : ControllerBase{
-    private readonly IncomeService _service;
+    private readonly IIncomeService _service;
 
-    public IncomeController(IncomeService service)
+    public IncomeController(IIncomeService service)
     {
-        this._service = service;
+        _service = service;
     }
 
 

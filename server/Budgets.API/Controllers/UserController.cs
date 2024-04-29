@@ -1,6 +1,9 @@
 using Budgets.DTOs;
 using Budgets.Models;
 using Microsoft.AspNetCore.Mvc;
+using Budgets.Services;
+
+namespace Budgets.Controller;
 
 [Route("/api/[controller]")]
 public class UserController: ControllerBase
