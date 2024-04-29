@@ -11,28 +11,29 @@ public class IncomeService : IIncomeService{
         _repo = repo;
     }
 
-    public async Task <IEnumerable<IncomeDTO>>ListItemsAsync(){
-        return await _repo.ListAsync();
 
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAsync(int userId){
+        return await _repo.GetIncomeByUserIdAsync(userId);
+    }
+    public async Task<IncomeDTO>? GetIncomeByUserIdAndIncomeIdAsync(int userId, int incomeId){
+        return await _repo.GetIncomeByUserIdAndIncomeIdAsync(userId, incomeId);
+    }
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndIncomeTypeAsync(int userId, string incomeType){
+        return await _repo.GetIncomeByUserIdAndIncomeTypeAsync(userId,incomeType);
+    }
+    public async Task AddAnExpenseAsync(IncomeCreateDTO entity){
+        await _repo.AddAnIncomeAsync(entity);
+    }
+    public async Task DeleteAnExpenseAsync(int incomeId){
+        await _repo.DeleteAnIncomeAsync(incomeId);
     }
 
-    public async Task <IncomeDTO> AddItemAsync (IncomeCreateDTO data){
-        return await _repo.AddAsync(data);
+    public async Task UpdateAnExpenseAsync(int incomeId, IncomeUpdateDTO entity){
+        await _repo.UpdatAnIncomeeAsync(incomeId, entity);
     }
-
-    public async Task DeleteItemsAsync(int data){
-        await _repo.DeleteAsync(data);
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
+        return await _repo.GetIncomeByUserIdAndDateRangeAsync(userId, startDate,endDate);
     }
-
-    public async Task UpdateItemAsync(int id, IncomeUpdateDTO data){
-        await _repo.UpdateAsync(id, data);
-
-    }
-
-    public async Task <IncomeDTO> GetItemByIdAsync(int id){
-        return await _repo.GetByIdAsync(id);
-    }
-
 }
 
 
