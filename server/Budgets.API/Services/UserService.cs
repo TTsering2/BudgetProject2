@@ -6,26 +6,28 @@ public class UserService : IUserService
 {   
     private readonly IUserRepository _userRepository;
     private readonly IUserValidator _validator;
+    //private readonly ILogger<UserService> _logger;
     public UserService(IUserRepository userRepository, IUserValidator validator){
         _userRepository = userRepository;
         _validator = validator;
+        //_logger = logger;
     }
     public List<User> ListUsers(){
-        return _userRepository.ListUsers().ToList();
+        return _userRepository.ListUsers().Result.ToList();
     }
     public User GetUserById(int id){
-        return _userRepository.GetUserById(id);
+        return _userRepository.GetUserById(id).Result;
     }
 
     public User GetUserByUserName(string username){
-        return _userRepository.GetUserByUsername(username);
+        return _userRepository.GetUserByUsername(username).Result;
     }
 
     public User? AddUser(User user){
         //If we already have user with this name
         if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
             if(_userRepository.GetUserByUsername(user.Username) == null){
-                return _userRepository.AddUser(user);
+                return _userRepository.AddUser(user).Result;
             }
         }
 
@@ -42,7 +44,7 @@ public class UserService : IUserService
                 userToUpdate.Username = user.Username;
                 userToUpdate.Password = user.Password;
                  if(_userRepository.GetUserByUsername(user.Username) == null){
-                    return _userRepository.UpdateUser(userToUpdate);
+                    return _userRepository.UpdateUser(userToUpdate).Result;
                 }
             }
             
@@ -51,7 +53,7 @@ public class UserService : IUserService
         return null;
     }
     public bool DeleteUser(int id){
-        User userToDelete = _userRepository.GetUserById(id);
+        User userToDelete = _userRepository.GetUserById(id).Result;
          if(userToDelete == null){
             return false;
         }
@@ -63,7 +65,7 @@ public class UserService : IUserService
 
     public bool ValidateUserStatus(string username, string password){
 
-        User userToValidate = _userRepository.GetUserByUsername(username);
+        User userToValidate = _userRepository.GetUserByUsername(username).Result;
         if(userToValidate != null){
             if(userToValidate.Password == password){
                 return true;
