@@ -1,7 +1,9 @@
 using Budgets.Data;
 using Budgets.DTOs;
 using Budgets.Models;
-using Budgets.Services;
+using Budgets.Validators;
+
+namespace Budgets.Services;
 public class UserService : IUserService
 {   
     private readonly IUserRepository _userRepository;
@@ -47,7 +49,6 @@ public class UserService : IUserService
                     return _userRepository.UpdateUser(userToUpdate).Result;
                 }
             }
-            
         }
 
         return null;

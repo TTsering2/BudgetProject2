@@ -1,3 +1,4 @@
+namespace Budgets.Validators;
 public interface IUserValidator {
 
     public bool ValidateUsername(string username);
@@ -6,6 +7,5 @@ public interface IUserValidator {
 
     public bool ValidateAgainstEscapeCharacters(string input);
     public bool ValidateUser(string username, string name, string psw);
-
 
 }

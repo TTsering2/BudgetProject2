@@ -2,18 +2,19 @@ using Budgets.DTOs;
 using Budgets.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Budgets.Services;
+
+namespace Budgets.Controller;
 
 /// <summary>
 /// Controller for managing user-related operations.
 /// </summary>
 [Route("/api/[controller]")]
-public class UserController : ControllerBase
-{
-    private readonly UserService _userService;
+public class UserController: ControllerBase
+{   
 
-    public UserController(UserService service)
-    {
+    private readonly IUserService _userService;
+    public UserController(IUserService service){
         _userService = service;
     }
 
