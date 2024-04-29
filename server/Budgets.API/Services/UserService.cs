@@ -2,6 +2,8 @@ using Budgets.Data;
 using Budgets.DTOs;
 using Budgets.Models;
 using Budgets.Services;
+
+namespace Budgets.Services;
 public class UserService : IUserService
 {   
     private readonly IUserRepository _userRepository;
