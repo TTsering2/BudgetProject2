@@ -12,6 +12,7 @@ public class IncomeService : IIncomeService{
     }
 
 
+
     public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAsync(int userId){
         return await _repo.GetIncomeByUserIdAsync(userId);
     }
