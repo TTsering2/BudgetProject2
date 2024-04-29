@@ -18,10 +18,11 @@ public class IncomeRepository : IIncomeRepository{
     // Get all Incomes for a given User 
     public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAsync(int userId)
     {
+        // Query the database for incomes
         IEnumerable<IncomeDTO> incomes = await _dbContext.Incomes
-            .Where(i => i.UserId == userId)
-            .Include(i => i.User)
-            .Select(i => new IncomeDTO
+            .Where(i => i.UserId == userId)         // Filter by user ID
+            .Include(i => i.User)                   // Include related user information
+            .Select(i => new IncomeDTO              // Project each income to an IncomeDTO object
             {
                 //formatting 
                 Id = i.Id,
@@ -31,7 +32,7 @@ public class IncomeRepository : IIncomeRepository{
                 Date = i.Date,
                 Username = i.User.Username
             })
-            .ToListAsync();
+            .ToListAsync();                         // Execute the query and return results as a list
         return incomes;
     }
 
@@ -76,7 +77,8 @@ public class IncomeRepository : IIncomeRepository{
 
     //Adding Income info to our dataase 
     public async Task AddAnIncomeAsync(IncomeCreateDTO entity){
-        //creating a new instance of type Income
+
+        // Create a new Income entity with the provided data
         Income newIncome = new Income
         {
             Title = entity.Title,
@@ -92,6 +94,7 @@ public class IncomeRepository : IIncomeRepository{
     //deleting income by id
     public async Task DeleteAnIncomeAsync(int incomeId){
 
+        // Find the income entity in the database by income ID
         Income income = await _dbContext.Incomes.FindAsync(incomeId);
         
         if(income == null){
