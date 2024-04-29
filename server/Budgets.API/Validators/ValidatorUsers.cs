@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 
+namespace Budgets.Validators;
 public class ValidatorUsers : IUserValidator {
 
    public ValidatorUsers(){}

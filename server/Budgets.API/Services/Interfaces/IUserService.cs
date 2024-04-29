@@ -1,5 +1,6 @@
 using Budgets.DTOs;
 using Budgets.Models;
+using Budgets.Data;
 
 namespace Budgets.Services;
 public interface IUserService

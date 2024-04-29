@@ -9,8 +9,8 @@ namespace Budgets.Controller;
 public class UserController: ControllerBase
 {   
 
-    private readonly UserService _userService;
-    public UserController(UserService service){
+    private readonly IUserService _userService;
+    public UserController(IUserService service){
         _userService = service;
     }
 
