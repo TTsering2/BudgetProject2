@@ -10,9 +10,9 @@ public interface IIncomeService
     Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAsync(int userId);
     Task<IncomeDTO>? GetIncomeByUserIdAndIncomeIdAsync(int userId, int incomeId);
     Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndIncomeTypeAsync(int userId, string incomeType);
-    Task AddAnExpenseAsync(IncomeCreateDTO income);
-    Task DeleteAnExpenseAsync(int incomeId);
-    Task UpdateAnExpenseAsync(int incomeId, IncomeUpdateDTO income);
+    Task AddAnIncomeAsync(IncomeCreateDTO income);
+    Task DeleteAnIncomeAsync(int incomeId);
+    Task UpdateAnIncomeAsync(int incomeId, IncomeUpdateDTO income);
     Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate);
 
 }

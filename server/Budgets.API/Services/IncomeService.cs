@@ -22,14 +22,14 @@ public class IncomeService : IIncomeService{
     public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndIncomeTypeAsync(int userId, string incomeType){
         return await _repo.GetIncomeByUserIdAndIncomeTypeAsync(userId,incomeType);
     }
-    public async Task AddAnExpenseAsync(IncomeCreateDTO entity){
+    public async Task AddAnIncomeAsync(IncomeCreateDTO entity){
         await _repo.AddAnIncomeAsync(entity);
     }
-    public async Task DeleteAnExpenseAsync(int incomeId){
+    public async Task DeleteAnIncomeAsync(int incomeId){
         await _repo.DeleteAnIncomeAsync(incomeId);
     }
 
-    public async Task UpdateAnExpenseAsync(int incomeId, IncomeUpdateDTO entity){
+    public async Task UpdateAnIncomeAsync(int incomeId, IncomeUpdateDTO entity){
         await _repo.UpdatAnIncomeeAsync(incomeId, entity);
     }
     public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
