@@ -8,9 +8,14 @@ public class UserService : IUserService
 {   
     private readonly IUserRepository _userRepository;
     private readonly IUserValidator _validator;
-    public UserService(IUserRepository userRepository, IUserValidator validator){
+
+    private readonly ILogger<UserService> _logger;
+
+    public UserService(IUserRepository userRepository, IUserValidator validator,  ILogger<UserService> logger){
         _userRepository = userRepository;
         _validator = validator;
+        _logger = logger;
+
     }
     public List<User> ListUsers(){
         return _userRepository.ListUsers().ToList();
