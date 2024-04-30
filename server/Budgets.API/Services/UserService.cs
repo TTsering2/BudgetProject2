@@ -17,14 +17,14 @@ public class UserService : IUserService
         _logger = logger;
 
     }
-    public List<User> ListUsers(){
+    public List<User>? ListUsers(){
         return _userRepository.ListUsers().ToList();
     }
-    public User GetUserById(int id){
+    public User? GetUserById(int id){
         return _userRepository.GetUserById(id);
     }
 
-    public User GetUserByUserName(string username){
+    public User? GetUserByUserName(string username){
         return _userRepository.GetUserByUsername(username);
     }
 
