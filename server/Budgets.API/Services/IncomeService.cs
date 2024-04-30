@@ -9,7 +9,7 @@ public class IncomeService : IIncomeService{
 
     private readonly IIncomeRepository _incomerepo;
 
-    private readonly ILogger<IncomeService> _logger;
+    private readonly ILogger<IncomeService> _logger;        
     public IncomeService (IIncomeRepository incomerepo, ILogger<IncomeService> logger){
         _incomerepo = incomerepo;
         _logger = logger;
