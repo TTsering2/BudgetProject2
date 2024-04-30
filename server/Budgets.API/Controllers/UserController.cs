@@ -44,7 +44,15 @@ namespace Budgets.Controller
             try
             {
                 // Return a user by their ID
-                return Ok(_userService.GetUserById(id));
+                User user = _userService.GetUserById(id);
+                if(user == null){
+                    return BadRequest();
+                }
+                else{
+                    UserCreateDTO newUser = new UserCreateDTO(user.Name, user.Username);
+                    return Ok(newUser);
+                }
+
             }
             catch (Exception ex)
             {
@@ -61,9 +69,17 @@ namespace Budgets.Controller
         public IActionResult GetUserByUsername(string username)
         {
             try
-            {
-                // Return a user by their username
-                return Ok(_userService.GetUserByUserName(username));
+            {   
+                 // Return a user by their ID
+                User user = _userService.GetUserByUserName(username);
+                if(user == null){
+                    return BadRequest();
+                }
+                else{
+                    UserCreateDTO newUser = new UserCreateDTO(user.Name, user.Username);
+                    return Ok();
+                }
+
             }
             catch (Exception ex)
             {
