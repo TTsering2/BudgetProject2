@@ -83,8 +83,8 @@ public class IncomeController : ControllerBase{
     }
 
 
-    //add an expense
-    //POST api/expense
+    //add an income
+    //POST api/income
     [HttpPost]
     public async Task<ActionResult<Income>> AddAnIncome([FromBody]IncomeCreateDTO income)
     {
@@ -98,8 +98,8 @@ public class IncomeController : ControllerBase{
         }
     }
 
-    //delete an expense
-    //DELETE api/expense/expenseId={expenseId}
+    //delete an income
+    //DELETE api/income/incomeeId={incomeId}
     [HttpDelete("incomeId={incomeId}")]
     public async Task<ActionResult> DeleteAnExpense(int incomeId)
     {
@@ -114,8 +114,8 @@ public class IncomeController : ControllerBase{
         }
     }
 
-    //update an expense
-    //PATCH api/expense/{expenseId}
+    //update an income
+    //PATCH api/income/{incomeId}
     [HttpPatch("{incomeID}")]
     public async Task<ActionResult> UpdateAnExpense(int incomeId, IncomeUpdateDTO income)
     {
@@ -131,8 +131,8 @@ public class IncomeController : ControllerBase{
     }
 
 
-    //Get all expenses by a user and date range
-    //GET api/expense/userId={userId}/startDate={startDate}/endDate={endDate}
+    //Get all incomes by a user and date range
+    //GET api/income/userId={userId}/startDate={startDate}/endDate={endDate}
     [HttpGet("userId={userId}/startDate={startDate}/endDate={endDate}")]
     public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomeByUserIdAndDateRange(int userId, DateTime startDate, DateTime endDate)
     {
