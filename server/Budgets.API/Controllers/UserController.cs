@@ -106,7 +106,8 @@ namespace Budgets.Controller
         /// <summary>
         /// Adds a new user.
         /// </summary>
-        /// <param name="user">The user to be added.</param>        [HttpPost]
+        /// <param name="user">The user to be added.</param>        
+        [HttpPost]
         public IActionResult AddUser(User user)
         {
             try
