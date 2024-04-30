@@ -6,6 +6,10 @@ using Budgets.Services;
 
 namespace Budgets.Controller
 {
+
+    /// <summary>
+    /// Controller for managing user-related operations.
+    /// </summary>
     [Route("/api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -17,7 +21,10 @@ namespace Budgets.Controller
             _userService = service;
         }
 
-           // GET: /api/User
+        
+        /// <summary>
+        /// Retrieves a list of all users.
+        /// </summary>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult ListUsers()
@@ -36,7 +43,10 @@ namespace Budgets.Controller
             }
         }
 
-        // GET: /api/User/id/{id}
+           /// <summary>
+        /// Retrieves a user by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the user to retrieve.</param>
         [HttpGet("id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetUserById(int id)
@@ -62,8 +72,11 @@ namespace Budgets.Controller
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
         }
-
-        // GET: /api/User/username/{username}
+        
+          /// <summary>
+        /// Retrieves a user by their username.
+        /// </summary>
+        /// <param name="username">The username of the user to retrieve.</param>
         [HttpGet("username/{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetUserByUsername(string username)
@@ -90,8 +103,10 @@ namespace Budgets.Controller
             }
         }
 
-        // POST: /api/User
-        [HttpPost]
+        /// <summary>
+        /// Adds a new user.
+        /// </summary>
+        /// <param name="user">The user to be added.</param>        [HttpPost]
         public IActionResult AddUser(User user)
         {
             try
@@ -118,7 +133,10 @@ namespace Budgets.Controller
             }
         }
 
-        // PUT: /api/User
+        /// <summary>
+        /// Updates an existing user.
+        /// </summary>
+        /// <param name="user">The user to be updated.</param>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         public IActionResult UpdateUser(User user)
@@ -147,7 +165,10 @@ namespace Budgets.Controller
             }
         }
 
-        // DELETE: /api/User
+          /// <summary>
+        /// Deletes a user by their ID.
+        /// </summary>
+        /// <param name="userId">The ID of the user to delete.</param>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult DeleteUser(int userId)
@@ -174,7 +195,11 @@ namespace Budgets.Controller
             }
         }
 
-        // POST: /api/User/login
+        /// <summary>
+        /// Handles user login.
+        /// </summary>
+        /// <param name="username">The username of the user.</param>
+        /// <param name="password">The password of the user.</param>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Login(string username, string password)
