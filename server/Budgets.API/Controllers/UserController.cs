@@ -14,13 +14,19 @@ namespace Budgets.Controller
     {
         private readonly IUserService _userService;
 
-        // Constructor to inject IUserService dependency
+        /// <summary>
+        /// Constructor to inject IUserService dependency.
+        /// </summary>
+        /// <param name="service">The IUserService implementation.</param>
         public UserController(IUserService service)
         {
             _userService = service;
         }
 
-        // GET: /api/User
+        /// <summary>
+        /// Retrieves a list of all users.
+        /// </summary>
+        /// <returns>An IActionResult representing the list of users.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> ListUsers()
@@ -44,7 +50,11 @@ namespace Budgets.Controller
             }
         }
 
-        // GET: /api/User/id/{id}
+           /// <summary>
+        /// Retrieves a user by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the user to retrieve.</param>
+        /// <returns>Returns an IActionResult representing the retrieved user.</returns>
         [HttpGet("id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserById(int id)
@@ -68,7 +78,11 @@ namespace Budgets.Controller
             }
         }
 
-        // GET: /api/User/username/{username}
+          /// <summary>
+        /// Retrieves a user by their username.
+        /// </summary>
+        /// <param name="username">The username of the user to retrieve.</param>
+        /// <returns>Returns an IActionResult representing the retrieved user.</returns>
         [HttpGet("username/{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserByUsername(string username)
@@ -92,7 +106,12 @@ namespace Budgets.Controller
             }
         }
 
-        // POST: /api/User
+        
+        /// <summary>
+        /// Adds a new user.
+        /// </summary>
+        /// <param name="user">The user object containing the information of the new user.</param>
+        /// <returns>Returns an IActionResult representing the newly created user.</returns>
         [HttpPost]
         public async Task<IActionResult> AddUser(User user)
         {
@@ -119,7 +138,12 @@ namespace Budgets.Controller
             }
         }
 
-        // PUT: /api/User
+
+           /// <summary>
+        /// Updates an existing user.
+        /// </summary>
+        /// <param name="user">The user object containing updated information.</param>
+        /// <returns>Returns an IActionResult representing the updated user.</returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         public async Task<IActionResult> UpdateUser(User user)
@@ -147,7 +171,11 @@ namespace Budgets.Controller
             }
         }
 
-        // DELETE: /api/User
+       /// <summary>
+        /// Deletes a user by their ID.
+        /// </summary>
+        /// <param name="userId">The ID of the user to be deleted.</param>
+        /// <returns>Returns an IActionResult indicating the result of the deletion operation.</returns>
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteUser(int userId)
@@ -174,8 +202,14 @@ namespace Budgets.Controller
             }
         }
 
-        // POST: /api/User/login
-        [HttpPost("login")]
+
+        /// <summary>
+        /// Logs in a user.
+        /// </summary>
+        /// <param name="username">The username of the user.</param>
+        /// <param name="password">The password of the user.</param>
+        /// <returns>Returns the user's username upon successful login.</returns>        
+         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Login(string username, string password)
         {

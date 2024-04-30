@@ -17,13 +17,13 @@ public class UserService : IUserService
         _logger = logger;
 
     } // Get all users asynchronously
-    public async Task<IEnumerable<User>> ListUsers()
+    public async Task<IEnumerable<User>>? ListUsers()
     {
         return await _userRepository.ListUsers();
     }
 
     // Get user by Id asynchronously
-    public async Task<UserDTO> GetUserById(int id)
+    public async Task<UserDTO>? GetUserById(int id)
     {   
         User newUser = await _userRepository.GetUserById(id);
         UserDTO newUserDTO = new UserDTO(newUser.Name, newUser.Username);
@@ -31,7 +31,7 @@ public class UserService : IUserService
     }
 
     // Get user by username asynchronously
-    public async Task<UserDTO> GetUserByUserName(string username)
+    public async Task<UserDTO>? GetUserByUserName(string username)
     {   
         User newUser =  await _userRepository.GetUserByUsername(username);
         UserDTO newUserDTO = new UserDTO(newUser.Name, newUser.Username);
@@ -39,7 +39,7 @@ public class UserService : IUserService
     }
 
     // Add a user asynchronously
-    public async Task<UserDTO?> AddUser(User user)
+    public async Task<UserDTO>? AddUser(User user)
     {
         // If we already have a user with this name
         if (_validator.ValidateUser(user.Username, user.Name, user.Password))
@@ -56,7 +56,7 @@ public class UserService : IUserService
     }
 
     // Update a user asynchronously
-    public async Task<UserDTO?> UpdateUser(User user)
+    public async Task<UserDTO>? UpdateUser(User user)
     {
         User userToUpdate = await _userRepository.GetUserById(user.Id);
         if (userToUpdate == null)

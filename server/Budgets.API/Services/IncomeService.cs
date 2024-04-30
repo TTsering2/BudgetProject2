@@ -6,33 +6,33 @@ namespace Budgets.Services;
 
 public class IncomeService : IIncomeService{
 
-    private readonly IIncomeRepository _repo;
-    public IncomeService (IIncomeRepository repo){
-        _repo = repo;
+    private readonly IIncomeRepository _incomerepo;
+    public IncomeService (IIncomeRepository incomerepo){
+        _incomerepo = incomerepo;
     }
 
-    public async Task <IEnumerable<IncomeDTO>>ListItemsAsync(){
-        return await _repo.ListAsync();
-
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAsync(int userId){
+        return await _incomerepo.GetIncomeByUserIdAsync(userId);
+    }
+    public async Task<IncomeDTO>? GetIncomeByUserIdAndIncomeIdAsync(int userId, int incomeId){
+        return await _incomerepo.GetIncomeByUserIdAndIncomeIdAsync(userId, incomeId);
+    }
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndIncomeTypeAsync(int userId, string incomeType){
+        return await _incomerepo.GetIncomeByUserIdAndIncomeTypeAsync(userId,incomeType);
+    }
+    public async Task AddAnIncomeAsync(IncomeCreateDTO entity){
+        await _incomerepo.AddAnIncomeAsync(entity);
+    }
+    public async Task DeleteAnIncomeAsync(int incomeId){
+        await _incomerepo.DeleteAnIncomeAsync(incomeId);
     }
 
-    public async Task <IncomeDTO> AddItemAsync (IncomeCreateDTO data){
-        return await _repo.AddAsync(data);
+    public async Task UpdateAnIncomeAsync(int incomeId, IncomeUpdateDTO entity){
+        await _incomerepo.UpdatAnIncomeeAsync(incomeId, entity);
     }
-
-    public async Task DeleteItemsAsync(int data){
-        await _repo.DeleteAsync(data);
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
+        return await _incomerepo.GetIncomeByUserIdAndDateRangeAsync(userId, startDate,endDate);
     }
-
-    public async Task UpdateItemAsync(int id, IncomeUpdateDTO data){
-        await _repo.UpdateAsync(id, data);
-
-    }
-
-    public async Task <IncomeDTO> GetItemByIdAsync(int id){
-        return await _repo.GetByIdAsync(id);
-    }
-
 }
 
 

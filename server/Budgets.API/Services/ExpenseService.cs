@@ -29,7 +29,12 @@ public class ExpenseService : IExpenseService
 
     public async Task AddAnExpenseAsync(ExpenseCreateDTO entity)
     {
-        await _repository.AddAnExpenseAsync(entity);
+        if(ValidatorExpenses.ValidateAll(entity.Title, entity.Type, (decimal)entity.Amount))
+        {
+            // throw new Exception("Invalid input");
+            await _repository.AddAnExpenseAsync(entity);
+        }
+        
     }
 
     public async Task DeleteAnExpenseAsync(int expenseId)
@@ -37,13 +42,18 @@ public class ExpenseService : IExpenseService
         await _repository.DeleteAnExpenseAsync(expenseId);  
     }
 
-    public async Task UpdateAnExpenseAsync(int expenseId, ExpenseUpdateDTO entity)
-    {
-        await _repository.UpdateAnExpenseAsync(expenseId, entity);
-    }
+        public async Task UpdateAnExpenseAsync(int expenseId, ExpenseUpdateDTO entity)
+        {
+            if(ValidatorExpenses.ValidateAll(entity.Title, entity.Type, (decimal)entity.Amount))
+            {
+                // throw new Exception("Invalid input");
+                await _repository.UpdateAnExpenseAsync(expenseId, entity);
+            }
+            
+        }
 
-    public async Task<IEnumerable<ExpenseDTO>>? GetExpensesByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
-    {
-        return await _repository.GetExpensesByUserIdAndDateRangeAsync(userId, startDate, endDate);
+        public async Task<IEnumerable<ExpenseDTO>>? GetExpensesByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
+        {
+            return await _repository.GetExpensesByUserIdAndDateRangeAsync(userId, startDate, endDate);
+        }
     }
-}
