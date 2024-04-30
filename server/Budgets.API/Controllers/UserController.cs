@@ -77,7 +77,7 @@ namespace Budgets.Controller
                 }
                 else{
                     UserCreateDTO newUser = new UserCreateDTO(user.Name, user.Username);
-                    return Ok();
+                    return Ok(newUser);
                 }
 
             }
