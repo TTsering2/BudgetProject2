@@ -16,70 +16,97 @@ public class UserService : IUserService
         _validator = validator;
         _logger = logger;
 
-    }
-    public List<User> ListUsers(){
-        return _userRepository.ListUsers().ToList();
-    }
-    public User GetUserById(int id){
-        return _userRepository.GetUserById(id);
+    } // Get all users asynchronously
+    public async Task<IEnumerable<User>> ListUsers()
+    {
+        return await _userRepository.ListUsers();
     }
 
-    public User GetUserByUserName(string username){
-        return _userRepository.GetUserByUsername(username);
+    // Get user by Id asynchronously
+    public async Task<UserDTO> GetUserById(int id)
+    {   
+        User newUser = await _userRepository.GetUserById(id);
+        UserDTO newUserDTO = new UserDTO(newUser.Name, newUser.Username);
+        return newUserDTO;
     }
 
-    public User? AddUser(User user){
-        //If we already have user with this name
-        if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
-            if(_userRepository.GetUserByUsername(user.Username) == null){
-                return _userRepository.AddUser(user);
+    // Get user by username asynchronously
+    public async Task<UserDTO> GetUserByUserName(string username)
+    {   
+        User newUser =  await _userRepository.GetUserByUsername(username);
+        UserDTO newUserDTO = new UserDTO(newUser.Name, newUser.Username);
+        return newUserDTO;
+    }
+
+    // Add a user asynchronously
+    public async Task<UserDTO?> AddUser(User user)
+    {
+        // If we already have a user with this name
+        if (_validator.ValidateUser(user.Username, user.Name, user.Password))
+        {
+            if (await _userRepository.GetUserByUsername(user.Username) == null)
+            {   
+                User newUser = await _userRepository.AddUser(user);
+                UserDTO newUserDTO = new UserDTO(newUser.Name, newUser.Username);
+                return  newUserDTO;
             }
         }
 
-            return null;
+        return null;
     }
-    public User? UpdateUser(User user){
-        User userToUpdate = GetUserById(user.Id);
-        if(userToUpdate == null){
+
+    // Update a user asynchronously
+    public async Task<UserDTO?> UpdateUser(User user)
+    {
+        User userToUpdate = await _userRepository.GetUserById(user.Id);
+        if (userToUpdate == null)
+        {
             return null;
         }
-        else{
-            if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
+        else
+        {
+            if (_validator.ValidateUser(user.Username, user.Name, user.Password))
+            {
                 userToUpdate.Name = user.Name;
                 userToUpdate.Username = user.Username;
                 userToUpdate.Password = user.Password;
-                 if(_userRepository.GetUserByUsername(user.Username) == null){
-                    return _userRepository.UpdateUser(userToUpdate);
+                if (await _userRepository.GetUserByUsername(user.Username) == null)
+                {   
+                    User updatedUser =  await _userRepository.UpdateUser(userToUpdate);
+                    UserDTO newUserDTO = new UserDTO(updatedUser.Name, updatedUser.Username);
+                    return  newUserDTO;
                 }
             }
         }
 
         return null;
     }
-    public bool DeleteUser(int id){
-        User userToDelete = _userRepository.GetUserById(id);
-         if(userToDelete == null){
+
+    // Delete a user asynchronously
+    public async Task<bool> DeleteUser(int id)
+    {
+        User userToDelete = await _userRepository.GetUserById(id);
+        if (userToDelete == null)
+        {
             return false;
         }
-        else{
-             _userRepository.DeleteUser(userToDelete);
-             return true;
+        else
+        {
+            await _userRepository.DeleteUser(userToDelete);
+            return true;
         }
     }
 
-    public bool ValidateUserStatus(string username, string password){
-
-        User userToValidate = _userRepository.GetUserByUsername(username);
-        if(userToValidate != null){
-            if(userToValidate.Password == password){
-                return true;
-            }
+    // Validate user status asynchronously
+    public async Task<bool> ValidateUserStatus(string username, string password)
+    {
+        User userToValidate = await _userRepository.GetUserByUsername(username);
+        if (userToValidate != null && userToValidate.Password == password)
+        {
+            return true;
         }
 
         return false;
-
     }
-
-
 
 }

@@ -1,8 +1,11 @@
 using Budgets.DTOs;
 using Budgets.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Budgets.Services;
-
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Budgets.Controller
 {
@@ -17,15 +20,20 @@ namespace Budgets.Controller
             _userService = service;
         }
 
-           // GET: /api/User
+        // GET: /api/User
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult ListUsers()
+        public async Task<IActionResult> ListUsers()
         {
             try
             {
+                IEnumerable<User> userList = await _userService.ListUsers();
+                if (userList == null || !userList.Any())
+                {
+                    return NotFound("No users found");
+                }
                 // Return a list of users
-                return Ok(_userService.ListUsers());
+                return Ok(userList);
             }
             catch (Exception ex)
             {
@@ -39,12 +47,17 @@ namespace Budgets.Controller
         // GET: /api/User/id/{id}
         [HttpGet("id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetUserById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
+                UserDTO user = await _userService.GetUserById(id);
+                if (user == null)
+                {
+                    return NotFound("No user with such ID was found");
+                }
                 // Return a user by their ID
-                return Ok(_userService.GetUserById(id));
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -58,12 +71,17 @@ namespace Budgets.Controller
         // GET: /api/User/username/{username}
         [HttpGet("username/{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetUserByUsername(string username)
+        public async Task<IActionResult> GetUserByUsername(string username)
         {
             try
             {
+                UserDTO user = await _userService.GetUserByUserName(username);
+                if (user == null)
+                {
+                    return NotFound("No user with such username was found");
+                }
                 // Return a user by their username
-                return Ok(_userService.GetUserByUserName(username));
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -76,16 +94,15 @@ namespace Budgets.Controller
 
         // POST: /api/User
         [HttpPost]
-        public IActionResult AddUser(User user)
+        public async Task<IActionResult> AddUser(User user)
         {
             try
             {
                 // Add a new user
-                User result = _userService.AddUser(user);
-                if (result != null)
+                UserDTO newUser = await _userService.AddUser(user);
+                if (newUser != null)
                 {
                     // Return a DTO for the created user
-                    UserCreateDTO newUser = new UserCreateDTO(result.Name, result.Username);
                     return Ok(newUser);
                 }
                 else
@@ -105,17 +122,16 @@ namespace Budgets.Controller
         // PUT: /api/User
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
-        public IActionResult UpdateUser(User user)
+        public async Task<IActionResult> UpdateUser(User user)
         {
             try
             {
                 // Update an existing user
-                User result = _userService.UpdateUser(user);
-                if (result != null)
+                UserDTO updatedUser = await _userService.UpdateUser(user);
+                if (updatedUser != null)
                 {
                     // Return a DTO for the updated user
-                    UserCreateDTO newUser = new UserCreateDTO(result.Name, result.Username);
-                    return Accepted(newUser);
+                    return Accepted(updatedUser);
                 }
                 else
                 {
@@ -134,12 +150,12 @@ namespace Budgets.Controller
         // DELETE: /api/User
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult DeleteUser(int userId)
+        public async Task<IActionResult> DeleteUser(int userId)
         {
             try
             {
                 // Delete a user by their ID
-                bool result = _userService.DeleteUser(userId);
+                bool result = await _userService.DeleteUser(userId);
                 if (result)
                 {
                     return Accepted(result);
@@ -161,17 +177,17 @@ namespace Budgets.Controller
         // POST: /api/User/login
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Login(string username, string password)
+        public async Task<IActionResult> Login(string username, string password)
         {
             try
             {
                 // Validate user credentials
-                bool AuthUser = _userService.ValidateUserStatus(username, password);
+                bool AuthUser = await _userService.ValidateUserStatus(username, password);
                 if (AuthUser)
                 {
                     // Return the user's ID if authenticated
-                    User user = _userService.GetUserByUserName(username);
-                    return Ok(new { UserId = user.Id });
+                    UserDTO user = await _userService.GetUserByUserName(username);
+                    return Ok(new { user = user.Username });
                 }
                 else
                 {
