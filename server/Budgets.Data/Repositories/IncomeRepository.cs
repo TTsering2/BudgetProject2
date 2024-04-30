@@ -2,8 +2,7 @@
 using Budgets.DTOs;
 using Budgets.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+
 
 namespace Budgets.Data;
 
@@ -15,120 +14,135 @@ public class IncomeRepository : IIncomeRepository{
        _dbContext = context;
     }
 
-    public async Task<IEnumerable<IncomeDTO>> ListAsync(){
-        List<IncomeDTO> income = await _dbContext.Incomes
+
+    // Get all Incomes for a given User 
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAsync(int userId)
+    {
+        // Query the database for incomes
+        IEnumerable<IncomeDTO> incomes = await _dbContext.Incomes
+            .Where(i => i.UserId == userId)         // Filter by user ID
+            .Include(i => i.User)                   // Include related user information
+            .Select(i => new IncomeDTO              // Project each income to an IncomeDTO object
+            {
+                //formatting 
+                Id = i.Id,
+                Title = i.Title,
+                Type = i.Type,
+                Amount = i.Amount,
+                Date = i.Date,
+                Username = i.User.Username
+            })
+            .ToListAsync();                         // Execute the query and return results as a list
+        return incomes;
+    }
+
+    // Get income by UserId and incomeId
+    public async Task<IncomeDTO>? GetIncomeByUserIdAndIncomeIdAsync(int userId, int incomeId)
+    {
+        IncomeDTO incomes = await _dbContext.Incomes
+            .Where(i => i.UserId == userId && i.Id == incomeId)
             .Include(i => i.User)
             .Select(i => new IncomeDTO
-            {
+            {   
                 Id = i.Id,
-                UserName = i.User.Name,
-                Type = i.Type,
                 Title = i.Title,
-                Amount = i.Amount
+                Type = i.Type,
+                Amount = i.Amount,
+                Date = i.Date,
+                Username = i.User.Username
+            })
+            .FirstOrDefaultAsync();
+        return incomes;
+
+    }
+
+
+    //Get income by UserId and income type
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndIncomeTypeAsync(int userId, string incomeType){
+        IEnumerable<IncomeDTO> incomes = await _dbContext.Incomes
+            .Where(i => i.UserId == userId && i.Type == incomeType )  //checking conditions
+            .Include(i => i.User)
+            .Select(i => new IncomeDTO
+            {   
+                Id = i.Id,
+                Title = i.Title,
+                Type = i.Type,
+                Amount = i.Amount,
+                Date = i.Date,
+                Username = i.User.Username
             })
             .ToListAsync();
-        return income;   
+        return incomes;
     }
 
+    //Adding Income info to our dataase 
+    public async Task AddAnIncomeAsync(IncomeCreateDTO entity){
 
-
-    public async Task<IncomeDTO> GetByIdAsync(int id){
-        IncomeDTO income = await _dbContext.Incomes
-        .Where(i => i.Id == id)
-        .Include(i =>i.User)
-        .Select(i => new IncomeDTO
+        // Create a new Income entity with the provided data
+        Income newIncome = new Income
         {
-            Id = i.Id,
-            UserName = i.User.Name,
-            Type = i.Type,
-            Title = i.Title,
-            Amount = i.Amount
-        })
-        .FirstOrDefaultAsync();
-
-        return income;
-    }
-
-
-
-    public async Task<IncomeDTO> AddAsync(IncomeCreateDTO entity){
-        User user = await _dbContext.Users
-        .FirstOrDefaultAsync(a => a.Name == entity.UserName)
-        ?? new User {Name = entity.UserName};
-
-        Income newincome = new Income
-        {
-            //UserName = user,
-            Type = entity.Type,
             Title = entity.Title,
-            Amount = entity.Amount
+            Type = entity.Type,
+            Amount = entity.Amount,
+            Date = entity.Date,
+            UserId = entity.UserId
         };
-        _dbContext.Incomes.Add(newincome);
+        _dbContext.Incomes.Add(newIncome);   //add new info to _dbcontext
         await _dbContext.SaveChangesAsync();
-
-        return new IncomeDTO
-        {
-            Id = newincome.Id,
-            UserName = newincome.User.Name,
-            Type = newincome.Type,
-            Title = newincome.Title,
-            Amount = newincome.Amount,
-        };
     }
 
+    //deleting income by id
+    public async Task DeleteAnIncomeAsync(int incomeId){
 
-
-    public async Task UpdateAsync(int id, IncomeUpdateDTO entity){
-        Income income = await _dbContext.Incomes
-            .Include(i => i.User)
-            .FirstOrDefaultAsync(i => i.Id == id);
-
-            if(income == null)
-            {
-                throw new Exception($"Income with ID {id} not found.");
-            }
-
-            if(!string.IsNullOrEmpty(entity.Type)){
-                income.Type = entity.Type;
-            }
-
-
-            if(!string.IsNullOrEmpty(entity.Title)){
-                income.Title = entity.Title;
-            }
-
-/*
-            if(decimal.TryParse(entity.Amount, out decimal amount)){
-                income.Amount = amount;
-            }
-*/
-    if(!string.IsNullOrEmpty(entity.UserName) && income.User?.Name != entity.UserName)
-    {
-        User existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Name == entity.UserName);
-        if(existingUser == null)
-        {
-            existingUser = new User{Name = entity.UserName};
-            _dbContext.Users.Add(existingUser);
+        // Find the income entity in the database by income ID
+        Income income = await _dbContext.Incomes.FindAsync(incomeId);
+        
+        if(income == null){
+            throw new Exception($"Income with ID {incomeId} not found.");
         }
-        income.User = existingUser;
-    }
-    await _dbContext.SaveChangesAsync();
-    }
 
-
-
-    public async Task DeleteAsync(int id){
-        Income income = await _dbContext.Incomes.FindAsync(id);
-
-        if(income == null)
-        {
-            return;
-        }
         _dbContext.Incomes.Remove(income);
         await _dbContext.SaveChangesAsync();
     }
 
+    //Updating Income Inforamtion 
+    public async Task UpdatAnIncomeeAsync(int incomeId, IncomeUpdateDTO entity)
+    {
+        Income oldIncome = await _dbContext.Incomes
+        .Include(i => i.User)                           //user information
+        .FirstOrDefaultAsync(i => i.Id == incomeId );
 
 
+        if(oldIncome == null)
+        {
+            throw new Exception($"Income with ID {incomeId} not found");
+        }else{
+            //check any changes from old to new 
+            oldIncome.Title = entity.Title ?? oldIncome.Title;
+            oldIncome.Type = entity.Type ?? oldIncome.Type;
+            oldIncome.Amount = entity.Amount ?? oldIncome.Amount;
+            oldIncome.Date = entity.Date ?? oldIncome.Date;
+        }
+        await _dbContext.SaveChangesAsync();
+    }
 
+    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
+        IEnumerable<IncomeDTO> incomes = await _dbContext.Incomes
+            .Where(i => i.UserId == userId && i.Date >= startDate && i.Date <= endDate)
+            .Include(i => i.User)
+            .Select(i => new IncomeDTO
+            {
+                Title = i.Title,
+                Type = i.Type,
+                Amount = i.Amount,
+                Date = i.Date,
+                Username = i.User.Username
+
+
+            })
+            .ToListAsync();
+        return incomes;
+
+
+    }
 }

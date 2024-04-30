@@ -5,10 +5,24 @@ using Budgets.DTOs;
 namespace Budgets.Data;
 /*  Interface for the Income Repo class*/
 public interface IIncomeRepository{
-    Task<IEnumerable<IncomeDTO>> ListAsync();
-    Task<IncomeDTO> GetByIdAsync(int id);
-    Task<IncomeDTO> AddAsync(IncomeCreateDTO entity);
-    Task UpdateAsync(int id, IncomeUpdateDTO entity);
-    Task DeleteAsync(int id);
+
+    Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAsync(int userId);
+
+    Task<IncomeDTO>? GetIncomeByUserIdAndIncomeIdAsync(int userId, int incomeId);
+
+    Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndIncomeTypeAsync(int userId, string incomeType);
+
+    Task AddAnIncomeAsync(IncomeCreateDTO income);
+
+    Task DeleteAnIncomeAsync(int incomeId);
+
+    Task UpdatAnIncomeeAsync(int incomeId, IncomeUpdateDTO income);
+
+    Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate);
+
+    
+    
+    
+   
     
 }

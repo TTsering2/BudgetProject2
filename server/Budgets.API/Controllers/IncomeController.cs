@@ -1,11 +1,10 @@
-using Budgets.Data;
+using Microsoft. AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using Budgets.Models;
 using Budgets.Services;
+using Budgets.Data;
 using Budgets.DTOs;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Security.Cryptography;
-using Microsoft.Identity.Client;
 
 
 
@@ -15,72 +14,140 @@ namespace Budgets.Controller;
 [Route("api/[controller]")]
 [ApiController]
 public class IncomeController : ControllerBase{
-    private readonly IIncomeService _service;
+    private readonly IIncomeService _incomeService;
 
-    public IncomeController(IIncomeService service)
+    public IncomeController(IIncomeService incomeservice)
     {
-        _service = service;
+        _incomeService = incomeservice;
     }
 
 
-
-    [HttpGet("id={id}")]
-    public async Task<ActionResult<IncomeDTO>> getItemById(int id){
-        try{
-            IncomeDTO income = await _service.GetItemByIdAsync(id);
-
-            if(income ==null){
-                return NotFound();
+    //get all expenses for a user
+    //GET: api/expense/userId={userId}
+    [HttpGet("userId={userId}")]
+    public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetAllIncomeByUserId(int userId)
+    {
+        try 
+        {
+            IEnumerable<IncomeDTO> incomes = await _incomeService.GetIncomeByUserIdAsync(userId);
+            if(incomes == null || !incomes.Any())
+            {
+                return NotFound("No incomes found for the given User.");
             }
-                return income;
-            }catch(Exception ex){
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving income: {ex.Message}");
-            }
+            return Ok(incomes);
         }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving incomes: {ex.Message}");
+        }
+    }
 
 
-
-        //get ALL incomes
-    [HttpGet("")]
-    public async Task<ActionResult<IEnumerable<IncomeDTO>>> getAllIncome(){    
+     //get an income by a user and income id
+    //GET api/income/userId={userId}/incomeId={incomeId}
+    [HttpGet("userId={userId}/incomeId={incomeId}")]
+    public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomeByUserIdAndIncomeId(int userId, int incomeId)
+    {    
         try{
-            IEnumerable<IncomeDTO> incomes = await _service.ListItemsAsync();
+            IncomeDTO incomes = await _incomeService.GetIncomeByUserIdAndIncomeIdAsync(userId,incomeId);
+            if(incomes == null)
+            {
+                return NotFound("Expense not found");
+            }
             return Ok(incomes); 
-        }catch(Exception ex){
-        return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving income: {ex.Message}");
+        }catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving income: {ex.Message}");
         }
     }
 
+
+    //get an income by a user and income type
+    //GET api/income/{userId}/{incomeType}
+    [HttpGet("{userId}/{incomeType}")]
+    public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetByUserIdAndIncomeType(int userId, string incomeType)
+    {
+        try
+        {
+            IEnumerable<IncomeDTO> incomes = await _incomeService.GetIncomeByUserIdAndIncomeTypeAsync(userId, incomeType);
+            if(incomes == null || !incomes.Any())
+            {
+                return NotFound("No incomes found for the given expense type and User.");
+            }
+            return Ok(incomes);
+        }
+        catch(Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving incomes: {ex.Message}");
+        }
+    }
+
+
+    //add an expense
+    //POST api/expense
     [HttpPost]
-    public async Task<ActionResult> createIncome(IncomeCreateDTO data){
+    public async Task<ActionResult<Income>> AddAnIncome([FromBody]IncomeCreateDTO income)
+    {
         try{
-            IncomeDTO creatingIncome = await _service.AddItemAsync(data);
-            return CreatedAtAction(nameof(getItemById), new{ id = creatingIncome.Id, creatingIncome});
-
-        }catch(Exception ex){
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error creating income: {ex.Message}");
+            await _incomeService.AddAnIncomeAsync(income);
+            return Ok();
         }
-
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error adding income: {ex.Message}");
+        }
     }
 
-    [HttpPatch("{id}")]
-    public async Task<ActionResult> updateIncome(int id, IncomeUpdateDTO data){
-        try{
-            await _service.UpdateItemAsync(id, data);
+    //delete an expense
+    //DELETE api/expense/expenseId={expenseId}
+    [HttpDelete("incomeId={incomeId}")]
+    public async Task<ActionResult> DeleteAnExpense(int incomeId)
+    {
+        try
+        {
+            await _incomeService.DeleteAnIncomeAsync(incomeId);
             return NoContent();
         }
-        catch(Exception ex){
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting expense: {ex.Message}");
+        }
+    }
+
+    //update an expense
+    //PATCH api/expense/{expenseId}
+    [HttpPatch("{incomeID}")]
+    public async Task<ActionResult> UpdateAnExpense(int incomeId, IncomeUpdateDTO income)
+    {
+        try
+        {
+            await _incomeService.UpdateAnIncomeAsync(incomeId, income);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating income: {ex.Message}");
         }
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> deleteIncome(int id){
-        try{
-            await _service.DeleteItemsAsync(id);
-            return NoContent();
-        }catch(Exception ex){
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting income: {ex.Message}");
+
+    //Get all expenses by a user and date range
+    //GET api/expense/userId={userId}/startDate={startDate}/endDate={endDate}
+    [HttpGet("userId={userId}/startDate={startDate}/endDate={endDate}")]
+    public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetIncomeByUserIdAndDateRange(int userId, DateTime startDate, DateTime endDate)
+    {
+        try
+        {
+            IEnumerable<IncomeDTO> incomes = await _incomeService.GetIncomeByUserIdAndDateRangeAsync(userId, startDate, endDate);
+            if(incomes == null || !incomes.Any())
+            {
+                return NotFound("No incomes found for the given date range and User.");
+            }
+            return Ok(incomes);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving incomes: {ex.Message}");
         }
     }
 
