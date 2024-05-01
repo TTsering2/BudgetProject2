@@ -92,7 +92,7 @@ public class IncomeService : IIncomeService{
         {
             if(ValidatorIncome.ValidateAllIncome(entity.Title, entity.Type,(decimal) entity.Amount))
             {
-                await _incomerepo.UpdatAnIncomeeAsync(incomeId, entity);
+                await _incomerepo.UpdateAnIncomeAsync(incomeId, entity);
             }
 
         }
