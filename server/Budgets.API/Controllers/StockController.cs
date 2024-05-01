@@ -112,16 +112,6 @@ public class StockController : ControllerBase {
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
         }
     }
-    // public ActionResult<StockUpdateDTO> UpdateStock(int stockId, StockUpdateDTO stock){
-    //     try{
-    //             StockUpdateDTO updatedStock = _stockServices.UpdateStock(stockId, stock);
-        
-    //         return updatedStock;
-    //         }
-        
-    //     catch (Exception ex){
-    //         return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
-    //     }
         
         
     
