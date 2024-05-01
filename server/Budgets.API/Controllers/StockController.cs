@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Budgets.Models;
 using Budgets.Services;
 using Budgets.Data;
+using Budgets.DTOs;
 
 
 namespace Budget.Controllers;
@@ -23,7 +24,7 @@ public class StockController : ControllerBase {
     [HttpGet("user/{UserId}")]
     public ActionResult<IEnumerable<Stock>> GetAllStocksForUser(int UserId){
         try {
-            IEnumerable<Stock> Stocks = _stockServices.GetAllStocksForUser(UserId);
+            IEnumerable<StockDTO> Stocks = _stockServices.GetAllStocksForUser(UserId);
 
             if(Stocks == null || !Stocks.Any()){
                 return NotFound("No Stocks found for the given User.");
@@ -42,13 +43,21 @@ public class StockController : ControllerBase {
     /// <param name="Id">The ID of the Stock.</param>
     /// <returns>An ActionResult containing the Stock.</returns>
     [HttpGet("{Id}")]
-    public ActionResult<Stock> GetStockById(int Id) {
-        Stock stock = _stockServices.GetStockById(Id);
-        if (stock == null){
-            return NotFound("This stock does not exist.");
+    public ActionResult<StockDTO> GetStockById(int Id) {
+        try{
+            Stock stock = _stockServices.GetStockById(Id);
+            if(stock == null){
+                return NotFound("Stock not found.");
+            }
+            return Ok(stock);
         }
-        return Ok(stock);
+        catch (Exception ex){
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving Stock by Id: {ex.Message}");
+        }
+    
     }
+
+
 
     /// <summary>
     /// Add a Stock.
@@ -56,10 +65,25 @@ public class StockController : ControllerBase {
     /// <param name="stock">The Stock object to be added.</param>
     /// <returns>An ActionResult containing the newly added Stock.</returns>
     [HttpPost]
-    public ActionResult<Stock> AddStock(Stock stock){
-        Stock newStock = _stockServices.AddStock(stock);
-        return newStock;
+    public async Task<ActionResult<StockCreateDTO>> AddStock([FromBody]StockCreateDTO stock)
+    {
+        try
+        {
+            if (stock == null)
+            {
+                return BadRequest("Stock is null.");
+            }
+            
+            StockCreateDTO createdStock = await _stockServices.AddStock(stock);
+            return createdStock;
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error adding Stock: {ex.Message}");
+        }
     }
+
+
 
     /// <summary>
     /// Update a Stock.
@@ -68,12 +92,18 @@ public class StockController : ControllerBase {
     /// <param name="stock">The updated Stock object.</param>
     /// <returns>An ActionResult containing the updated Stock.</returns>
     [HttpPut("{Id}")]
-    public ActionResult<Stock> UpdateStock(int Id, Stock stock){
-        if(stock == null){
-            return BadRequest("Id does not match.");
+    public ActionResult<Stock> UpdateStock(int stockId, StockUpdateDTO stock){
+        try{
+                Stock updatedStock = _stockServices.UpdateStock(stockId, stock);
+        
+            return updatedStock;
+            }
+        
+        catch (Exception ex){
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
         }
-        Stock updatedStock = _stockServices.UpdateStock(stock);
-        return updatedStock;
+        
+        
     }
 
     /// <summary>
@@ -83,11 +113,17 @@ public class StockController : ControllerBase {
     /// <returns>An ActionResult containing the deleted Stock.</returns>
     [HttpDelete("{Id}")]
     public ActionResult<Stock?> DeleteStock(int Id){
-        Stock deletedStock = _stockServices.DeleteStock(Id);
-        if(deletedStock == null){
-            return NotFound("Stock not found.");
+        try{
+            Stock deletedStock = _stockServices.DeleteStock(Id);
+            if(deletedStock == null){
+                return NotFound("Stock not found.");
+            }
+            return deletedStock;
         }
-        return deletedStock;
+        catch (Exception ex){
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting Stock: {ex.Message}");
+        
+        }
     }
 }
 

@@ -5,6 +5,7 @@ using Budgets.Models;
 using Budgets.Services;
 using Budgets.Data;
 using System.Collections.Generic;
+using Budgets.DTOs;
 
 
 namespace Budgets.Tests;
@@ -26,14 +27,14 @@ public class StockServicesTests{
 
         // Arrange
         int userId = 1;
-        IEnumerable<Stock> stocks = [
-            new Stock
+        IEnumerable<StockDTO> stocks = [
+            new StockDTO
             { 
                 CompanyName = "Apple", 
                 Price = 100, 
                 Quantity = 10
             },
-            new Stock
+            new StockDTO
             {
                 CompanyName = "Google",
                 Price = 200, 
@@ -54,11 +55,11 @@ public class StockServicesTests{
     {
         // Arrange
         int UserId = 1;
-        IEnumerable<Stock> stock = [
+        IEnumerable<StockDTO> stock = [
             
-            new Stock {CompanyName = "Apple", Price = 100, Quantity = 10 },
-            new Stock {CompanyName = "Google", Price = 200, Quantity = 20 },
-            new Stock {CompanyName = "Nvidia", Price = 300, Quantity = 30 }
+            new StockDTO {CompanyName = "Apple", Price = 100, Quantity = 10 },
+            new StockDTO {CompanyName = "Google", Price = 200, Quantity = 20 },
+            new StockDTO {CompanyName = "Nvidia", Price = 300, Quantity = 30 }
     
         ];
         _stockRepository.Setup(repo => repo.GetAllStocksForUser(UserId)).Returns(stock);
@@ -91,17 +92,33 @@ public class StockServicesTests{
     //Test for AddStock, to ensure the method iw adding a stock
 
     [Fact]
-    public void AddStock_ReturnsStock(){
+    public async Task AddStock_ReturnsStock(){
         // Arrange
-        Stock stock = new Stock(){Id = 1, UserId = 1, CompanyName = "Apple", Price = 100, Quantity = 10};
-        _stockRepository.Setup(s => s.AddStock(stock)).Returns(stock);
+        StockCreateDTO stockDTO = new StockCreateDTO(){ UserId = 1, CompanyName = "Apple", Price = 100, Quantity = 10};
+
+        Stock stock = new Stock()
+        {
+            UserId = stockDTO.UserId,
+            CompanyName = stockDTO.CompanyName,
+            Price = stockDTO.Price,
+            Quantity = stockDTO.Quantity
+        };
+        
+       _stockRepository.Setup(s => s.AddStock(stockDTO));
 
         // Act
-        var result = _stockServices.AddStock(stock);
+        await _stockServices.AddStock(stockDTO);
 
         // Assert
-        Assert.Equal(stock, result);
+        _stockRepository.Verify(s => s
+        .AddStock(It.Is<StockCreateDTO>(s => s
+        .UserId == stockDTO.UserId 
+        && s.CompanyName == stockDTO.CompanyName 
+        && s.Price == stockDTO.Price 
+        && s.Quantity == stockDTO.Quantity)),
+        Times.Once);
     }
+    
 
     //Test for addstock with invalid and valid values, to ensure method is only adding valid values
 
@@ -112,10 +129,10 @@ public class StockServicesTests{
     [InlineData("Apple", 100, -1, false)]
 
 
-    public void AddStock_ValidStock_AddsStock(string companyName, double price, int quantity, bool isValid){
+    public async Task AddStock_ValidStock_AddsStock(string companyName, double price, int quantity, bool isValid){
         // Arrange
-        var stock = new Stock { 
-            Id = 1,
+        var stockCreateDTO = new StockCreateDTO { 
+
             CompanyName = companyName, 
             Price = price, 
             Quantity = quantity 
@@ -123,22 +140,27 @@ public class StockServicesTests{
 
         if (isValid)
         {
-            _stockRepository.Setup(repo => repo.AddStock(stock)).Returns(stock);
+             // Map StockCreateDTO to Stock
+            var stock = new Stock
+            {
+                CompanyName = stockCreateDTO.CompanyName,
+                Price = stockCreateDTO.Price,
+                Quantity = stockCreateDTO.Quantity
+            };
+            _stockRepository.Setup(repo => repo.AddStock(stockCreateDTO));
         }
 
         // Act
-        Stock addedStock = _stockServices.AddStock(stock);
+        await _stockServices.AddStock(stockCreateDTO);
 
         // Assert
         if (isValid)
         {
-            Assert.Equal(stock, addedStock);
-            _stockRepository.Verify(r => r.AddStock(stock), Times.Once);
+            _stockRepository.Verify(r => r.AddStock(stockCreateDTO), Times.Once);
         }
         else
         {
-            Assert.Null(addedStock);
-            _stockRepository.Verify(r => r.AddStock(stock), Times.Never);
+            _stockRepository.Verify(r => r.AddStock(stockCreateDTO), Times.Never);
         }
     }
 
@@ -153,26 +175,40 @@ public class StockServicesTests{
     public void UpdateStock_Test(string companyName, double price, int quantity, bool shouldUpdate)
     {
         // Arrange
-        var stock = new Stock { Id = 1, CompanyName = companyName, Price = price, Quantity = quantity };
+        int stockId = 1;
+        var stockUpdateDTO = new StockUpdateDTO 
+        { 
+            CompanyName = companyName, 
+            Price = price, 
+            Quantity = quantity
+        };
+        
+        var stock = new Stock {
+            Id = stockId, 
+            CompanyName = companyName, 
+            Price = price, 
+            Quantity = quantity     
+        };
+
 
         if (shouldUpdate)
         {
-            _stockRepository.Setup(repo => repo.UpdateStock(stock)).Returns(stock);
+              _stockRepository.Setup(repo => repo.UpdateStock(stockId, stockUpdateDTO)).Returns(stock);
         }
 
         // Act
-        var result = _stockServices.UpdateStock(stock);
+        Stock result = _stockServices.UpdateStock(stockId, stockUpdateDTO);
 
         // Assert
         if (shouldUpdate)
         {
             Assert.Equal(stock, result);
-            _stockRepository.Verify(repo => repo.UpdateStock(stock), Times.Once);
+            _stockRepository.Verify(repo => repo.UpdateStock(stockId, stockUpdateDTO), Times.Once);
         }
         else
         {
             Assert.Null(result);
-            _stockRepository.Verify(repo => repo.UpdateStock(stock), Times.Never);
+            _stockRepository.Verify(repo => repo.UpdateStock(stockId, stockUpdateDTO), Times.Never);
         }
     }
     
