@@ -91,20 +91,40 @@ public class StockController : ControllerBase {
     /// <param name="Id">The ID of the Stock to be updated.</param>
     /// <param name="stock">The updated Stock object.</param>
     /// <returns>An ActionResult containing the updated Stock.</returns>
-    [HttpPut("{Id}")]
-    public ActionResult<Stock> UpdateStock(int stockId, StockUpdateDTO stock){
-        try{
-                Stock updatedStock = _stockServices.UpdateStock(stockId, stock);
-        
-            return updatedStock;
-            }
-        
-        catch (Exception ex){
+    [HttpPatch("{Id}")]
+    public ActionResult<StockUpdateDTO> UpdateStock(int stockId, StockUpdateDTO stock){
+        try
+        {
+            Stock updatedStock = _stockServices.UpdateStock(stockId, stock);
+
+            // Map Stock to StockUpdateDTO
+            var updatedStockDTO = new StockUpdateDTO
+            {
+                CompanyName = updatedStock.CompanyName,
+                Price = updatedStock.Price,
+                Quantity = updatedStock.Quantity
+            };
+
+            return updatedStockDTO;
+        }
+        catch (Exception ex)
+        {
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
         }
-        
-        
     }
+    // public ActionResult<StockUpdateDTO> UpdateStock(int stockId, StockUpdateDTO stock){
+    //     try{
+    //             StockUpdateDTO updatedStock = _stockServices.UpdateStock(stockId, stock);
+        
+    //         return updatedStock;
+    //         }
+        
+    //     catch (Exception ex){
+    //         return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
+    //     }
+        
+        
+    
 
     /// <summary>
     /// Delete a Stock.
@@ -125,5 +145,7 @@ public class StockController : ControllerBase {
         
         }
     }
+
 }
+
 
