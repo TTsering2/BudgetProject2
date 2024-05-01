@@ -1,18 +1,19 @@
 using Budgets.Models;
 using Budgets.Data;
+using Budgets.DTOs;
 
 
 namespace Budgets.Services;
 public interface IStockServices
 {
 
-    IEnumerable<Stock> GetAllStocksForUser(int UserId);
+    IEnumerable<StockDTO> GetAllStocksForUser(int UserId);
     
     Stock? GetStockById (int Id);
 
-    Stock AddStock(Stock stock);
+    public Task<StockCreateDTO> AddStock(StockCreateDTO stock);
 
-    Stock UpdateStock(Stock stock);
+    Stock UpdateStock(int stockId, StockUpdateDTO stock);
     
     Stock DeleteStock(int Id);
 }

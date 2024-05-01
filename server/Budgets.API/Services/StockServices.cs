@@ -1,5 +1,5 @@
-using Microsoft. AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+// using Microsoft. AspNetCore.Mvc;
+// using Microsoft.AspNetCore.Http;
 using Budgets.Models;
 using Budgets.Data;
 using Budgets.DTOs;
@@ -21,7 +21,7 @@ public class StockServices : IStockServices
 
     // Get all Stocks for a given User
 
-    public IEnumerable<Stock> GetAllStocksForUser(int UserId) {
+    public IEnumerable<StockDTO> GetAllStocksForUser(int UserId) {
 
         try{
             _logger.LogInformation($"Getting all Stocks for User: {UserId}");
@@ -49,30 +49,32 @@ public class StockServices : IStockServices
 
 
     // Add a Stock
-    public Stock AddStock(Stock stock) {
+    public async Task<StockCreateDTO?> AddStock(StockCreateDTO stock) {
 
         if(StockValidator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)) {
-            return _stockRepository.AddStock(stock);    
+            await _stockRepository.AddStock(stock);    
+            return stock; // Return the added stock
         }
         else{
-            return null;
+            return default; // Return null as default
         }
     }
 
 
     // Update a Stock
-    public Stock UpdateStock(Stock stock) {
+    public Stock UpdateStock(int stockId, StockUpdateDTO stock) {
         if(StockValidator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)){
-            return _stockRepository.UpdateStock(stock);
+            return _stockRepository.UpdateStock(stockId, stock);
         }
         else{
-            return null;
+            return default; // Return default as null
         }
     }
 
 
     // Delete a Stock
     public Stock DeleteStock(int Id) {
+        
         Stock deletedStock = _stockRepository.DeleteStock(Id);
         return deletedStock;
     }

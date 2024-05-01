@@ -17,8 +17,21 @@ public class StockRepository : IStockRepository
 
 
     // Get all Stocks for a given User
-    public IEnumerable<Stock> GetAllStocksForUser(int UserId) {
-        return _context.Stocks.Where(s => s.UserId == UserId).ToList();
+    public IEnumerable<StockDTO> GetAllStocksForUser(int UserId) {
+        IEnumerable<StockDTO> stocks = _context.Stocks
+        .Where(s => s.UserId == UserId)
+        .Include(s => s.User)
+        .Select(s => new StockDTO
+        {
+            Id = s.Id,
+            CompanyName = s.CompanyName,
+            Price = s.Price,
+            Quantity = s.Quantity,
+            UserId = s.UserId,
+        })
+        .ToList();
+
+        return stocks;
     }
     
     
@@ -30,17 +43,38 @@ public class StockRepository : IStockRepository
 
 
     // Add a Stock
-    public Stock AddStock(Stock stock) {
-        _context.Stocks.Add(stock);
+    public async Task AddStock(StockCreateDTO stock) {
+
+        Stock newStock = new Stock {
+            CompanyName = stock.CompanyName,
+            TickerSymbol = stock.TickerSymbol,
+            Price = stock.Price,
+            Quantity = stock.Quantity,
+            UserId = stock.UserId
+        };
+        _context.Stocks.Add(newStock);
         _context.SaveChanges();
-        return stock;
+        Console.WriteLine("Stock added successfully.");
     }
 
     // Update a Stock
-    public Stock UpdateStock(Stock stock) {
-        _context.Stocks.Update(stock);
+    public Stock UpdateStock(int stockId, StockUpdateDTO stock) {
+
+        //find stock by Id
+        Stock oldStock = _context.Stocks
+        .Include(s => s.User) //include user info
+        .FirstOrDefault(s => s.Id == stockId);
+        
+        if(oldStock == null){
+            throw new Exception($"Stock with Id {stockId} not found.");
+        } else {
+            oldStock.CompanyName = stock.CompanyName ?? oldStock.CompanyName;
+            oldStock.TickerSymbol = stock.TickerSymbol ?? oldStock.TickerSymbol;
+            oldStock.Price = stock.Price;
+            oldStock.Quantity = stock.Quantity;
+        }
         _context.SaveChanges();
-        return stock;
+            return oldStock;
     }
 
 

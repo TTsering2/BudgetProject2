@@ -5,6 +5,7 @@
 // using Budgets.Data;
 // using Budget.Controllers;
 // using Microsoft.AspNetCore.Mvc;
+// using Budgets.DTOs;
 
 
 // public class StockControllerTests
@@ -17,14 +18,24 @@
 //     {
 //         _stockRepository = new Mock<IStockRepository>();
 //         _stockServices = new Mock<IStockServices>();
-//         _stockController = new StockController(_stockRepository.Object, _stockServices.Object);
+//         _stockController = new StockController(_stockServices.Object);
 //     }
 
 //     [Fact]
 //     public void GetAllStocksForUser_ValidUserId_ReturnsOkResult()
 //     {
 //         // Arrange
-//         var stocks = new List<Stock> { new Stock { Id = 1, CompanyName = "Apple", Price = 100, Quantity = 10 } };
+//         var stocks = new List<StockDTO> { 
+//             new StockDTO { 
+//                 Id = 1,
+//                 CompanyName = "Apple",
+//                 TickerSymbol = "AAPL",
+//                 Price = 100, 
+//                 Quantity = 10, 
+//                 Date = DateTime.Now,
+//                 UserId = 1
+//             } 
+//         };
 //         _stockServices.Setup(services => services.GetAllStocksForUser(It.IsAny<int>())).Returns(stocks);
 
 //         // Act
@@ -32,7 +43,7 @@
 
 //         // Assert
 //         var okResult = Assert.IsType<OkObjectResult>(result.Result);
-//         var returnStocks = Assert.IsType<List<Stock>>(okResult.Value);
+//         var returnStocks = Assert.IsType<List<StockDTO>>(okResult.Value);
 //         Assert.Equal(stocks, returnStocks);
 //     }
 

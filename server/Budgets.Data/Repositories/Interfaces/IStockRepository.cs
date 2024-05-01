@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Budgets.Models;
+using Budgets.DTOs;
 
 namespace Budgets.Data
 {
@@ -7,15 +8,15 @@ namespace Budgets.Data
     {
         // public Stock AddStock(Stock stock);
 
-        public IEnumerable<Stock> GetAllStocksForUser(int UserId);
+        IEnumerable<StockDTO> GetAllStocksForUser(int UserId);
 
-        public Stock? GetStockById(int Id);
+        Stock? GetStockById(int Id);
 
-        public Stock AddStock(Stock stock);
+        Task AddStock(StockCreateDTO stock);
 
-        public Stock UpdateStock(Stock stock);
+        Stock UpdateStock(int stockId, StockUpdateDTO stock);
 
-        public Stock DeleteStock(int Id);
+        Stock DeleteStock(int Id);
 
     }
 }
