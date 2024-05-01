@@ -38,20 +38,23 @@ public class UserService : IUserService
 
             return null;
     }
-    public User? UpdateUser(User user){
+    public User? UpdateUser(UserDTO user){
         User userToUpdate = GetUserById(user.Id);
         if(userToUpdate == null){
             return null;
         }
         else{
-            if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
-                userToUpdate.Name = user.Name;
-                userToUpdate.Username = user.Username;
-                userToUpdate.Password = user.Password;
-                 if(_userRepository.GetUserByUsername(user.Username) == null){
-                    return _userRepository.UpdateUser(userToUpdate);
+
+                userToUpdate.Name = user.Name ?? userToUpdate.Name;
+                userToUpdate.Username = user.Username ?? userToUpdate.Username;
+                userToUpdate.Password = user.Password ?? userToUpdate.Password;
+
+                if(_validator.ValidateUser(userToUpdate.Username, userToUpdate.Name, userToUpdate.Password)){
+                    if(_userRepository.GetUserByUsername(userToUpdate.Username) == null || userToUpdate.Username == user.Username){
+                        return _userRepository.UpdateUser(userToUpdate);
+                    }
                 }
-            }
+
         }
 
         return null;

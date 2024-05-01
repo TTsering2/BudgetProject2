@@ -140,7 +140,7 @@ namespace Budgets.Controller
         /// <param name="user">The user to be updated.</param>
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
-        public IActionResult UpdateUser(User user)
+        public IActionResult UpdateUser(UserDTO user)
         {
             try
             {

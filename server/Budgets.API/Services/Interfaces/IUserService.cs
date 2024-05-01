@@ -8,7 +8,7 @@ public interface IUserService
 
     public List<User>? ListUsers();
     public User? AddUser(User user);
-    public User? UpdateUser(User user);
+    public User? UpdateUser(UserDTO user);
     public bool DeleteUser(int id);
     public User? GetUserById(int id);
     public User? GetUserByUserName(string username);
