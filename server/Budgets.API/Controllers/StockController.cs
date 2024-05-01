@@ -90,7 +90,7 @@ public class StockController : ControllerBase {
     /// <param name="Id">The ID of the Stock to be updated.</param>
     /// <param name="stock">The updated Stock object.</param>
     /// <returns>An ActionResult containing the updated Stock.</returns>
-    [HttpPatch("{Id}")]
+    [HttpPut("{Id}")]
     public ActionResult<Stock> UpdateStock(int stockId, StockUpdateDTO stock){
         try{
                 Stock updatedStock = _stockServices.UpdateStock(stockId, stock);

@@ -135,10 +135,10 @@ namespace Budgets.Controller
         }
 
         /// <summary>
-        /// Updates an existing user.
+        /// Updates an existing use```r.
         /// </summary>
         /// <param name="user">The user to be updated.</param>
-        [HttpPut]
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         public IActionResult UpdateUser(User user)
         {
