@@ -84,7 +84,6 @@ public class StockController : ControllerBase {
     }
 
 
-
     /// <summary>
     /// Update a Stock.
     /// </summary>
