@@ -12,11 +12,11 @@ public class Stock
     public string CompanyName { get; set; }
     public string TickerSymbol { get; set; }
 
-    // [Required(ErrorMessage = "Price is required")]
+    [Required(ErrorMessage = "Price is required")]
     public double Price { get; set; }
     public int Quantity { get; set; }
 
-    // [Required(ErrorMessage = "Quanity of stocks is required")]
+    [Required(ErrorMessage = "Quanity of stocks is required")]
     public int UserId { get; set; }
     public virtual User? User { get; set; }
 
