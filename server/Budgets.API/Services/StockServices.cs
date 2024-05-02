@@ -63,7 +63,9 @@ public class StockServices : IStockServices
 
     // Update a Stock
     public Stock UpdateStock(int stockId, StockUpdateDTO stock) {
-        if(StockValidator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)){
+        double price = stock.Price ?? default(double);
+        int quantity = stock.Quantity ?? default(int);
+        if(StockValidator.ValidateAll(stock.CompanyName, price, quantity)){
             return _stockRepository.UpdateStock(stockId, stock);
         }
         else{

@@ -97,6 +97,9 @@ public class StockController : ControllerBase {
         {
             Stock updatedStock = _stockServices.UpdateStock(stockId, stock);
 
+             if (updatedStock == null){
+                    return NotFound("The stock could not be updated.");
+                }
             // Map Stock to StockUpdateDTO
             var updatedStockDTO = new StockUpdateDTO
             {

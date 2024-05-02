@@ -70,8 +70,8 @@ public class StockRepository : IStockRepository
         } else {
             oldStock.CompanyName = stock.CompanyName ?? oldStock.CompanyName;
             oldStock.TickerSymbol = stock.TickerSymbol ?? oldStock.TickerSymbol;
-            oldStock.Price = stock.Price;
-            oldStock.Quantity = stock.Quantity;
+            oldStock.Price = stock.Price ?? oldStock.Price;
+            oldStock.Quantity = stock.Quantity ?? oldStock.Quantity;
         }
         _context.SaveChanges();
             return oldStock;
