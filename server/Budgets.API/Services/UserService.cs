@@ -2,84 +2,105 @@ using Budgets.Data;
 using Budgets.DTOs;
 using Budgets.Models;
 using Budgets.Validators;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Budgets.Services;
-public class UserService : IUserService
-{   
-    private readonly IUserRepository _userRepository;
-    private readonly IUserValidator _validator;
+namespace Budgets.Services
+{
+    public class UserService : IUserService
+    {
+        private readonly IUserRepository _userRepository;
+        private readonly IUserValidator _validator;
+        private readonly ILogger<UserService> _logger;
 
-    private readonly ILogger<UserService> _logger;
-
-    public UserService(IUserRepository userRepository, IUserValidator validator,  ILogger<UserService> logger){
-        _userRepository = userRepository;
-        _validator = validator;
-        _logger = logger;
-
-    }
-    public List<User>? ListUsers(){
-        return _userRepository.ListUsers().ToList();
-    }
-    public User? GetUserById(int id){
-        return _userRepository.GetUserById(id);
-    }
-
-    public User? GetUserByUserName(string username){
-        return _userRepository.GetUserByUsername(username);
-    }
-
-    public User? AddUser(User user){
-        //If we already have user with this name
-        if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
-            if(_userRepository.GetUserByUsername(user.Username) == null){
-                return _userRepository.AddUser(user);
-            }
+        public UserService(IUserRepository userRepository, IUserValidator validator, ILogger<UserService> logger)
+        {
+            _userRepository = userRepository;
+            _validator = validator;
+            _logger = logger;
         }
+
+        public async Task<IEnumerable<User>>? ListUsers()
+        {
+            return await _userRepository.ListUsers();
+        }
+
+        public async Task<User>? AddUser(UserCreateDTO user)
+        {
+            // If the user is valid and does not already exist
+            if (_validator.ValidateUser(user.Username, user.Name, user.Password) && await _userRepository.GetUserByUsername(user.Username) == null)
+            {
+                User newUser = new User
+                {
+                    Username = user.Username,
+                    Name = user.Name,
+                    Password = user.Password
+                };
+                return await _userRepository.AddUser(newUser);
+            }
 
             return null;
-    }
-    public User? UpdateUser(User user){
-        User userToUpdate = GetUserById(user.Id);
-        if(userToUpdate == null){
-            return null;
-        }
-        else{
-            if(_validator.ValidateUser(user.Username, user.Name, user.Password)){
-                userToUpdate.Name = user.Name;
-                userToUpdate.Username = user.Username;
-                userToUpdate.Password = user.Password;
-                 if(_userRepository.GetUserByUsername(user.Username) == null){
-                    return _userRepository.UpdateUser(userToUpdate);
-                }
-            }
         }
 
+        public async Task<User>? UpdateUser(UserUpdateDTO user)
+        {
+           User userToUpdate = await _userRepository.GetUserById(user.Id);
+    if (userToUpdate == null)
+    {
         return null;
     }
-    public bool DeleteUser(int id){
-        User userToDelete = _userRepository.GetUserById(id);
-         if(userToDelete == null){
-            return false;
-        }
-        else{
-             _userRepository.DeleteUser(userToDelete);
-             return true;
-        }
+
+    // Update fields only if they are not null or empty in the DTO
+    if (!string.IsNullOrWhiteSpace(user.Name))
+    {
+        userToUpdate.Name = user.Name;
     }
 
-    public bool ValidateUserStatus(string username, string password){
+    if (!string.IsNullOrWhiteSpace(user.Username))
+    {
+        userToUpdate.Username = user.Username;
+    }
 
-        User userToValidate = _userRepository.GetUserByUsername(username);
-        if(userToValidate != null){
-            if(userToValidate.Password == password){
+    if (!string.IsNullOrWhiteSpace(user.Password))
+    {
+        userToUpdate.Password = user.Password;
+    }
+
+    // Validate and update user
+    if (_validator.ValidateUser(userToUpdate.Username, userToUpdate.Name, userToUpdate.Password))
+    {
+        return await _userRepository.UpdateUser(userToUpdate);
+    }
+
+    return null;
+        }
+
+        public async Task<bool> DeleteUser(int id)
+        {
+            User userToDelete = await _userRepository.GetUserById(id);
+            if (userToDelete != null)
+            {
+                await _userRepository.DeleteUser(userToDelete);
                 return true;
             }
+            return false;
         }
 
-        return false;
+        public async Task<User>? GetUserById(int id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
 
+        public async Task<User>? GetUserByUserName(string username)
+        {
+            return await _userRepository.GetUserByUsername(username);
+        }
+
+        public async Task<bool> ValidateUserStatus(string username, string password)
+        {
+            User userToValidate = await _userRepository.GetUserByUsername(username);
+            return userToValidate != null && userToValidate.Password == password;
+        }
     }
-
-
-
 }

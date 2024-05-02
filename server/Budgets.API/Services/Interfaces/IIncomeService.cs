@@ -13,6 +13,7 @@ public interface IIncomeService
     Task AddAnIncomeAsync(IncomeCreateDTO income);
     Task DeleteAnIncomeAsync(int incomeId);
     Task UpdateAnIncomeAsync(int incomeId, IncomeUpdateDTO income);
+    
     Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate);
 
 }

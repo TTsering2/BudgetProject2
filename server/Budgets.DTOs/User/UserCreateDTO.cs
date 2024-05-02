@@ -1,15 +1,12 @@
-namespace Budgets.DTOs;
 using Budgets.Models;
 
+namespace Budgets.DTOs{
 
-public class UserCreateDTO
-{   
-
+    public class UserCreateDTO{   
     public string Name { get; set; }
     public string Username { get; set; }
-  
-      public UserCreateDTO(string name, string username){
-        Name = name;
-        Username = username;
+    public string Password { get; set; }
+
     }
 }
+

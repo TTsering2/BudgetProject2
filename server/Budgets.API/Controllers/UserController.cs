@@ -1,38 +1,41 @@
 using Budgets.DTOs;
 using Budgets.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Budgets.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-
-namespace Budgets.Controller
+namespace Budgets.Controllers
 {
-
     /// <summary>
     /// Controller for managing user-related operations.
     /// </summary>
-    [Route("/api/[controller]")]
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
         // Constructor to inject IUserService dependency
-        public UserController(IUserService service)
+        public UserController(IUserService userService)
         {
-            _userService = service;
+            _userService = userService;
         }
 
-        
         /// <summary>
         /// Retrieves a list of all users.
         /// </summary>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult ListUsers()
+        public async Task<IActionResult> ListUsers()
         {
             try
             {
+                IEnumerable<User> users = await _userService.ListUsers();
                 // Return a list of users
-                return Ok(_userService.ListUsers());
+                return Ok(users);
             }
             catch (Exception ex)
             {
@@ -43,23 +46,25 @@ namespace Budgets.Controller
             }
         }
 
-           /// <summary>
+        /// <summary>
         /// Retrieves a user by their ID.
         /// </summary>
         /// <param name="id">The ID of the user to retrieve.</param>
         [HttpGet("id/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetUserById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
                 // Return a user by their ID
-                User user = _userService.GetUserById(id);
-                if(user == null){
+                User user = await _userService.GetUserById(id);
+                if (user == null)
+                {
                     return BadRequest();
                 }
-                else{
-                    UserCreateDTO newUser = new UserCreateDTO(user.Name, user.Username);
+                else
+                {
+                    UserDTO newUser = new UserDTO(user.Name, user.Username);
                     return Ok(newUser);
                 }
 
@@ -72,24 +77,26 @@ namespace Budgets.Controller
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
         }
-        
-          /// <summary>
+
+        /// <summary>
         /// Retrieves a user by their username.
         /// </summary>
         /// <param name="username">The username of the user to retrieve.</param>
         [HttpGet("username/{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetUserByUsername(string username)
+        public async Task<IActionResult> GetUserByUsername(string username)
         {
             try
-            {   
-                 // Return a user by their ID
-                User user = _userService.GetUserByUserName(username);
-                if(user == null){
+            {
+                // Return a user by their ID
+                User user = await _userService.GetUserByUserName(username);
+                if (user == null)
+                {
                     return BadRequest();
                 }
-                else{
-                    UserCreateDTO newUser = new UserCreateDTO(user.Name, user.Username);
+                else
+                {
+                    UserDTO newUser = new UserDTO(user.Name, user.Username);
                     return Ok(newUser);
                 }
 
@@ -108,16 +115,16 @@ namespace Budgets.Controller
         /// </summary>
         /// <param name="user">The user to be added.</param>        
         [HttpPost]
-        public IActionResult AddUser(User user)
+        public async Task<IActionResult> AddUser(UserCreateDTO user)
         {
             try
             {
                 // Add a new user
-                User result = _userService.AddUser(user);
+                User result = await _userService.AddUser(user);
                 if (result != null)
                 {
                     // Return a DTO for the created user
-                    UserCreateDTO newUser = new UserCreateDTO(result.Name, result.Username);
+                    UserDTO newUser = new UserDTO(result.Name, result.Username);
                     return Ok(newUser);
                 }
                 else
@@ -138,18 +145,18 @@ namespace Budgets.Controller
         /// Updates an existing user.
         /// </summary>
         /// <param name="user">The user to be updated.</param>
-        [HttpPut]
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
-        public IActionResult UpdateUser(User user)
+        public async Task<IActionResult> UpdateUser(UserUpdateDTO user)
         {
             try
             {
                 // Update an existing user
-                User result = _userService.UpdateUser(user);
+                User result = await _userService.UpdateUser(user);
                 if (result != null)
                 {
                     // Return a DTO for the updated user
-                    UserCreateDTO newUser = new UserCreateDTO(result.Name, result.Username);
+                    UserDTO newUser = new UserDTO(result.Name, result.Username);
                     return Accepted(newUser);
                 }
                 else
@@ -166,21 +173,21 @@ namespace Budgets.Controller
             }
         }
 
-          /// <summary>
+        /// <summary>
         /// Deletes a user by their ID.
         /// </summary>
         /// <param name="userId">The ID of the user to delete.</param>
-        [HttpDelete]
+        [HttpDelete("{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult DeleteUser(int userId)
+        public async Task<IActionResult> DeleteUser(int userId)
         {
             try
             {
                 // Delete a user by their ID
-                bool result = _userService.DeleteUser(userId);
+                bool result = await _userService.DeleteUser(userId);
                 if (result)
                 {
-                    return Accepted(result);
+                    return Ok();
                 }
                 else
                 {
@@ -203,16 +210,16 @@ namespace Budgets.Controller
         /// <param name="password">The password of the user.</param>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Login(string username, string password)
+        public async Task<IActionResult> Login(string username, string password)
         {
             try
             {
                 // Validate user credentials
-                bool AuthUser = _userService.ValidateUserStatus(username, password);
-                if (AuthUser)
+                bool authUser = await _userService.ValidateUserStatus(username, password);
+                if (authUser)
                 {
                     // Return the user's ID if authenticated
-                    User user = _userService.GetUserByUserName(username);
+                    User user = await _userService.GetUserByUserName(username);
                     return Ok(new { UserId = user.Id });
                 }
                 else
