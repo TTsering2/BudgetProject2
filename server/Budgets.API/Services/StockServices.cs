@@ -1,5 +1,4 @@
-// using Microsoft. AspNetCore.Mvc;
-// using Microsoft.AspNetCore.Http;
+
 using Budgets.Models;
 using Budgets.Data;
 using Budgets.DTOs;
@@ -62,12 +61,17 @@ public class StockServices : IStockServices
 
 
     // Update a Stock
-    public Stock UpdateStock(int stockId, StockUpdateDTO stock) {
-        if(StockValidator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)){
-            return _stockRepository.UpdateStock(stockId, stock);
+
+    public async Task UpdateStock(int stockId, StockUpdateDTO stock) {
+        double price = stock.Price ?? default(double);
+        int quantity = stock.Quantity ?? default(int);
+        try {
+            if (StockValidator.ValidateAll(stock.CompanyName, price, quantity)) {
+                await _stockRepository.UpdateStock(stockId, stock);
+            }
         }
-        else{
-            return default; // Return default as null
+        catch (Exception ex) {
+            _logger.LogError(ex, "Failed to update Stock: {StockId}", stockId);
         }
     }
 
@@ -78,5 +82,7 @@ public class StockServices : IStockServices
         Stock deletedStock = _stockRepository.DeleteStock(Id);
         return deletedStock;
     }
+
 }
+
 
