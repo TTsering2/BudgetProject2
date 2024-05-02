@@ -11,9 +11,9 @@ public interface IStockServices
     
     Stock? GetStockById (int Id);
 
-    public Task<StockCreateDTO> AddStock(StockCreateDTO stock);
+    Task<StockCreateDTO> AddStock(StockCreateDTO stock);
 
-    Stock UpdateStock(int stockId, StockUpdateDTO stock);
+    Task UpdateStock(int stockId, StockUpdateDTO stock);
     
     Stock DeleteStock(int Id);
 }

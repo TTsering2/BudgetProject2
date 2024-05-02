@@ -62,16 +62,38 @@ public class StockServices : IStockServices
 
 
     // Update a Stock
-    public Stock UpdateStock(int stockId, StockUpdateDTO stock) {
+
+    public async Task UpdateStock(int stockId, StockUpdateDTO stock) {
         double price = stock.Price ?? default(double);
         int quantity = stock.Quantity ?? default(int);
-        if(StockValidator.ValidateAll(stock.CompanyName, price, quantity)){
-            return _stockRepository.UpdateStock(stockId, stock);
+        try {
+            if (StockValidator.ValidateAll(stock.CompanyName, price, quantity)) {
+                await _stockRepository.UpdateStock(stockId, stock);
+            }
         }
-        else{
-            return default; // Return default as null
+        catch (Exception ex) {
+            _logger.LogError(ex, "Failed to update Stock: {StockId}", stockId);
         }
     }
+    // public Stock UpdateStock(int stockId, StockUpdateDTO stock) {
+
+    //     try{
+    //         if(StockValidator.ValidateAll(stock.CompanyName, stock.Price, stock.Quantity)){
+    //             return _stockRepository.UpdateStock(stockId, stock);
+    //         }
+    //     }
+    //     catch (Exception ex){
+    //         _logger.LogError(ex, "Failed to update Stock: {StockId}", stockId);
+    //     }
+        // double price = stock.Price ?? default(double);
+        // int quantity = stock.Quantity ?? default(int);
+        // if(StockValidator.ValidateAll(stock.CompanyName, price, quantity)){
+        //     return _stockRepository.UpdateStock(stockId, stock);
+        // }
+        // else{
+        //     return default; // Return default as null
+        // }
+    
 
 
     // Delete a Stock
@@ -80,5 +102,7 @@ public class StockServices : IStockServices
         Stock deletedStock = _stockRepository.DeleteStock(Id);
         return deletedStock;
     }
+
 }
+
 

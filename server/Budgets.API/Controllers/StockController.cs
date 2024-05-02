@@ -90,30 +90,39 @@ public class StockController : ControllerBase {
     /// <param name="Id">The ID of the Stock to be updated.</param>
     /// <param name="stock">The updated Stock object.</param>
     /// <returns>An ActionResult containing the updated Stock.</returns>
-    [HttpPatch("{Id}")]
-    public ActionResult<StockUpdateDTO> UpdateStock(int stockId, StockUpdateDTO stock){
-        try
-        {
-            Stock updatedStock = _stockServices.UpdateStock(stockId, stock);
-
-             if (updatedStock == null){
-                    return NotFound("The stock could not be updated.");
-                }
-            // Map Stock to StockUpdateDTO
-            var updatedStockDTO = new StockUpdateDTO
-            {
-                CompanyName = updatedStock.CompanyName,
-                Price = updatedStock.Price,
-                Quantity = updatedStock.Quantity
-            };
-
-            return updatedStockDTO;
+    [HttpPatch("{stockId}")]
+    public async Task<ActionResult> UpdateStock(int stockId, StockUpdateDTO stock) {
+        try {
+            await _stockServices.UpdateStock(stockId, stock);
+            return NoContent();  // Return 204 No Content for successful update
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
         }
     }
+    // public ActionResult<StockUpdateDTO> UpdateStock(int stockId, StockUpdateDTO stock){
+    //     try
+    //     {
+    //         Stock updatedStock = _stockServices.UpdateStock(stockId, stock);
+
+    //          if (updatedStock == null){
+    //                 return NotFound("The stock could not be updated.");
+    //             }
+    //         // Map Stock to StockUpdateDTO
+    //         var updatedStockDTO = new StockUpdateDTO
+    //         {
+    //             CompanyName = updatedStock.CompanyName,
+    //             Price = updatedStock.Price,
+    //             Quantity = updatedStock.Quantity
+    //         };
+
+    //         return updatedStockDTO;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
+    //     }
+    // }
         
         
     

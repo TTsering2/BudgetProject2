@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 public static class StockValidator
 {
     public static bool ValidateName(string companyName){
-        if(string.IsNullOrEmpty(companyName) || Regex.IsMatch(companyName, @"[!@#$%^&*]")){
+        if(companyName =="" || companyName ==null || Regex.IsMatch(companyName, @"[!@#$%^&*]")){
 
             return false;
         }
@@ -15,12 +15,22 @@ public static class StockValidator
 
     public static bool ValidatePrice(double price)
     {
-        return price > 0;
+        if(price < 0){
+           return false;
+        }
+        else{
+           return true;
+        }
     }
 
     public static bool ValidateQuantity(int quantity)
     {
-        return quantity > 0;
+        if(quantity < 0){
+           return false;
+        }
+        else{
+           return true;
+        }
     }
 
     public static bool ValidateAll(string companyName, double price, int quantity){
