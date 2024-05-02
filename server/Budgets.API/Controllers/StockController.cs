@@ -100,32 +100,6 @@ public class StockController : ControllerBase {
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
         }
     }
-    // public ActionResult<StockUpdateDTO> UpdateStock(int stockId, StockUpdateDTO stock){
-    //     try
-    //     {
-    //         Stock updatedStock = _stockServices.UpdateStock(stockId, stock);
-
-    //          if (updatedStock == null){
-    //                 return NotFound("The stock could not be updated.");
-    //             }
-    //         // Map Stock to StockUpdateDTO
-    //         var updatedStockDTO = new StockUpdateDTO
-    //         {
-    //             CompanyName = updatedStock.CompanyName,
-    //             Price = updatedStock.Price,
-    //             Quantity = updatedStock.Quantity
-    //         };
-
-    //         return updatedStockDTO;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
-    //     }
-    // }
-        
-        
-    
 
     /// <summary>
     /// Delete a Stock.
