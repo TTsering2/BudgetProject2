@@ -8,7 +8,7 @@ const LandingPage = () => {
 
                 <section className="flex flex-row mb-4">
                     <div>
-                        <h1 className="text-4xl w-6/12 font-semibold	">Empower Your Wallet, Master Your Money</h1>
+                        <h1 className="text-4xl w-6/12 font-semibold">Empower Your Wallet, Master Your Money</h1>
                         <p className="w-6/12 font-medium mt-6">Introducing SpendWise – your go-to financial management app for effortless budgeting. Easily track income and expenses, set budgets, and gain insights into your spending habits. With SpendWise, smart financial decisions are just a tap away. 
                             Download now and take control of your finances!</p>
                         <div className="mt-6 font-medium">
@@ -17,7 +17,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                     <div>
-                        <img src="./assets/wallet_img.svg" alt="wallet" className="w-9/12"></img>
+                        <img src="./assets/wallet_img.svg" alt="wallet" className="w-96"></img>
                     </div>
                 </section>
 

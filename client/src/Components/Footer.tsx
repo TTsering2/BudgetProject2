@@ -2,6 +2,7 @@
 const Footer = () => {
     return (
         <footer className="footer bg-[#0A2430] text-white p-6">
+            <div className="w-10/12 mx-auto">
             <section className="flex flex-row  items-center justify-between pb-4">
                 <div className="flex flex-row mr-6 items-center	">
                     <img src="./assets/logo_footer.png" alt="logo" className="mr-4 w-12"></img>
@@ -29,6 +30,8 @@ const Footer = () => {
             <section>
                 <p className="text-center border-t-2 p-2">Copyright © 2024 SpendWise | All Rights Reserved </p>
             </section>
+            </div>
+          
         </footer>
     )
 }
