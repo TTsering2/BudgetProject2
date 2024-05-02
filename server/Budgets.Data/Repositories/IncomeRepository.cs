@@ -106,7 +106,7 @@ public class IncomeRepository : IIncomeRepository{
     }
 
     //Updating Income Inforamtion 
-    public async Task UpdatAnIncomeeAsync(int incomeId, IncomeUpdateDTO entity)
+    public async Task UpdateAnIncomeAsync(int incomeId, IncomeUpdateDTO entity)
     {
         Income oldIncome = await _dbContext.Incomes
         .Include(i => i.User)                           //user information

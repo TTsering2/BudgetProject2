@@ -5,6 +5,7 @@ using Budgets.Models;
 using Budgets.Services;
 using Budgets.Data;
 using Budgets.DTOs;
+using System.Reflection.Metadata.Ecma335;
 
 
 
@@ -22,8 +23,8 @@ public class IncomeController : ControllerBase{
     }
 
 
-    //get all expenses for a user
-    //GET: api/expense/userId={userId}
+    //get all income for a user
+    //GET: api/income/userId={userId}
     [HttpGet("userId={userId}")]
     public async Task<ActionResult<IEnumerable<IncomeDTO>>> GetAllIncomeByUserId(int userId)
     {
@@ -116,18 +117,20 @@ public class IncomeController : ControllerBase{
 
     //update an income
     //PATCH api/income/{incomeId}
-    [HttpPatch("{incomeID}")]
-    public async Task<ActionResult> UpdateAnExpense(int incomeId, IncomeUpdateDTO income)
+    [HttpPatch("{incomeId}")]
+    public async Task<ActionResult> UpdateAnIncome(int incomeId, IncomeUpdateDTO income)
     {
         try
         {
             await _incomeService.UpdateAnIncomeAsync(incomeId, income);
-            return NoContent();
+            return NoContent();  // Return 204 No Content for successful update
+            
         }
         catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating income: {ex.Message}");
         }
+
     }
 
 
