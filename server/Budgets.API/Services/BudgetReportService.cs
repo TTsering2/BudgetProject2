@@ -15,7 +15,7 @@ public class BudgetReportService : IBudgetReportService
         _expenseRepository = expenseRepository;
     }
 
-    public async Task<ExpenseReportDTO>? GetExpenseReportByDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
+    public async Task<ExpenseReportDTO> GetExpenseReportByDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
     {
  
         //grab all expenses from a given date range
@@ -52,7 +52,7 @@ public class BudgetReportService : IBudgetReportService
         return expenseReport;
     }
 
-    public async Task<IncomeReportDTO?> GetIncomeReportByDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
+    public async Task<IncomeReportDTO> GetIncomeReportByDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
     {        
         //grab all expenses from a given date range
         IEnumerable<IncomeDTO> incomes = await _incomeRepository.GetIncomeByUserIdAndDateRangeAsync(userId, startDate, endDate);

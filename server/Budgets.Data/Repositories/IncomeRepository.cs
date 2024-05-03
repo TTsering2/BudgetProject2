@@ -126,7 +126,7 @@ public class IncomeRepository : IIncomeRepository{
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
+    public async Task<IEnumerable<IncomeDTO>> GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
         IEnumerable<IncomeDTO> incomes = await _dbContext.Incomes
             .Where(i => i.UserId == userId && i.Date >= startDate && i.Date <= endDate)
             .Include(i => i.User)
