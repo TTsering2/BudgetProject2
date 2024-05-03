@@ -3,7 +3,7 @@ import Footer from "./Footer";
 const LandingPage = () => {
     return(
         <div className="bg-[url('/assets/bg.png')] bg-cover bg-center	">  
-            <Header></Header>
+            <Header myBoolProp={true}></Header>
             <main className="w-10/12 mx-auto">
 
                 <section className="flex flex-row mb-1 mt-5 items-start">
