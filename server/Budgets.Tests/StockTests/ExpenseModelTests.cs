@@ -54,6 +54,16 @@ public class ExpenseTests
     }
 
     // [Fact]
+    // public void Model_Initialization_Fails_When_Variable_Is_Empty()
+    // {
+    //     // Arrange
+    //     string requiredVariable = "";
+
+    //     // Act & Assert
+    //     Assert.Throws<ArgumentException>(() => new YourModel(requiredVariable));
+    // }
+
+    // [Fact]
     // public void User_WithEmptyTitle_ShouldThrowException()
     // {
         // Arrange

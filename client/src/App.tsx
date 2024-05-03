@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import LandingPage from "./Components/LandingPage";
 import AuthForm from './FormComponent';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <div>
-      <button onClick={() => setIsLogin(!isLogin)}>
-        {isLogin ? 'Sign Up' : 'Login'}
-      </button>
-      <AuthForm isLogin={isLogin} />
-    </div>
-      
+      <>
+        <LandingPage></LandingPage>
+    </>
   )
 }
+
+
 
 export default App
