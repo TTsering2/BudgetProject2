@@ -2,7 +2,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 const LandingPage = () => {
     return(
-        <>  
+        <div className="bg-[url('/assets/bg.png')] bg-cover">  
             <Header></Header>
             <main className="w-10/12 mx-auto">
 
@@ -17,7 +17,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                     <div className="w-11/12 border-solid">
-                        <img src="./assets/wallet_img.svg" alt="wallet" className="w-96 block m-auto"></img>
+                        <img src="./assets/wallet.png" alt="wallet" className="w-96 block m-auto"></img>
                     </div>
                 </section>
 
@@ -36,7 +36,7 @@ const LandingPage = () => {
 
             </main>
             <Footer></Footer>
-        </>
+        </div>
     )
 }
 
