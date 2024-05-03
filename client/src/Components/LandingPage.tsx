@@ -6,7 +6,7 @@ const LandingPage = () => {
             <Header></Header>
             <main className="w-10/12 mx-auto">
 
-                <section className="flex flex-row mb-1 mt-5">
+                <section className="flex flex-row mb-1 mt-5 items-start">
                     <div className="w-10/12">
                         <h1 className="text-4xl w-11/12 font-semibold">Empower Your Wallet, Master Your Money</h1>
                         <p className="w-10/12 font-medium mt-6">Introducing SpendWise – your go-to financial management app for effortless budgeting. Easily track income and expenses, set budgets, and gain insights into your spending habits. With SpendWise, smart financial decisions are just a tap away. 
@@ -17,7 +17,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                     <div className="w-11/12 border-solid">
-                        <img src="./assets/wallet.png" alt="wallet" className="w-96 block m-auto"></img>
+                        <img src="./assets/wallet.png" alt="wallet" className="w-9/12 m-auto"></img>
                     </div>
                 </section>
 
