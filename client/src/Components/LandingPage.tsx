@@ -2,7 +2,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 const LandingPage = () => {
     return(
-        <div className="bg-[url('/assets/bg.png')] bg-cover bg-center	">  
+        <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">  
             <Header myBoolProp={true}></Header>
             <main className="w-10/12 mx-auto">
 
