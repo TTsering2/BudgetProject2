@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
-import AuthForm from './FormComponent';
+
+import LoginPage from "./LoginPage/LoginPage.tsx";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <div>
-      <button onClick={() => setIsLogin(!isLogin)}>
-        {isLogin ? 'Sign Up' : 'Login'}
-      </button>
-      <AuthForm isLogin={isLogin} />
-    </div>
-      
+      <div>
+        <LoginPage />
+      </div>
   )
 }
 
