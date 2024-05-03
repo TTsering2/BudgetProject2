@@ -18,7 +18,7 @@ public interface IIncomeRepository{
 
     Task UpdateAnIncomeAsync(int incomeId, IncomeUpdateDTO income);
 
-    Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate);
+    Task<IEnumerable<IncomeDTO>> GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate);
 
     
     
