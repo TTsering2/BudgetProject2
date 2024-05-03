@@ -137,15 +137,8 @@ public class IncomeRepository : IIncomeRepository{
                 Amount = i.Amount,
                 Date = i.Date,
                 Username = i.User.Username
-
-
             })
-
-            
-
             .ToListAsync();
         return incomes;
-
-
     }
 }

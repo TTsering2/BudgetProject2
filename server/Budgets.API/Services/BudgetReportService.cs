@@ -38,6 +38,7 @@ public class BudgetReportService : IBudgetReportService
 
         //TODOgrab top 3 expenses
         List<ExpenseDTO> big3Expenses = new List<ExpenseDTO>();
+        big3Expenses = expenses.OrderByDescending(e => e.Amount).Take(3).ToList();
 
         //map the expensesByType, startDate, endDate, and big3Expenses to a BudgetReportDTO
         ExpenseReportDTO expenseReport = new ExpenseReportDTO
@@ -49,7 +50,41 @@ public class BudgetReportService : IBudgetReportService
         };
 
         return expenseReport;
+    }
 
+    public async Task<IncomeReportDTO?> GetIncomeReportByDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
+    {        
+        //grab all expenses from a given date range
+        IEnumerable<IncomeDTO> incomes = await _incomeRepository.GetIncomeByUserIdAndDateRangeAsync(userId, startDate, endDate);
+        
+        //group expenses by type
+        Dictionary<string, decimal> incomesByType = new Dictionary<string, decimal>();
+
+        foreach(IncomeDTO income in incomes)
+        {
+            if(incomesByType.ContainsKey(income.Type))
+            {
+                incomesByType[income.Type] += income.Amount;
+            }
+            else
+            {
+                incomesByType.Add(income.Type, income.Amount);
+            }
+        }
+
+        List<IncomeDTO> big3Incomes = new List<IncomeDTO>();
+        big3Incomes = incomes.OrderByDescending(e => e.Amount).Take(3).ToList();
+
+        //map the expensesByType, startDate, endDate, and big3Expenses to a BudgetReportDTO
+        IncomeReportDTO incomeReport = new IncomeReportDTO()
+        {
+            StartDate = startDate,
+            EndDate = endDate,
+            IncomeByCategory = incomesByType,
+            Top3Incomes = big3Incomes
+        };
+
+        return incomeReport;
 
     }
 }
