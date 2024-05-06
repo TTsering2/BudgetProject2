@@ -10,7 +10,7 @@ const Header = (props: joinUsProps) => {
  
  
     return (
-        <header className="header text-black p-6 w-10/12 mx-auto aling-center flex flex-row justify-between">
+        <header className="header text-black p-6 w-[1350px] mx-auto aling-center flex flex-row justify-between">
                 <div>
                         <img src="./assets/SpendWiseTop.svg" alt="logo" className="mr-4 w-40"></img>
                     </div>
@@ -24,7 +24,7 @@ const Header = (props: joinUsProps) => {
                             <li  className="mr-5"><a href="https://www.foxnews.com">Calendar</a></li>
                     </ul>
 
-                    <a href=""><img src="./assets/JoinUs.svg" className="w-32  mr-2 ml-10"></img></a>
+                    <a href="" className='bg-[#0A2430] text-white p-2 pl-5 pr-5 rounded-lg ml-20'>Log Out</a>
 
 
                 </section>
