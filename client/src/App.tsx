@@ -18,15 +18,16 @@ import RequireAuth from "@/Components/RequireAuth";
 const App = () => {
   const navigate = useNavigate();
 
-  const setNavigateToLandingPage:() => void = () => {
-    navigate("/");
-  }
+  // const setNavigateToLandingPage:() => void = () => {
+  //   navigate("/");
+  // }
 
   const setNavigateToUserCredentials:() => void = () => {
     navigate("/userCredentials");
   }
 
   return (
+    <div className="App">
     <AuthProvider>
       <Routes>
       {/* Route LandingPage */}
@@ -71,6 +72,7 @@ const App = () => {
         }/>  
       </Routes>
     </AuthProvider>
+    </div>
   )
 }
 
