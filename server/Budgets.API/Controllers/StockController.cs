@@ -90,6 +90,7 @@ public class StockController : ControllerBase {
     /// <param name="Id">The ID of the Stock to be updated.</param>
     /// <param name="stock">The updated Stock object.</param>
     /// <returns>An ActionResult containing the updated Stock.</returns>
+<<<<<<< HEAD
     [HttpPatch("{Id}")]
     public ActionResult<Stock> UpdateStock(int stockId, StockUpdateDTO stock){
         try{
@@ -99,10 +100,17 @@ public class StockController : ControllerBase {
             }
         
         catch (Exception ex){
+=======
+    [HttpPatch("{stockId}")]
+    public async Task<ActionResult> UpdateStock(int stockId, StockUpdateDTO stock) {
+        try {
+            await _stockServices.UpdateStock(stockId, stock);
+            return NoContent();  // Return 204 No Content for successful update
+        }
+        catch (Exception ex) {
+>>>>>>> 4e95ea3944aa287e99e3c125d4bdab6e3134d303
             return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating Stock: {ex.Message}");
         }
-        
-        
     }
 
     /// <summary>
@@ -124,5 +132,7 @@ public class StockController : ControllerBase {
         
         }
     }
+
 }
+
 

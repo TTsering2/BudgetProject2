@@ -14,7 +14,7 @@ namespace Budgets.Data
 
         Task AddStock(StockCreateDTO stock);
 
-        Stock UpdateStock(int stockId, StockUpdateDTO stock);
+        Task<Stock> UpdateStock(int stockId, StockUpdateDTO stock);
 
         Stock DeleteStock(int Id);
 

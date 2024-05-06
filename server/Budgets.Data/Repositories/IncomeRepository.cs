@@ -106,7 +106,7 @@ public class IncomeRepository : IIncomeRepository{
     }
 
     //Updating Income Inforamtion 
-    public async Task UpdatAnIncomeeAsync(int incomeId, IncomeUpdateDTO entity)
+    public async Task UpdateAnIncomeAsync(int incomeId, IncomeUpdateDTO entity)
     {
         Income oldIncome = await _dbContext.Incomes
         .Include(i => i.User)                           //user information
@@ -126,7 +126,7 @@ public class IncomeRepository : IIncomeRepository{
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<IncomeDTO>>? GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
+    public async Task<IEnumerable<IncomeDTO>> GetIncomeByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate){
         IEnumerable<IncomeDTO> incomes = await _dbContext.Incomes
             .Where(i => i.UserId == userId && i.Date >= startDate && i.Date <= endDate)
             .Include(i => i.User)
@@ -137,15 +137,8 @@ public class IncomeRepository : IIncomeRepository{
                 Amount = i.Amount,
                 Date = i.Date,
                 Username = i.User.Username
-
-
             })
-
-            
-
             .ToListAsync();
         return incomes;
-
-
     }
 }

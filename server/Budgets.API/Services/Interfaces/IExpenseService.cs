@@ -12,6 +12,6 @@ public interface IExpenseService
     Task AddAnExpenseAsync(ExpenseCreateDTO expense);
     Task DeleteAnExpenseAsync(int expenseId);
     Task UpdateAnExpenseAsync(int expenseId, ExpenseUpdateDTO expense);
-    Task<IEnumerable<ExpenseDTO>>? GetExpensesByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate);
+    Task<IEnumerable<ExpenseDTO>> GetExpensesByUserIdAndDateRangeAsync(int userId, DateTime startDate, DateTime endDate);
 
 }
