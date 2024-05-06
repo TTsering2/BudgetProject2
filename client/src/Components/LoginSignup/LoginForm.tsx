@@ -5,10 +5,8 @@ import x_icon from '../Assets/X.png';
 import google_icon from '../Assets/google.png';
 import './LoginPage.css';
 
-import  LoginUser  from "./LoginUser";
-import AddUser  from "./LoginUser";
-
-
+interface IProps {
+}
 
 
 // import Validation from "./LoginValidator";
@@ -23,13 +21,13 @@ interface FormState {
 }
 
 
-export const LoginForm = () =>{
+export const LoginForm:React.FC<IProps> = (props: IProps) => {
+
     // form title state
     const [action, setAction] = useState("Welcome back");
 
     // form state
     const [userName, setUserName] = useState("");
-    const [name, setName] = useState("");
     const [userPassword, setUserPassword] = useState("");
 
     // Sign In error states
@@ -63,6 +61,11 @@ export const LoginForm = () =>{
 
 //         };
 
+
+    
+
+
+
     // function to handle login submit
         function handleLoginSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -72,24 +75,35 @@ export const LoginForm = () =>{
     }
 
 
-    // Function to handle Signup
-    function handleSignUpSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const name = event.currentTarget.name.value;
-    const username = event.currentTarget.userName.value;
-    const password = event.currentTarget.userPassword.value;
-    AddUser(name, username, password);
+    // Function to login a user
+    async function LoginUser(username: string, password: string) {
+    try{
+        console.log("Attempting to login")
+
+        const response = await fetch(`http://localhost:5112/api/user/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+            method: 'POST',
+        });
+        if(response.ok){
+            const data = await response.json();
+            console.log("Login successful. UserID: " + data.userId)
+        }else{
+            console.log("Login failed. Status:", response.status, "Status text:", response.statusText)
+            const text = await response.text();
+            console.log("Response text:", text);
+        }
+    } catch (error){
+        console.error(error)
+    }
 }
+
+
+
 
          // user input, operate simply input. Without this "onChange" event, we cannot type.
     const UserOnChangeFunction = (synthEvent: ChangeEvent<HTMLInputElement>) => {
         if(synthEvent.target.name === "userName" ){
             setUserName(synthEvent.target.value);
-        }
-        else if(synthEvent.target.name === "name"){
-            setName(synthEvent.target.value);
-        }
-        else if(synthEvent.target.name === "userPassword"){
+        }else if(synthEvent.target.name === "userPassword"){
             setUserPassword(synthEvent.target.value);
         }
     }
@@ -104,10 +118,6 @@ export const LoginForm = () =>{
           
             
             <form onSubmit={handleLoginSubmit}>
-
-                {action==="Welcome Back!"? <div></div> : <div className = "input">
-                    <input placeholder="Name" type="text" value ={name} onChange={UserOnChangeFunction} name="name"/>
-                </div>}
                 
                     
                 <div className = "input">
@@ -126,9 +136,9 @@ export const LoginForm = () =>{
 
                 <div className="submit-container">
                 {/*  <div className="submit">Sign Up</div>*/}
-                <button type = "submit" className={action} onClick={() =>{setAction("Nice To Meet You!")}}> Sign Up</button>
+                <button type = "submit" className={action} onClick={() =>{setAction("Welcome Back!")}}> Login</button>
 
-                    {action==="Nice To Meet You!"? <div></div> : <div className="forgot-password">Forgot Password?</div>}
+                    <div className="forgot-password">Forgot Password?</div>
                     
                 </div>
             
@@ -139,10 +149,6 @@ export const LoginForm = () =>{
                 <img src={facebook_icon}></img>
                 <img src={x_icon}></img>
             </div>
-
-
-            <div> Don't have an account yet?</div>
-            <button type = "submit" className={action} onClick={() =>{setAction("Welcome Back!")}}>Login</button>
             </form>
 
 

@@ -1,17 +1,17 @@
+
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import LandingPage from "./Components/LandingPage";
 // import LoginPage from "./Components/LoginPage/LoginPage";
-import { LoginForm } from "./Components/LoginPage/LoginForm";
+import { AuthenticationPage } from "./Components/LoginSignup/AuthenticationPage";
 
 
 function App() {
 
   return (
       <>
-        {/* <LandingPage></LandingPage> */}
-        {/* <LoginPage></LoginPage> */}
-        <LoginForm></LoginForm>
+        <LandingPage></LandingPage>
+        {/* <AuthenticationPage></AuthenticationPage> */}
     </>
   )
 }
