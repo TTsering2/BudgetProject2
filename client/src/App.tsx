@@ -1,9 +1,5 @@
 //Packages
-import {
-  Routes,
-  useNavigate,
-  Route,
-} from "react-router-dom";
+import { Routes, useNavigate, Route } from "react-router-dom";
 
 //Pages
 import LandingPage from "@/Pages/LandingPage";
@@ -16,7 +12,6 @@ import AuthProvider from "@/Components/AuthProvider";
 import RequireAuth from "@/Components/RequireAuth";
 import { AuthenticationPage } from "./Pages/AuthenticationPage";
 
-
 const App = () => {
   const navigate = useNavigate();
 
@@ -24,68 +19,79 @@ const App = () => {
   //   navigate("/");
   // }
 
-  const setNavigateToUserCredentials:() => void = () => {
+  const setNavigateToUserCredentials: () => void = () => {
     navigate("/userCredentials");
-  }
-
+  };
 
   return (
     <div className="App">
-    <AuthProvider>
-      <Routes>
-      {/* Route LandingPage */}
-        <Route path = "/" element= {
-          <LandingPage 
-            setNavigateToUserCredentials={setNavigateToUserCredentials}
+      <AuthProvider>
+        <Routes>
+          {/* Route LandingPage */}
+          <Route
+            path="/"
+            element={
+              <LandingPage
+                setNavigateToUserCredentials={setNavigateToUserCredentials}
+              />
+            }
           />
-        }/>
 
-      {/*Route User Credential page */}
-        <Route path = "/userCredentials" element = {
-          <UserCredentialPage 
-        />
-      }/>
+          {/*Route User Credential page */}
+          <Route path="/userCredentials" element={<UserCredentialPage />} />
 
-      {/* Income Protected Routes */}
-        <Route path = "/incomeDashboard" element = {  
-          <RequireAuth>
-            <IncomePage />
-          </RequireAuth>
-        }/>
+          {/* Income Protected Routes */}
+          <Route
+            path="/incomeDashboard"
+            element={
+              <RequireAuth>
+                <IncomePage />
+              </RequireAuth>
+            }
+          />
 
-      {/*Expense Protected Routes */}
-        <Route path = "/expenseDashboard" element = {
-          <RequireAuth>
-            <ExpensePage />
-          </RequireAuth>
-        }/>
+          {/*Expense Protected Routes */}
+          <Route
+            path="/expenseDashboard"
+            element={
+              <RequireAuth>
+                <ExpensePage />
+              </RequireAuth>
+            }
+          />
 
-      {/* Stock Protected Routes */}
-        <Route path = "/stockDashboard" element = {
-            <RequireAuth>
-              <StockPage />
-            </RequireAuth>
-        }/>
+          {/* Stock Protected Routes */}
+          <Route
+            path="/stockDashboard"
+            element={
+              <RequireAuth>
+                <StockPage />
+              </RequireAuth>
+            }
+          />
 
-      {/* Report Dashboard Protected Routes */}
-        <Route path = "/reportDashboard" element = {
-            <RequireAuth>
-              <BudgetReportPage />
-            </RequireAuth>
-        }/>  
-       <Route
-          path="/login"
-          element={<AuthenticationPage initialMode="login" />}
-        />
-        <Route
-          path="/signup"
-          element={<AuthenticationPage initialMode="signup" />}
-        />
-      </Routes>
-      {/* <AuthenticationPage /> */}
-    </AuthProvider>
+          {/* Report Dashboard Protected Routes */}
+          <Route
+            path="/reportDashboard"
+            element={
+              <RequireAuth>
+                <BudgetReportPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/login"
+            element={<AuthenticationPage initialMode="login" />}
+          />
+          <Route
+            path="/signup"
+            element={<AuthenticationPage initialMode="signup" />}
+          />
+        </Routes>
+        {/* <AuthenticationPage /> */}
+      </AuthProvider>
     </div>
-  )
-}
+  );
+};
 
 export default App;

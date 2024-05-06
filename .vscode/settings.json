@@ -1,0 +1,9 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "omnisharp.organizeImportsOnFormat": true,
+  "css.format.maxPreserveNewLines": 1,
+  "less.format.maxPreserveNewLines": 1,
+  "eslint.format.enable": true
+}

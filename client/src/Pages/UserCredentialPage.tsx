@@ -1,12 +1,7 @@
-import { FC } from "react"
+import { FC } from "react";
 
 const UserCredentialPage: FC = () => {
+  return <div>UserCredentialPage</div>;
+};
 
-    return (
-        <div>
-            UserCredentialPage
-        </div>
-    )
-}
-
-export default UserCredentialPage
+export default UserCredentialPage;

@@ -1,12 +1,7 @@
-import { FC } from "react"
+import { FC } from "react";
 
 const IncomePage: FC = () => {
-
-    return (
-        <div>
-            Income page
-        </div>
-    )
-}
+  return <div>Income page</div>;
+};
 
 export default IncomePage;
