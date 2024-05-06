@@ -6,4 +6,5 @@ public class SummaryReportDTO
     public decimal TotalIncome { get; set; }
     public decimal TotalExpense { get; set; }
     public decimal NetValue { get; set; }
+    
 }
