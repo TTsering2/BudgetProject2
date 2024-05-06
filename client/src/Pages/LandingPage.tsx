@@ -1,5 +1,5 @@
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "@/Components/Header";
+import Footer from "@/Components/Footer";
 const LandingPage = () => {
     return(
         <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">  
