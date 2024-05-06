@@ -1,5 +1,6 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
+import { Link } from "react-router-dom";
 
 type Props = {
     setNavigateToUserCredentials : {
@@ -17,8 +18,8 @@ const LandingPage = ({setNavigateToUserCredentials} : Props) => {
                         <p className="w-8/12 font-medium mt-6">Introducing SpendWise – your go-to financial management app for effortless budgeting. Easily track income and expenses, set budgets, and gain insights into your spending habits. With SpendWise, smart financial decisions are just a tap away. 
                             Download now and take control of your finances!</p>
                         <div className="mt-10 font-medium">
-                            <a className="bg-slate-50 rounded-lg drop-shadow-lg pt-2 pl-6 pr-6 pb-2 mr-3">Log In</a>
-                            <a className="bg-slate-50 rounded-lg drop-shadow-lg pt-2 pl-6 pr-6 pb-2 ml-3">Sign Up</a>
+                            <Link to="/login" className="bg-slate-50 rounded-lg drop-shadow-lg pt-2 pl-6 pr-6 pb-2 mr-3">Log In</Link>
+                            <Link to="/signup" className="bg-slate-50 rounded-lg drop-shadow-lg pt-2 pl-6 pr-6 pb-2 ml-3">Sign Up</Link>
                         </div>
                     </div>
                     <div className="w-7/12 border-solid">

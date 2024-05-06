@@ -14,6 +14,8 @@ import BudgetReportPage from "@/Pages/BudgetReportPage";
 import UserCredentialPage from "@/Pages/UserCredentialPage";
 import AuthProvider from "@/Components/AuthProvider";
 import RequireAuth from "@/Components/RequireAuth";
+import { AuthenticationPage } from "./Pages/AuthenticationPage";
+
 
 const App = () => {
   const navigate = useNavigate();
@@ -25,6 +27,7 @@ const App = () => {
   const setNavigateToUserCredentials:() => void = () => {
     navigate("/userCredentials");
   }
+
 
   return (
     <div className="App">
@@ -70,7 +73,16 @@ const App = () => {
               <BudgetReportPage />
             </RequireAuth>
         }/>  
+       <Route
+          path="/login"
+          element={<AuthenticationPage initialMode="login" />}
+        />
+        <Route
+          path="/signup"
+          element={<AuthenticationPage initialMode="signup" />}
+        />
       </Routes>
+      {/* <AuthenticationPage /> */}
     </AuthProvider>
     </div>
   )
