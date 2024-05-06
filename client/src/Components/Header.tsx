@@ -16,12 +16,11 @@ const Header = (props: joinUsProps) => {
                     </div>
             {props.myBoolProp ?
                 <section className="flex flex-row  items-center justify-between pb-4">
-    
                     <ul className="flex flex-row justify-center">
-                            <li className="mr-5"><a href="https://www.google.com">Income</a></li>
-                            <li  className="mr-5"><a href="https://www.bing.com">Expense</a></li>
-                            <li  className="mr-5"><a href="https://www.cnn.com/">Budget</a></li>
-                            <li  className="mr-5"><a href="https://www.foxnews.com">Calendar</a></li>
+                        <li className="mr-5"><a href="https://www.google.com">Income</a></li>
+                        <li className="mr-5"><a href="https://www.bing.com">Expense</a></li>
+                        <li className="mr-5"><a href="https://www.cnn.com/">Budget</a></li>
+                        <li className="mr-5"><a href="https://www.foxnews.com">Calendar</a></li>
                     </ul>
 
                     <a href="" className='bg-[#0A2430] text-white p-2 pl-5 pr-5 rounded-lg ml-20'>Log Out</a>
@@ -33,8 +32,7 @@ const Header = (props: joinUsProps) => {
                     <a href=""><img src="./assets/JoinUs.svg" className="w-32  mr-2"></img></a>
                 </div>
             }
-             </header>
-
+        </header>
     );
 }
 
