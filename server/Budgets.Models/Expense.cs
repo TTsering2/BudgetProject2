@@ -8,5 +8,6 @@ public class Expense
     public decimal Amount { get; set; }
     public DateTime Date { get; set; }
     public int UserId { get; set; }
+    //Navigational Property
     public User User { get; set; }
 }
