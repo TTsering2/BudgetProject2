@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { LoginForm } from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
 
-export const AuthenticationPage = () => {
-    const [mode, setMode] = useState<"login" | "signup">("login");
+
+interface AuthenticationPageProps {
+    initialMode: "login" | "signup";
+}
+export const AuthenticationPage: React.FC<AuthenticationPageProps> = ({ initialMode }) => {
+    const [mode, setMode] = useState<"login" | "signup">(initialMode);
 
     const toggleMode = () => {
         setMode(mode === "login" ? "signup" : "login");

@@ -8,10 +8,11 @@ import {
 
 //Pages
 import LandingPage from "@/Pages/LandingPage";
-import ExpensePage from "@Pages/ExpensePage";
-import IncomePage from "@Pages/IncomePage";
-import StockPage from "@Pages/StockPage";
-import BudgetReportPage from "@Pages/BudgetReportPage";
+// import ExpensePage from "@Pages/ExpensePage";
+// import IncomePage from "@Pages/IncomePage";
+// import StockPage from "@Pages/StockPage";
+// import BudgetReportPage from "@Pages/BudgetReportPage";
+import { AuthenticationPage } from "./Components/LoginSignup/AuthenticationPage";
 
 
 const App: FC = () => {
@@ -24,6 +25,7 @@ const App: FC = () => {
   const setNavigateToUserCredentials:() => void = () => {
     navigate("/userCredentials");
   }
+
 
   return (
     <div className = "app bg-gray-20">
@@ -38,7 +40,16 @@ const App: FC = () => {
           } 
         />
         //TODO: Route UserCredentials, Expense, Income, Stock, BudgetReport (Proctected Routes, useContext here to save user credentials and keep track of logged in or not)
+       <Route
+          path="/login"
+          element={<AuthenticationPage initialMode="login" />}
+        />
+        <Route
+          path="/signup"
+          element={<AuthenticationPage initialMode="signup" />}
+        />
       </Routes>
+      {/* <AuthenticationPage /> */}
     </div>
   )
 }
