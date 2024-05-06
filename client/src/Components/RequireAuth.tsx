@@ -14,7 +14,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
     const auth = useAuth();
     const location = useLocation();
 
-    if (!auth?.userId) {
+    if (!auth.userId) {
         return <Navigate to="/userCredentials" state={{ from: location }} replace/>;
     }
     return children;

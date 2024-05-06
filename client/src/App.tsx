@@ -19,10 +19,10 @@ import { AuthenticationPage } from "./Pages/AuthenticationPage";
 
 const App = () => {
   const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const setNavigateToLandingPage:() => void = () => {
-    navigate("/");
-  }
+
+  // const setNavigateToLandingPage:() => void = () => {
+  //   navigate("/");
+  // }
 
   const setNavigateToUserCredentials:() => void = () => {
     navigate("/userCredentials");
@@ -30,6 +30,7 @@ const App = () => {
 
 
   return (
+    <div className="App">
     <AuthProvider>
       <Routes>
       {/* Route LandingPage */}
@@ -64,8 +65,9 @@ const App = () => {
             <RequireAuth>
               <StockPage />
             </RequireAuth>
-        }/>    
-      {/* Stock Protected Routes */}
+        }/>
+
+      {/* Report Dashboard Protected Routes */}
         <Route path = "/reportDashboard" element = {
             <RequireAuth>
               <BudgetReportPage />
@@ -82,5 +84,8 @@ const App = () => {
       </Routes>
       {/* <AuthenticationPage /> */}
     </AuthProvider>
+    </div>
   )
 }
+
+export default App;
