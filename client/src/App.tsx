@@ -8,10 +8,10 @@ import {
 
 //Pages
 import LandingPage from "@/Pages/LandingPage";
-import ExpensePage from "@Pages/ExpensePage";
-import IncomePage from "@Pages/IncomePage";
-import StockPage from "@Pages/StockPage";
-import BudgetReportPage from "@Pages/BudgetReportPage";
+import ExpensePage from "@/Pages/ExpensePage";
+import IncomePage from "@/Pages/IncomePage";
+import StockPage from "@/Pages/StockPage";
+import BudgetReportPage from "@/Pages/BudgetReportPage";
 
 
 const App: FC = () => {
@@ -37,6 +37,10 @@ const App: FC = () => {
             />
           } 
         />
+        <Route path="/income/:id" element = {<IncomePage/>} ></Route>
+        <Route path="/expense/:id" element = {<ExpensePage/>} ></Route>
+
+
         //TODO: Route UserCredentials, Expense, Income, Stock, BudgetReport (Proctected Routes, useContext here to save user credentials and keep track of logged in or not)
       </Routes>
     </div>

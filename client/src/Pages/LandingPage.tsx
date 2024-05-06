@@ -9,7 +9,7 @@ const LandingPage = ({setNavigateToUserCredentials} : Props) => {
     return(
         <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">  
             <Header myBoolProp={true}></Header>
-            <main className="w-[1300px] mx-auto mt-20">
+            <main className="w-[1300px] mx-auto mb-12">
 
                 <section className="flex flex-row mb-1  items-center">
                     <div className="w-11/12">
@@ -26,7 +26,7 @@ const LandingPage = ({setNavigateToUserCredentials} : Props) => {
                     </div>
                 </section>
 
-                <section  className="flex flex-row items-center justify-between text-center w-[1300px] m-auto pb-14 ">
+                <section  className="flex flex-row items-center justify-between text-center w-[1300px] m-auto pb-14">
                     <div className="bg-[#2D5872] text-white w-[300px] rounded-lg h-[190px]">
                         <p className="w-[200px] text-left m-auto mt-16"><b>500,000+ users</b> worldwide trust SpendWise to manage their finances.</p>
                     </div>
