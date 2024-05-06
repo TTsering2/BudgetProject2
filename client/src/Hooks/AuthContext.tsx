@@ -6,6 +6,6 @@ interface AuthContextType {
   signOut(): Promise<void>;
 }
 
-let AuthContext = React.createContext<AuthContextType | null>(null);
+const AuthContext = React.createContext<AuthContextType | null>(null);
 
 export default AuthContext;

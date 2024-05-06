@@ -1,14 +1,14 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from "react";
 
 interface AuthFormProps {
   isLogin: boolean;
 }
 
-function AuthForm({ isLogin } : AuthFormProps) {
+function AuthForm({ isLogin }: AuthFormProps) {
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    email: '',
+    username: "",
+    password: "",
+    email: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ function AuthForm({ isLogin } : AuthFormProps) {
         onChange={handleChange}
         placeholder="Password"
       />
-      <button type="submit">{isLogin ? 'Login' : 'Sign Up'}</button>
+      <button type="submit">{isLogin ? "Login" : "Sign Up"}</button>
     </form>
   );
 }

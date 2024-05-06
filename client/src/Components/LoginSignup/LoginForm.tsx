@@ -42,10 +42,10 @@ export const LoginForm: React.FC<IProps> = (props: IProps) => {
   // }
   const name = "apple";
 
-  let navigate = useNavigate();
-  let location = useLocation();
-  let auth = useAuth();
-  let from = location.state?.from?.pathname || "/";
+  const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useAuth();
+  const from = location.state?.from?.pathname || "/";
 
   async function LoginUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
