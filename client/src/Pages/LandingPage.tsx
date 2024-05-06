@@ -1,6 +1,11 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
-const LandingPage = () => {
+
+type Props = {
+    setNavigateToUserCredentials : {
+        (): void}
+}
+const LandingPage = ({setNavigateToUserCredentials} : Props) => {
     return(
         <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">  
             <Header myBoolProp={true}></Header>

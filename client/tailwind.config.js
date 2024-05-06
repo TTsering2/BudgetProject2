@@ -7,15 +7,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        "white": "#F4FAFF",
-        "green-blue" : "#2D5872",
-        "dark-blue": "#0A2430",
+        "gray-20" : "#F8F4EB",
+        "primary-white": "#F4FAFF",
+        "primary-green-blue" : "#2D5872",
+        "primary-dark-blue": "#0A2430",
       },
       backgroundImage : ( theme ) => ({
         "bg-pattern": "url('./assets/bg.png')",
+        "gradient-bluewhite" : "radial-gradient(circle, #2D5872 0%, #F4FAFF 100%)",
       }),
       fontFamily: {
-        
+        lato: ["Lato", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
       content: {
         "wallet": "url('./assets/wallet.png')",
