@@ -1,12 +1,7 @@
-import { FC } from "react"
+import { FC } from "react";
 
 const ExpensePage: FC = () => {
-
-    return (
-        <div>
-            Expense page
-        </div>
-    )
-}
+  return <div>Expense page</div>;
+};
 
 export default ExpensePage;

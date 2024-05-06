@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import AuthContext from "../Hooks/AuthContext";
-import { AuthProviderFunction } from "./Functions/AuthProviderFunctions";
+import { AuthProviderFunction } from "../Functions/AuthProviderFunctions";
 
 /**
  * Creates an authentication provider component that wraps the given children components.
