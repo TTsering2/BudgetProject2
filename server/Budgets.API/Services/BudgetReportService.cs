@@ -2,6 +2,7 @@ using Budgets.Models;
 using Budgets.DTOs;
 using Budgets.Data;
 
+
 namespace Budgets.Services;
 
 public class BudgetReportService : IBudgetReportService 
@@ -85,6 +86,32 @@ public class BudgetReportService : IBudgetReportService
         };
 
         return incomeReport;
-
     }
+
+    public async Task<SummaryReportDTO> GetSummaryReportByDateRangeAsync(int userId, DateTime startDate, DateTime endDate)
+    {
+
+        IEnumerable<IncomeDTO> incomes = await _incomeRepository.GetIncomeByUserIdAndDateRangeAsync(userId, startDate, endDate);
+        IEnumerable<ExpenseDTO> expenses = await _expenseRepository.GetExpensesByUserIdAndDateRangeAsync(userId, startDate, endDate);
+
+        if(incomes == null || !incomes.Any() || expenses == null || !expenses.Any())
+        {
+            return null;
+        }
+
+        decimal totalIncome = incomes.Sum(i => i.Amount);
+        decimal totalExpense = expenses.Sum(e => e.Amount);
+        decimal netValue = totalIncome - totalExpense;
+        SummaryReportDTO summaryReport = new SummaryReportDTO
+        {
+            StartDate = startDate,
+            EndDate = endDate,
+            TotalIncome = totalIncome,
+            TotalExpense = totalExpense,
+            NetValue = netValue
+        };
+ 
+        return summaryReport;
+    }
+
 }
