@@ -12,7 +12,7 @@ function Validation(values: {
   password: string;
 }): ValidationErrors {
   // Initialize an empty object to store validation errors
-  let error: ValidationErrors = {}; // Explicitly define the type of 'error' object
+  const error: ValidationErrors = {}; // Explicitly define the type of 'error' object
 
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // no white space, must contain @ and .
   /**It must contain at least one digit.

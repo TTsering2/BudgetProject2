@@ -8,26 +8,26 @@ import { useNavigate } from "react-router-dom";
  * @return {JSX.Element} The rendered authentication status component.
  */
 function AuthStatus() {
-    const auth = useAuth();
-    const navigate = useNavigate();
+  const auth = useAuth();
+  const navigate = useNavigate();
 
-    if (!auth?.userId) {
-        return <p>You are not logged in.</p>
-    }
+  if (!auth?.userId) {
+    return <p>You are not logged in.</p>;
+  }
 
-    return (
-        <p>
-            Welcome!
-            <button
-                onClick={() => {
-                    auth.signOut();
-                    navigate('/');
-                }}
-            >
-                Sign Out
-            </button>
-        </p>
-    )
+  return (
+    <p>
+      Welcome!
+      <button
+        onClick={() => {
+          auth.signOut();
+          navigate("/");
+        }}
+      >
+        Sign Out
+      </button>
+    </p>
+  );
 }
 
-export default AuthStatus
+export default AuthStatus;
