@@ -1,5 +1,4 @@
 //Packages
-import { FC } from "react";
 import {
   Routes,
   useNavigate,
@@ -8,14 +7,17 @@ import {
 
 //Pages
 import LandingPage from "@/Pages/LandingPage";
-// import ExpensePage from "@Pages/ExpensePage";
-// import IncomePage from "@Pages/IncomePage";
-// import StockPage from "@Pages/StockPage";
-// import BudgetReportPage from "@Pages/BudgetReportPage";
-import { AuthenticationPage } from "./Components/LoginSignup/AuthenticationPage";
+import ExpensePage from "@/Pages/ExpensePage";
+import IncomePage from "@/Pages/IncomePage";
+import StockPage from "@/Pages/StockPage";
+import BudgetReportPage from "@/Pages/BudgetReportPage";
+import UserCredentialPage from "@/Pages/UserCredentialPage";
+import AuthProvider from "@/Components/AuthProvider";
+import RequireAuth from "@/Components/RequireAuth";
+import { AuthenticationPage } from "./Pages/AuthenticationPage";
 
 
-const App: FC = () => {
+const App = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const setNavigateToLandingPage:() => void = () => {
@@ -28,18 +30,47 @@ const App: FC = () => {
 
 
   return (
-    <div className = "app bg-gray-20">
+    <AuthProvider>
       <Routes>
-        //Route Landing
-        <Route 
-          path="/" 
-          element= {
-            <LandingPage 
-              setNavigateToUserCredentials={setNavigateToUserCredentials}
-            />
-          } 
+      {/* Route LandingPage */}
+        <Route path = "/" element= {
+          <LandingPage 
+            setNavigateToUserCredentials={setNavigateToUserCredentials}
+          />
+        }/>
+
+      {/*Route User Credential page */}
+        <Route path = "/userCredentials" element = {
+          <UserCredentialPage 
         />
-        //TODO: Route UserCredentials, Expense, Income, Stock, BudgetReport (Proctected Routes, useContext here to save user credentials and keep track of logged in or not)
+      }/>
+
+      {/* Income Protected Routes */}
+        <Route path = "/incomeDashboard" element = {  
+          <RequireAuth>
+            <IncomePage />
+          </RequireAuth>
+        }/>
+
+      {/*Expense Protected Routes */}
+        <Route path = "/expenseDashboard" element = {
+          <RequireAuth>
+            <ExpensePage />
+          </RequireAuth>
+        }/>
+
+      {/* Stock Protected Routes */}
+        <Route path = "/stockDashboard" element = {
+            <RequireAuth>
+              <StockPage />
+            </RequireAuth>
+        }/>    
+      {/* Stock Protected Routes */}
+        <Route path = "/reportDashboard" element = {
+            <RequireAuth>
+              <BudgetReportPage />
+            </RequireAuth>
+        }/>  
        <Route
           path="/login"
           element={<AuthenticationPage initialMode="login" />}
@@ -50,11 +81,6 @@ const App: FC = () => {
         />
       </Routes>
       {/* <AuthenticationPage /> */}
-    </div>
+    </AuthProvider>
   )
 }
-
-
-
-
-export default App
