@@ -1,7 +1,7 @@
 # Title: CI-DevPR-Server
-# Author: @Ttsering2
-# Date: 2022-11-15
-# Description: CI for pull requests to dev branch of server
+# Author:      @Ttsering2
+# Date:         2022-11-15
+# Description:  CI for pull requests to dev branch of server
 
 name: CI-DEVPR-Server
 
@@ -19,31 +19,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+
+    - name: List repository root
+      run: cd ${{ github.workspace }}/server
+
     - name: Set up .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '8.0.x'
+
     - name: Restore, build, and test server solution
       run: |
-        cd ${GITHUB_WORKSPACE}/server
+        cd ${GITHUB_WORKSPACE}/./server
         dotnet restore Budgets.sln
         dotnet build Budgets.sln --no-restore
         dotnet test Budgets.sln --no-build --verbosity normal
-
-  client_build_and_test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Node.js 22.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: '22.x'
-        cache: 'npm'
-    - name: Install dependencies
-      run: npm install
-    - name: Lint
-      run: npm run lint
-    - name: Format
-      run: npm run format
-    - name: Build
-      run: npm run build
