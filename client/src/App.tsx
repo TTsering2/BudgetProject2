@@ -1,5 +1,5 @@
 //Packages
-import { Routes, useNavigate, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 //Pages
 import LandingPage from "@/Pages/LandingPage";
@@ -7,38 +7,37 @@ import ExpensePage from "@/Pages/ExpensePage";
 import IncomePage from "@/Pages/IncomePage";
 import StockPage from "@/Pages/StockPage";
 import BudgetReportPage from "@/Pages/BudgetReportPage";
-import UserCredentialPage from "@/Pages/UserCredentialPage";
 import AuthProvider from "@/Components/AuthProvider";
 import RequireAuth from "@/Components/RequireAuth";
 import { AuthenticationPage } from "./Pages/AuthenticationPage";
 
 const App = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // const setNavigateToLandingPage:() => void = () => {
   //   navigate("/");
   // }
 
-  const setNavigateToUserCredentials: () => void = () => {
-    navigate("/userCredentials");
-  };
+  // const setNavigateToUserCredentials: () => void = () => {
+  //   navigate("/userCredentials");
+  // };
 
   return (
     <div className="App">
       <AuthProvider>
         <Routes>
           {/* Route LandingPage */}
-          <Route
-            path="/"
-            element={
-              <LandingPage
-                setNavigateToUserCredentials={setNavigateToUserCredentials}
-              />
-            }
-          />
+          <Route path="/" element={<LandingPage />} />
 
           {/*Route User Credential page */}
-          <Route path="/userCredentials" element={<UserCredentialPage />} />
+          <Route
+            path="/login"
+            element={<AuthenticationPage initialMode="login" />}
+          />
+          <Route
+            path="/signup"
+            element={<AuthenticationPage initialMode="signup" />}
+          />
 
           {/* Income Protected Routes */}
           <Route
@@ -78,14 +77,6 @@ const App = () => {
                 <BudgetReportPage />
               </RequireAuth>
             }
-          />
-          <Route
-            path="/login"
-            element={<AuthenticationPage initialMode="login" />}
-          />
-          <Route
-            path="/signup"
-            element={<AuthenticationPage initialMode="signup" />}
           />
         </Routes>
         {/* <AuthenticationPage /> */}

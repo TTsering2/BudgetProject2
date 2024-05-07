@@ -1,9 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import "./LoginPage.css";
 
-interface IProps {}
-
-export const SignUpForm: React.FC<IProps> = (props: IProps) => {
+export const SignUpForm: React.FC = () => {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");

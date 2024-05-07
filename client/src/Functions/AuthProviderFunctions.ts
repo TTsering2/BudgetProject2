@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-const apple = "aad ";
 const AuthProviderFunction = {
   userId: undefined,
   isAuthenticated: false,
