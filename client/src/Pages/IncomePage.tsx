@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
  
  
 interface UserData {
+    reduce(arg0: (sum: number, element: userData) => any): number;
     type: string;
     title: string;
     amount: number;
@@ -29,7 +30,7 @@ const IncomePage = () => {
     const[reportData, setReportData] = useState([]);
     const { userId, signIn, signOut } = useAuth();
     const userIdValue = userId?.toString();
-
+    const [totalIncome, setTotalIncome] = useState(0);
 
 
     const toggleShowData = (type: string) => {
@@ -45,7 +46,7 @@ const IncomePage = () => {
      const getAllUserIncome = async() => {
         try{
  
-            const response = await fetch(`http://localhost:5112/api/Income/userId=${userIdValue}`);
+            const response = await fetch(`http://localhost:5112/api/Income/userId=2`);
             if(!response.ok){
                 throw new Error(response.statusText);
             }
@@ -60,7 +61,28 @@ const IncomePage = () => {
             console.log(err)
         }
     }
+  
+    //Get Budget Report
+    const getBudgetReport = async() => {
  
+        try{
+            const response = await fetch(`http://localhost:5112/incomeReport/userId=2/startDate=2024-05-01T20:02:30.703Z/endDate=2024-05-29`
+        );
+            if(!response.ok){
+                throw new Error(response.statusText);
+            }
+            else{
+                const data = await response.json();
+                setReportData(data);
+                getTotalIncome(reportData);
+
+                return data;
+            }
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
  
     //Group UserData by type of income
     const incomeByType: IncomeByType = userData.reduce((dataContainer:IncomeByType, element:UserData) => {
@@ -77,29 +99,20 @@ const IncomePage = () => {
             return dataContainer
     }, {})
  
+
  
-    //Get Budget Report
-    const getBudgetReport = async() => {
  
-        try{
-            const response = await fetch(`http://localhost:5112/incomeReport/userId=${userIdValue}/startDate=2024-05-06T20:02:30.703Z/endDate=2024-05-29`
-        );
-            if(!response.ok){
-                throw new Error(response.statusText);
-            }
-            else{
-                const data = await response.json();
-                setReportData(data);
-                console.log(data)
-                return data;
-            }
-        }
-        catch(err){
-            console.log(err)
-        }
+
+ 
+    //GET TOTAL INCOME
+    const getTotalIncome = (data) => {
+      const categories = data.incomeByCategory;
+
+      let total = Object.values(categories).reduce((sum, element) => {
+        return sum += element;
+      }, 0)
+      setTotalIncome(total);
     }
- 
- 
  
     useEffect(()=>{
         getAllUserIncome();
@@ -123,7 +136,7 @@ const IncomePage = () => {
                         <h2 className="text-xl">Income Summary</h2>
                         <div className="flex flex-row justify-between mt-9 w-[1300px]">
                             <div>
-                              <p className="text-3xl">$6,000</p>
+                              <p className="text-3xl">${totalIncome}</p>
                               <p className="text-lg font-normal	">Total Income</p>
                             </div>
                             <div className="w-2/12">
@@ -147,7 +160,7 @@ const IncomePage = () => {
                                 <FontAwesomeIcon icon={faMoneyBillWave} className="text-[#2D5872] text-2xl" />
                                 <h3 className="text-2xl font-semibold w-11/12">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
                                 <div className="flex flex-row gap-5 items-center">
-                                  <h3 className="text-2xl font-semibold">${totalIncome}</h3>
+                                  <h3 className="text-2xl font-semibold">${totalIncome.toLocaleString('en-US')}</h3>
                                   <FontAwesomeIcon
                                     icon={faArrowRight}
                                     className="cursor-pointer text-[#2D5872]"
