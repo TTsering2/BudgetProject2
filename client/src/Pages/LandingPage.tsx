@@ -1,14 +1,11 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import { Link } from "react-router-dom";
-import { getDefaultResultOrder } from "dns";
 
-type Props = {
-  setNavigateToUserCredentials: {
-    (): void;
-  };
-};
-const LandingPage = ({ setNavigateToUserCredentials }: Props) => {
+// type Props = {
+// };
+// {  }: Props
+const LandingPage = () => {
   return (
     <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">
       <Header myBoolProp={true}></Header>
