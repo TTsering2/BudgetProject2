@@ -2,6 +2,7 @@ import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import { getFirstAndLastDateOfMonth, formatDate} from '../utils/generateReportDate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
  
@@ -23,6 +24,15 @@ interface UserData {
 const IncomePage = () => {
  
     const[userData, setUserData] = useState<UserData[]>([]);
+    const [showData, setShowData] = useState<{ [key: string]: boolean }>({});
+    const toggleShowData = (type: string) => {
+      setShowData(prevState => ({
+        ...prevState,
+        [type]: !prevState[type]
+      }));
+    };
+
+
  
     //Get user income
      const getAllUserIncome = async() => {
@@ -89,7 +99,7 @@ const IncomePage = () => {
  
  
     return(
-        <div className="bg-[url('/assets/bg.png')] bg-cover bg-center ">
+        <div className="bg-gradient-bluewhite h-screen">
             <Header myBoolProp={true}></Header>
  
             {
@@ -100,7 +110,7 @@ const IncomePage = () => {
                 /*Component with no income*/
                 (
                 <section className="h-5/6">
-                    <div className="bg-primary-white font-bold w-[1350px] m-auto p-6 rounded mt-6">
+                    <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 rounded mt-6">
                         <h2>Income Summary</h2>
                         <div>
                             <div></div>
@@ -112,27 +122,41 @@ const IncomePage = () => {
                             <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block">Add a New Income</button>
                         </div>
                    
-                    <div className="w-[1350px] m-auto">
-                    {Object.entries(incomeByType).map(([type, {data, totalIncome}], key) => (
-                        <div key={key} className="p-2 bg-primary-white w-[1350px] m-auto   rounded-xl mb-9 ">
-                            <div className="w-[1350px] m-auto shadow-gray-100 py-2  ">
-                                <div className="w-[1250px] m-auto border-b-2 border-primary-green-blue pb-3 flex flex-row gap-2  items-center">
-                                    <FontAwesomeIcon icon={faMoneyBillWave} className="color[primary-green-blue] text-2xl"/>
-                                    <h3 className="text-2xl font-semibold  w-11/12">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
-                                    <h3 className="text-2xl font-semibold">${totalIncome}</h3>
+                    <div className="w-[1350px] m-auto ">
+                       {Object.entries(incomeByType).map(([type, { data, totalIncome }], key) => (
+                          <div key={key} className="p-2 bg-[#FFFFFF] w-[1350px] m-auto rounded-xl mb-9">
+                            <div className="w-[1350px] m-auto shadow-gray-100 py-2">
+                              <div className="w-[1250px] m-auto border-b-2 border-primary-green-blue pb-3 flex flex-row gap-2 items-center">
+                                <FontAwesomeIcon icon={faMoneyBillWave} className="text-[#2D5872] text-2xl" />
+                                <h3 className="text-2xl font-semibold w-11/12">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
+                                <div className="flex flex-row gap-5 items-center">
+                                  <h3 className="text-2xl font-semibold">${totalIncome}</h3>
+                                  <FontAwesomeIcon
+                                    icon={faArrowRight}
+                                    className="cursor-pointer text-[#2D5872]"
+                                    onClick={() => toggleShowData(type)}
+                                  />
                                 </div>
-                             
+                              </div>
+                              {/*DISPLAY FIRST ELEMENT*/}
+                               <div key={0} className="flex flex-row justify-between w-11/12 m-auto my-5">
+                                  <h5 className="p-1 font-semibold">{data[0].title.charAt(0).toUpperCase() + data[0].title.substring(1)}</h5>
+                                  <h5 className="text-2x font-semibold">${data[0].amount}</h5>
+                              </div>
+                             {/*DISPLAY ALL ELEMENTS*/}
+                              {showData[type] && (
                                 <div className="m-auto">
-                                {data.map((element: UserData, index: number) => (
-                                    <div key={index} className="flex flex-row justify-between w-11/12 m-auto my-5 ">
-                                        <h5 className=" p-1 font-semibold ">{element.title.charAt(0).toUpperCase() + element.title.substring(1)}</h5>
-                                        <h5  className="text-2x font-semibold ">${element.amount}</h5>
+                                  {data.slice(1).map((element: UserData, index: number) => (
+                                    <div key={index+1} className="flex flex-row justify-between w-11/12 m-auto my-5">
+                                      <h5 className="p-1 font-semibold">{element.title.charAt(0).toUpperCase() + element.title.substring(1)}</h5>
+                                      <h5 className="text-2x font-semibold">${element.amount}</h5>
                                     </div>
-                                ))}
+                                  ))}
                                 </div>
+                              )}
                             </div>
-                        </div>
-                    ))}
+                          </div>
+                        ))}
                     </div>
  
  

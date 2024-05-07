@@ -45,7 +45,9 @@ export const LoginForm: React.FC = () => {
       // won't end up back on the login page, which is also really nice for the
       // user experience.
       await auth?.signIn(username, password);
-      navigate(from, { replace: true });
+      /*
+      navigate(from, { replace: true });*/
+      navigate('/incomeDashboard');
     } catch (error) {
       console.error(error);
       throw error;
