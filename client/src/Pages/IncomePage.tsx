@@ -54,9 +54,6 @@ const IncomePage = () => {
             return dataContainer
     }, {})
 
-
-
-    const calculateTotal: calculateTotal = Object.entries(incomeByType).reduce((total, element) =>)
     //Get Budget Report
     const getBudgetReport = async() => {
 
