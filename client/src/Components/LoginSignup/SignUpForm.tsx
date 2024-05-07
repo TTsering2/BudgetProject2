@@ -3,36 +3,66 @@ import facebook_icon from "@/Assets/fb.png";
 import x_icon from "@/Assets/X.png";
 import google_icon from "@/Assets/google.png";
 import "./LoginPage.css";
+import Validation from "./LoginValidator";
+
+
+interface SignUpFormState {
+  userName:string,
+  userEmail: string;
+  userPassword: string;
+}
+
 
 export const SignUpForm: React.FC = () => {
   const [name, setName] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  // const [errors, setErrors] = useState<SignUpFormState>({ name: '', userName: '', userPassword: '' });
+
+  const [errors, setErrors] = useState<SignUpFormState>({userName:'', userEmail: '', userPassword: '' });
+
 
   const handleSignUpSubmit = async (
+
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
-    const name = (
-      event.currentTarget.querySelector(
-        'input[name="name"]',
-      ) as HTMLInputElement
-    ).value;
-    const username = (
-      event.currentTarget.querySelector(
-        'input[name="userName"]',
-      ) as HTMLInputElement
-    ).value;
-    const password = (
-      event.currentTarget.querySelector(
-        'input[name="userPassword"]',
-      ) as HTMLInputElement
-    ).value;
-    AddUser(name, username, password);
+    const validationErrors = Validation({ name:userName, email :userEmail, password:userPassword});
+
+    const newErrors: SignUpFormState = {
+      userName: validationErrors.name || '',
+      userEmail: validationErrors.email || ' ',
+      userPassword: validationErrors.password || ' '
+
+    };
+    setErrors(newErrors);
+    if(Object.keys(validationErrors).length === 0){
+      console.log("SUCCESSFUL!")
+
+      const name = (
+        event.currentTarget.querySelector(
+          'input[name="name"]',
+        ) as HTMLInputElement
+      ).value;
+  
+      const userEmail = (
+        event.currentTarget.querySelector(
+          'input[name="userEmail"]',
+        ) as HTMLInputElement
+      ).value;
+      const password = (
+        event.currentTarget.querySelector(
+          'input[name="userPassword"]',
+        ) as HTMLInputElement
+      ).value;
+      AddUser(name, userEmail, password);
+  
+    }
+
+    
+   
   };
 
-  async function AddUser(name: string, username: string, password: string) {
+  async function AddUser(name: string, userEmail: string, password: string) {
     try {
       console.log("Attempting to add user");
 
@@ -43,7 +73,7 @@ export const SignUpForm: React.FC = () => {
         },
         body: JSON.stringify({
           name: name,
-          username: username,
+          userEmail: userEmail,
           password: password,
         }),
       });
@@ -53,7 +83,7 @@ export const SignUpForm: React.FC = () => {
           "User added successfully. UserID: " +
             data.userId +
             " Username: " +
-            data.username +
+            data.userEmail +
             " Name: " +
             data.name,
         );
@@ -77,7 +107,7 @@ export const SignUpForm: React.FC = () => {
     if (name === "name") {
       setName(value);
     } else if (name === "userName") {
-      setUserName(value);
+      setUserEmail(value);
     } else if (name === "userPassword") {
       setUserPassword(value);
     }
@@ -100,39 +130,21 @@ export const SignUpForm: React.FC = () => {
           <div className="text text-[25px] mt-[42px]">Nice To Meet You!</div>
         </div>
 
-        <form onSubmit={handleSignUpSubmit}>
-          <div className="p-2 ">
-            <input
-              className="inputVtext-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] "
-              placeholder="Name"
-              type="text"
-              value={name}
-              onChange={UserOnChangeFunction}
-              name="name"
-            />
-          </div>
+                <form onSubmit={handleSignUpSubmit}>
+                    <div className="p-2 ">
+                        <input className="inputVtext-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Name" type="text" value={name} onChange={UserOnChangeFunction} name="name" />
+                        {errors.userName && <div className="divider"><span className="text-error"> {errors.userName}</span></div>} 
+                    </div>
 
-          <div className="p-2">
-            <input
-              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]"
-              placeholder="Username"
-              type="text"
-              value={userName}
-              onChange={UserOnChangeFunction}
-              name="userName"
-            />
-          </div>
+                    <div className="p-2">
+                        <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]" placeholder="Username" type="text" value={userEmail} onChange={UserOnChangeFunction} name="userName" />
+                         {errors.userEmail && <div className="divider"><span className="text-error"> {errors.userEmail}</span></div>} 
+                    </div>
 
-          <div className="p-2">
-            <input
-              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] "
-              placeholder="Password"
-              type="password"
-              value={userPassword}
-              onChange={UserOnChangeFunction}
-              name="userPassword"
-            />
-          </div>
+                    <div className="p-2">
+                        <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Password" type="password" value={userPassword} onChange={UserOnChangeFunction} name="userPassword" />
+                         {errors.userPassword && <div className="divider"><span className="error"> {errors.userPassword}</span></div>} 
+                    </div>
 
           <div className="pt-6">
             <button id="SignUpSubmit" type="submit">

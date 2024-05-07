@@ -1,13 +1,16 @@
 interface ValidationErrors {
+  name?:string;
   email?: string;
   password?: string;
 }
 
 // Validation function that takes an object with email and password properties
 function Validation(values: {
+  name:string;
   email: string;
   password: string;
 }): ValidationErrors {
+  
   // Initialize an empty object to store validation errors
   const error: ValidationErrors = {}; // Explicitly define the type of 'error' object
 
@@ -21,9 +24,18 @@ function Validation(values: {
   const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/; //
 
   // Validate the email field
+  if (values.name === "") {
+    error.name = "Name should not be empty";
+  }
+  else{
+    error.name= "";
+  }
+  
+
   if (values.email === "") {
-    error.email = "Name should not be empty";
-  } else if (!email_pattern.test(values.email)) {
+    error.email = "Email should not be empty";
+  } 
+  else if (!email_pattern.test(values.email)) {
     error.email = "Email Didn't match";
   } else {
     error.email = "";
