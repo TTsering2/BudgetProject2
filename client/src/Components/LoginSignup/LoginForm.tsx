@@ -3,7 +3,7 @@ import facebook_icon from "@/Assets/fb.png";
 import x_icon from "@/Assets/X.png";
 import google_icon from "@/Assets/google.png";
 import "./LoginPage.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAuth from "@/Hooks/useAuth";
 
 // Interface representing the state of the form
@@ -29,23 +29,16 @@ export const LoginForm: React.FC = () => {
   // });
 
   const navigate = useNavigate();
-  const location = useLocation();
   const auth = useAuth();
-  const from = location.state?.from?.pathname || "/";
+
 
   async function LoginUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const username = e.currentTarget.userName.value;
     const password = e.currentTarget.userPassword.value;
     try {
-      // Send them back to the page they tried to visit when they were
-      // redirected to the login page. Use { replace: true } so we don't create
-      // another entry in the history stack for the login page.  This means that
-      // when they get to the protected page and click the back button, they
-      // won't end up back on the login page, which is also really nice for the
-      // user experience.
       await auth?.signIn(username, password);
-      navigate(from, { replace: true });
+      navigate("/incomeDashboard");
     } catch (error) {
       console.error(error);
       throw error;

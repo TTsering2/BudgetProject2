@@ -10,7 +10,7 @@ interface AuthenticationPageProps {
 export const AuthenticationPage: React.FC<AuthenticationPageProps> = ({
   initialMode,
 }) => {
-  const [mode, setMode] = useState<"login" | "signup">(initialMode);
+  const [mode, setMode] = useState<"login" | "signup">("signup");
 
   const toggleMode = () => {
     setMode(mode === "login" ? "signup" : "login");
@@ -18,7 +18,7 @@ export const AuthenticationPage: React.FC<AuthenticationPageProps> = ({
 
   return (
     <div className="bg-[url('/assets/bg.png')] bg-cover bg-center ">
-      <Header myBoolProp={false}></Header>
+      <Header></Header>
       {/* <h1>{mode === "login" ? "Login" : "Sign Up"}</h1> */}
       {mode === "login" ? <LoginForm /> : <SignUpForm />}
       <p onClick={toggleMode} style={{ textAlign: "center" }}>
