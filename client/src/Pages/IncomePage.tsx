@@ -13,12 +13,11 @@ interface UserData {
   }
 
   interface IncomeByType {
-    [key: string]: UserData[]
-  }
-  
-  interface TypeTotalIncome{
-    [type:string]:number;
-  }
+    [key: string]: {
+        data:UserData[],
+        totalIncome:number
+    }
+}
   
 
 const IncomePage = () => {
@@ -50,10 +49,14 @@ const IncomePage = () => {
     const incomeByType: IncomeByType = userData.reduce((dataContainer:IncomeByType, element:UserData) => {
         //If there is no element type then create new type and assign value of empty array
         if(!dataContainer[element.type]){
-            dataContainer[element.type] = [];
+            dataContainer[element.type] = {
+                data:[],
+                totalIncome:0
+            };
 
         }
-            dataContainer[element.type].push(element);
+            dataContainer[element.type].data.push(element);
+            dataContainer[element.type].totalIncome += element.amount;
             return dataContainer
     }, {})
 
@@ -110,13 +113,13 @@ const IncomePage = () => {
                         </div>
                     
                     <div className="w-[1350px] m-auto">
-                    {Object.entries(incomeByType).map(([type, data], key) => (
+                    {Object.entries(incomeByType).map(([type, {data, totalIncome}], key) => (
                         <div key={key} className="p-2 bg-primary-white w-[1350px] m-auto   rounded-xl mb-9 ">
                             <div className="w-[1350px] m-auto shadow-gray-100 py-2	">
                                 <div className="w-[1250px] m-auto border-b-2 border-primary-green-blue pb-3 flex flex-row gap-2  items-center">
                                     <FontAwesomeIcon icon={faMoneyBillWave} className="color[primary-green-blue] text-2xl"/>
                                     <h3 className="text-2xl	font-semibold  w-11/12">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
-                   
+                                    <h3 className="text-2xl	font-semibold">${totalIncome}</h3>
                                 </div>
                              
                                 <div className="m-auto">
