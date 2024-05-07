@@ -9,11 +9,11 @@ import { useEffect, useState } from "react";
  
  
 interface UserData {
-    reduce(arg0: (sum: number, element: userData) => any): number;
     type: string;
     title: string;
     amount: number;
   }
+
  
   interface IncomeByType {
     [key: string]: {
@@ -40,8 +40,9 @@ const IncomePage = () => {
       }));
     };
 
+    const colors:string[] = ["#DD3535", "#F39202", "#FFBE00", "#27CA40"]
+    const [barColors, setBarColors] = useState(colors[Math.floor(Math.random() * 4)]);
 
- 
     //Get user income
      const getAllUserIncome = async() => {
         try{
@@ -73,7 +74,7 @@ const IncomePage = () => {
             }
             else{
                 const data = await response.json();
-                setReportData(data);
+                setReportData(data.incomeByCategory);
                 getTotalIncome(reportData);
 
                 return data;
@@ -100,15 +101,11 @@ const IncomePage = () => {
     }, {})
  
 
- 
- 
-
- 
     //GET TOTAL INCOME
-    const getTotalIncome = (data) => {
-      const categories = data.incomeByCategory;
-
-      let total = Object.values(categories).reduce((sum, element) => {
+    const getTotalIncome = (data:Object) => {
+      const categories = data;
+      console.log(colors[Math.floor(Math.random() * 3) + 1])
+      let total = Object.values(categories).reduce((sum:number, element) => {
         return sum += element;
       }, 0)
       setTotalIncome(total);
@@ -117,8 +114,11 @@ const IncomePage = () => {
     useEffect(()=>{
         getAllUserIncome();
         getBudgetReport();
-    },[])
+    },[userData])
  
+    //Report width
+    const totalWidth = Object.values(reportData).reduce((total, value) => total + value, 0);
+
  
     return(
         <div className="bg-gradient-bluewhite h-screen">
@@ -132,7 +132,7 @@ const IncomePage = () => {
                 /*Component with no income*/
                 (
                 <section className="h-5/6 roboto">
-                    <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6  px-10 rounded mt-6 ">
+                    <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 ">
                         <h2 className="text-xl">Income Summary</h2>
                         <div className="flex flex-row justify-between mt-9 w-[1300px]">
                             <div>
@@ -144,11 +144,20 @@ const IncomePage = () => {
                               <p  className="text-xl font-normal	">17 Days Left</p>
                             </div>
                         </div>
-                        <div className="mt-10">
-                          <p>Paycheck</p>
-                          </div>
+                            <div className="flex flex-col gap-4">
+                              <div className="flex items-center">
+                              </div>
+                              <div className="flex items-center">
+                                <div className="bg-blue-500 h-8" style={{ width: totalWidth + 'px' }}></div>
+                              </div>
+                              <div className="flex items-center  rounded-xl">
+                                {Object.entries(reportData).map(([key, value]) => (
+                                  <div key={key} className="w-32 rounded-xl">{key.charAt(0).toUpperCase() + key.substring(1)}</div>
+                                ))}
+                              </div>
+                            </div>
                     </div>
-                        <div className="w-[1350px] m-auto my-5 " >
+                        <div className="w-[1350px] m-auto my-5" >
                             <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block">Add a New Income</button>
                         </div>
                    
@@ -160,7 +169,7 @@ const IncomePage = () => {
                                 <FontAwesomeIcon icon={faMoneyBillWave} className="text-[#2D5872] text-2xl" />
                                 <h3 className="text-2xl font-semibold w-11/12">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
                                 <div className="flex flex-row gap-5 items-center">
-                                  <h3 className="text-2xl font-semibold">${totalIncome.toLocaleString('en-US')}</h3>
+                                  <h3 className="text-2xl font-semibold">${totalIncome}</h3>
                                   <FontAwesomeIcon
                                     icon={faArrowRight}
                                     className="cursor-pointer text-[#2D5872]"
