@@ -26,11 +26,10 @@ export const LoginForm: React.FC = () => {
   //   userName: "",
   //   name: "",
   //   userPassword: "",
-  // });
+  // });AA
 
   const navigate = useNavigate();
   const auth = useAuth();
-
 
   async function LoginUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -38,6 +37,9 @@ export const LoginForm: React.FC = () => {
     const password = e.currentTarget.userPassword.value;
     try {
       await auth?.signIn(username, password);
+
+      //TODO: CHANGE THIS BACK TO INCOME DASH BOARD WHEN DONE
+      // navigate("/reportDashboard")
       navigate("/incomeDashboard");
     } catch (error) {
       console.error(error);
