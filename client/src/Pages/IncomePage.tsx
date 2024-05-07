@@ -1,6 +1,7 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import { getFirstAndLastDateOfMonth, formatDate} from '../utils/generateReportDate';
+import useAuth from "@/Hooks/useAuth";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +26,12 @@ const IncomePage = () => {
  
     const[userData, setUserData] = useState<UserData[]>([]);
     const [showData, setShowData] = useState<{ [key: string]: boolean }>({});
+    const[reportData, setReportData] = useState([]);
+    const { userId, signIn, signOut } = useAuth();
+    const userIdValue = userId?.toString();
+
+
+
     const toggleShowData = (type: string) => {
       setShowData(prevState => ({
         ...prevState,
@@ -38,7 +45,7 @@ const IncomePage = () => {
      const getAllUserIncome = async() => {
         try{
  
-            const response = await fetch('http://localhost:5112/api/Income/userId=2');
+            const response = await fetch(`http://localhost:5112/api/Income/userId=${userIdValue}`);
             if(!response.ok){
                 throw new Error(response.statusText);
             }
@@ -75,14 +82,15 @@ const IncomePage = () => {
     const getBudgetReport = async() => {
  
         try{
-            const response = await fetch('http://localhost:5112/expenseReport/userId=2/startDate=2024-05-06T20:02:30.703Z/endDate=2024-05-29'
+            const response = await fetch(`http://localhost:5112/expenseReport/userId=${userIdValue}/startDate=2024-05-06T20:02:30.703Z/endDate=2024-05-29`
         );
             if(!response.ok){
                 throw new Error(response.statusText);
             }
             else{
                 const data = await response.json();
-                setUserData(data);
+                setReportData(data);
+                console.log(data)
                 return data;
             }
         }
@@ -109,14 +117,22 @@ const IncomePage = () => {
                 :
                 /*Component with no income*/
                 (
-                <section className="h-5/6">
-                    <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 rounded mt-6">
-                        <h2>Income Summary</h2>
-                        <div>
-                            <div></div>
-                            <div></div>
+                <section className="h-5/6 roboto">
+                    <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6  px-10 rounded mt-6 ">
+                        <h2 className="text-xl">Income Summary</h2>
+                        <div className="flex flex-row justify-between mt-9 w-[1300px]">
+                            <div>
+                              <p className="text-3xl">$6,000</p>
+                              <p className="text-lg font-normal	">Total Income</p>
+                            </div>
+                            <div className="w-2/12">
+                              <p className="text-3xl font-semibold" >May 2024</p>
+                              <p  className="text-xl font-normal	">17 Days Left</p>
+                            </div>
                         </div>
-                        <div></div>
+                        <div className="mt-10">
+                          <p>Paycheck</p>
+                          </div>
                     </div>
                         <div className="w-[1350px] m-auto my-5 " >
                             <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block">Add a New Income</button>
@@ -124,7 +140,7 @@ const IncomePage = () => {
                    
                     <div className="w-[1350px] m-auto ">
                        {Object.entries(incomeByType).map(([type, { data, totalIncome }], key) => (
-                          <div key={key} className="p-2 bg-[#FFFFFF] w-[1350px] m-auto rounded-xl mb-9">
+                          <div key={key} className="p-2 bg-[#FFFFFF] m-auto rounded-xl mb-9">
                             <div className="w-[1350px] m-auto shadow-gray-100 py-2">
                               <div className="w-[1250px] m-auto border-b-2 border-primary-green-blue pb-3 flex flex-row gap-2 items-center">
                                 <FontAwesomeIcon icon={faMoneyBillWave} className="text-[#2D5872] text-2xl" />
