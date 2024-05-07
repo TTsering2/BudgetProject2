@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { LoginForm } from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
+//
+import Header from "../Header";
+import Footer from "../Footer";
 
 export const AuthenticationPage = () => {
     const [mode, setMode] = useState<"login" | "signup">("login");
@@ -10,12 +13,25 @@ export const AuthenticationPage = () => {
     };
 
     return (
-        <div>
+        <div className="bg-[url('/assets/bg.png')] bg-cover bg-center ">
+            <Header myBoolProp={false}></Header>
+            
             {/* <h1>{mode === "login" ? "Login" : "Sign Up"}</h1> */}
             {mode === "login" ? <LoginForm /> : <SignUpForm />}
             <p onClick={toggleMode} style={{textAlign: 'center'}}>
                 {mode === "login" ? "Don't have an account? Sign up here." : "Already have an account? Login here."}
             </p>
+
+            
+
+            <Footer></Footer>
+      
+            
+            
+           
         </div>
+       
+       
+       
     );
 };

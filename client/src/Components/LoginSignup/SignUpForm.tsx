@@ -1,5 +1,11 @@
 import React, { ChangeEvent, useState } from "react";
+import facebook_icon from '../Assets/fb.png';
+import x_icon from '../Assets/X.png';
+import google_icon from '../Assets/google.png';
 import './LoginPage.css';
+
+
+
 
 interface IProps {
 }
@@ -59,27 +65,37 @@ export const SignUpForm: React.FC<IProps> = (props: IProps) => {
     }
 
     return (
-        <div className="Container">
-            <div className="header">
-                <div className="text">Nice To Meet You!</div>
+        <div className="text-[white] text-center w-1/5 h-[65vh] bg-[#0A2430] ml-auto mr-[10%] mt-[45px] mb-5 rounded-[15px]">
+            <div className="p-4">
+                <div className="text text-[25px] mt-[42px]">Nice To Meet You!</div>
             </div>
 
             <form onSubmit={handleSignUpSubmit}>
-                <div className="input">
-                    <input placeholder="Name" type="text" value={name} onChange={UserOnChangeFunction} name="name" />
+                <div className="p-2 ">
+                    <input className="inputVtext-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Name" type="text" value={name} onChange={UserOnChangeFunction} name="name" />
                 </div>
 
-                <div className="input">
-                    <input placeholder="Username" type="text" value={userName} onChange={UserOnChangeFunction} name="userName" />
+                <div className="p-2">
+                    <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]" placeholder="Username" type="text" value={userName} onChange={UserOnChangeFunction} name="userName" />
                 </div>
 
-                <div className="input">
-                    <input placeholder="Password" type="password" value={userPassword} onChange={UserOnChangeFunction} name="userPassword" />
+                <div className="p-2">
+                    <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Password" type="password" value={userPassword} onChange={UserOnChangeFunction} name="userPassword" />
                 </div>
 
-                <div className="submit-container">
-                    <button type="submit"> Sign Up</button>
+                <div className="pt-6">
+               
+                    <button id="SignUpSubmit" type="submit"> Sign Up</button>
                 </div>
+
+            <div className="justify-center h-0.5 w-[70%] mx-auto my-0 rounded-sm bg-[white]"></div>
+
+            <div className="text-logo text-[15px] mt-5 mb-[15px]" > Or continue with </div>
+            <div className="flex justify-evenly gap-5 w-full max-w-[calc(100%_-_20px)] ml-[5%] mb-[50px] pt-0 pb-[5px] px-[5px]">
+                <img className="h-[25px] gap-10" src={google_icon}></img>
+                <img className="h-[25px] gap-10" src={facebook_icon}></img>
+                <img className="h-[25px] gap-10" src={x_icon}></img>
+            </div>
             </form>
         </div>
     );
