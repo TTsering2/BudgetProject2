@@ -37,7 +37,7 @@ export const LoginForm: React.FC = () => {
     e.preventDefault();
     const username = e.currentTarget.userName.value;
     const password = e.currentTarget.userPassword.value;
-    try{
+    try {
       // Send them back to the page they tried to visit when they were
       // redirected to the login page. Use { replace: true } so we don't create
       // another entry in the history stack for the login page.  This means that
@@ -46,9 +46,9 @@ export const LoginForm: React.FC = () => {
       // user experience.
       await auth.signIn(username, password);
       navigate(from, { replace: true });
-    } catch (error){
-        console.error(error);
-        throw error;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
     console.log("Login successful. UserID: " + auth.userId);
   }
@@ -89,7 +89,7 @@ export const LoginForm: React.FC = () => {
             name="userPassword"
           />
           {/* {errors.userPassword && ( */}
-            {/* // <span className="text-error"> {errors.userPassword}</span> */}
+          {/* // <span className="text-error"> {errors.userPassword}</span> */}
           {/* )} */}
         </div>
 

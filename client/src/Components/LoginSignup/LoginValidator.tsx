@@ -1,4 +1,3 @@
-
 interface ValidationErrors {
   email?: string;
   password?: string;
