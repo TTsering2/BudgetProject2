@@ -82,7 +82,7 @@ const IncomePage = () => {
     const getBudgetReport = async() => {
  
         try{
-            const response = await fetch(`http://localhost:5112/expenseReport/userId=${userIdValue}/startDate=2024-05-06T20:02:30.703Z/endDate=2024-05-29`
+            const response = await fetch(`http://localhost:5112/incomeReport/userId=${userIdValue}/startDate=2024-05-06T20:02:30.703Z/endDate=2024-05-29`
         );
             if(!response.ok){
                 throw new Error(response.statusText);
@@ -103,6 +103,7 @@ const IncomePage = () => {
  
     useEffect(()=>{
         getAllUserIncome();
+        getBudgetReport();
     },[])
  
  
