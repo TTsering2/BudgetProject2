@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: List repository root
+    - name: List repository root and change directory
       run: cd ${{ github.workspace }}/server
 
     - name: Set up .NET Core SDK
@@ -34,3 +34,20 @@ jobs:
         dotnet restore Budgets.sln
         dotnet build Budgets.sln --no-restore
         dotnet test Budgets.sln --no-build --verbosity normal
+
+  client_build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+
+    - name: Restore, and clean client
+      run: |
+        cd ${{ github.workspace }}/client
+        npm install
+        npm run build
+        npm run format
