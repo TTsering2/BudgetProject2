@@ -44,13 +44,13 @@ export const LoginForm: React.FC = () => {
       // when they get to the protected page and click the back button, they
       // won't end up back on the login page, which is also really nice for the
       // user experience.
-      await auth.signIn(username, password);
+      await auth?.signIn(username, password);
       navigate(from, { replace: true });
     } catch (error) {
       console.error(error);
       throw error;
     }
-    console.log("Login successful. UserID: " + auth.userId);
+    console.log("Login successful. UserID: " + auth?.userId);
   }
 
   // user input, operate simply input. Without this "onChange" event, we cannot type.
