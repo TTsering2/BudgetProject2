@@ -1,5 +1,6 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
+import useAuth from '@Hooks/useAuth';
 import { getFirstAndLastDateOfMonth, formatDate} from '../utils/generateReportDate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
@@ -23,7 +24,7 @@ interface UserData {
 
 const IncomePage = () => {
 
-    //const{userId} = useAuth();
+    const{userId} = useAuth();
 
     const[userData, setUserData] = useState<UserData[]>([]);
 
