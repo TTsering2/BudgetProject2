@@ -36,7 +36,7 @@ function Validation(values: {
     error.email = "Email should not be empty";
   } 
   else if (!email_pattern.test(values.email)) {
-    error.email = "Email Didn't match";
+    error.email = "add '@.com' match";
   } else {
     error.email = "";
   }

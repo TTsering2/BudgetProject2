@@ -10,9 +10,9 @@ csss form layout
   
 }
 */
-.error{
+.text-error{
   color:red;
-  font-size: 10%;
+  font-size: 5px;
 
   top:-5px;
   margin: 0, auto;

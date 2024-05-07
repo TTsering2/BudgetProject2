@@ -14,7 +14,7 @@ interface SignUpFormState {
 
 
 export const SignUpForm: React.FC = () => {
-  const [name, setName] = useState("");
+  const [userName, setName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
@@ -38,7 +38,7 @@ export const SignUpForm: React.FC = () => {
     if(Object.keys(validationErrors).length === 0){
       console.log("SUCCESSFUL!")
 
-      const name = (
+      const userName = (
         event.currentTarget.querySelector(
           'input[name="name"]',
         ) as HTMLInputElement
@@ -54,7 +54,7 @@ export const SignUpForm: React.FC = () => {
           'input[name="userPassword"]',
         ) as HTMLInputElement
       ).value;
-      AddUser(name, userEmail, password);
+      AddUser(userName, userEmail, password);
   
     }
 
@@ -132,18 +132,18 @@ export const SignUpForm: React.FC = () => {
 
                 <form onSubmit={handleSignUpSubmit}>
                     <div className="p-2 ">
-                        <input className="inputVtext-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Name" type="text" value={name} onChange={UserOnChangeFunction} name="name" />
-                        {errors.userName && <div className="divider"><span className="text-error"> {errors.userName}</span></div>} 
+                        <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Name" type="text" value={userName} onChange={UserOnChangeFunction} name="name" />
+                        {errors.userName && <div className="error"><span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userName}</span></div>} 
                     </div>
 
                     <div className="p-2">
                         <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]" placeholder="Username" type="text" value={userEmail} onChange={UserOnChangeFunction} name="userName" />
-                         {errors.userEmail && <div className="divider"><span className="text-error"> {errors.userEmail}</span></div>} 
+                         {errors.userEmail && <div className="error"><span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userEmail}</span></div>} 
                     </div>
 
                     <div className="p-2">
                         <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Password" type="password" value={userPassword} onChange={UserOnChangeFunction} name="userPassword" />
-                         {errors.userPassword && <div className="divider"><span className="error"> {errors.userPassword}</span></div>} 
+                         {errors.userPassword && <div className="error"><span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userPassword}</span></div>} 
                     </div>
 
           <div className="pt-6">
