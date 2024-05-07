@@ -1,3 +1,1 @@
-module.exports = {
-    plugins: [require("prettier-plugin-tailwindcss")],
-}
+const tailwindPrettierPlugin = import("prettier-plugin-tailwindcss");

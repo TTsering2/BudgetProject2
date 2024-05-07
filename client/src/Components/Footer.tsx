@@ -1,4 +1,3 @@
-
 const Footer = () => {
     return (
         <footer className="footer bg-[#0A2430] text-white p-6">
@@ -27,13 +26,15 @@ const Footer = () => {
 
             </section>
 
-            <section>
-                <p className="text-center border-t-2 p-2 mt-0.5">Copyright © 2024 SpendWise | All Rights Reserved </p>
-            </section>
-            </div>
-          
-        </footer>
-    )
-}
+        <section>
+          <p className="text-center border-t-2 p-2">
+            Copyright © 2024 SpendWise | All Rights Reserved{" "}
+          </p>
+        </section>
+      </div>
+    </footer>
+  );
+};
+
 
 export default Footer;

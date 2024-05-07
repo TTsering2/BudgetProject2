@@ -1,9 +1,7 @@
-const Expense = () => {
-    return(
-        <div>
-            <h1>Hello Expense!</h1>
-        </div>
-    )
-}
+import { FC } from "react";
 
-export default Expense;
+const ExpensePage: FC = () => {
+  return <div>Expense page</div>;
+};
+
+export default ExpensePage;

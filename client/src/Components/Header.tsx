@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
- 
- 
 interface joinUsProps {
-    myBoolProp: boolean;
+  myBoolProp: boolean;
 }
- 
- 
+
 const Header = (props: joinUsProps) => {
  
  
