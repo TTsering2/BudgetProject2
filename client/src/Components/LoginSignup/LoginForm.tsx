@@ -3,7 +3,7 @@ import facebook_icon from "@/Assets/fb.png";
 import x_icon from "@/Assets/X.png";
 import google_icon from "@/Assets/google.png";
 import "./LoginPage.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAuth from "@/Hooks/useAuth";
 
 // Interface representing the state of the form
@@ -29,23 +29,16 @@ export const LoginForm: React.FC = () => {
   // });
 
   const navigate = useNavigate();
-  const location = useLocation();
   const auth = useAuth();
-  const from = location.state?.from?.pathname || "/";
+
 
   async function LoginUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const username = e.currentTarget.userName.value;
     const password = e.currentTarget.userPassword.value;
     try {
-      // Send them back to the page they tried to visit when they were
-      // redirected to the login page. Use { replace: true } so we don't create
-      // another entry in the history stack for the login page.  This means that
-      // when they get to the protected page and click the back button, they
-      // won't end up back on the login page, which is also really nice for the
-      // user experience.
       await auth?.signIn(username, password);
-      navigate(from, { replace: true });
+      navigate("/incomeDashboard");
     } catch (error) {
       console.error(error);
       throw error;
@@ -63,60 +56,70 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="Container">
-      <div className="header">
-        <div className="text"> {action}</div>
+    <div className="flex w-screen h-[75vh]">
+      <div className="pic-container h-[89%] w-6/12 relative ml-auto my-auto">
+        <img src="./assets/TopCoin1.png" alt="TopCoin" id="Tcoin"></img>
+        <img src="./assets/Money1.png" alt="Money1" id="money1"></img>
+        <img src="./assets/Money2.png" alt="Money2" id="money2"></img>
+        <img src="./assets/Money3.png" alt="Money3" id="money3"></img>
+        <img src="./assets/BottomCoin2.png" alt="BottomCoin" id="Bcoin"></img>
+        <section className="money-text absolute text-[#0A2430] text-[40px] text-center rounded-[10px] left-[6%] top-[35%]">
+          We can't wait to Budget with you!
+        </section>
       </div>
 
-      <form onSubmit={LoginUser}>
-        <div className="input">
-          <input
-            placeholder="Username"
-            type="text"
-            value={userName}
-            onChange={UserOnChangeFunction}
-            name="userName"
-          />
-          {/* {errors.name && <span className="text-error"> {errors.name}</span>} */}
+      <div className=" text-[white] text-center w-1/5 h-[65vh] bg-[#0A2430] ml-auto mr-[10%] mt-[45px] mb-5 rounded-[15px] ">
+        <div className="p-4">
+          <div className="text text-[25px] mt-[42px]">Welcome Back</div>
         </div>
 
-        <div className="input">
-          <input
-            placeholder="Password"
-            type="password"
-            value={userPassword}
-            onChange={UserOnChangeFunction}
-            name="userPassword"
-          />
-          {/* {errors.userPassword && ( */}
-          {/* // <span className="text-error"> {errors.userPassword}</span> */}
-          {/* )} */}
-        </div>
+        <form onSubmit={LoginUser}>
+          <div className="p-2">
+            <input
+              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]"
+              placeholder="Username"
+              type="text"
+              value={userName}
+              onChange={UserOnChangeFunction}
+              name="userName"
+            />
+            {/* {errors.name && <span className="text-error"> {errors.name}</span>} */}
+          </div>
 
-        <div className="submit-container">
-          {/*  <div className="submit">Sign Up</div>*/}
-          <button
-            type="submit"
-            className={action}
-            onClick={() => {
-              setAction("Welcome Back!");
-            }}
-          >
-            {" "}
-            Login
-          </button>
+          <div className="p-2">
+            <input
+              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]"
+              placeholder="Password"
+              type="password"
+              value={userPassword}
+              onChange={UserOnChangeFunction}
+              name="userPassword"
+            />
+            {/* {errors.userPassword && <span className="text-error"> {errors.userPassword}</span>} */}
+          </div>
 
-          <div className="forgot-password">Forgot Password?</div>
-        </div>
+          <div className="pt-6">
+            <button id="LogInSubmit" type="submit">
+              {" "}
+              Log in
+            </button>
+            <div className="text-xs mt-[5px] mb-5 rounded-md">
+              Forgot Password?
+            </div>
+          </div>
 
-        <br></br>
-        <div> Or continue with </div>
-        <div className="log-container">
-          <img src={google_icon}></img>
-          <img src={facebook_icon}></img>
-          <img src={x_icon}></img>
-        </div>
-      </form>
+          <div className="justify-center h-0.5 w-[70%] mx-auto my-0 rounded-sm bg-[white]"></div>
+
+          <div className="text-logo text-[15px] mt-5 mb-[15px]">
+            Or continue with
+          </div>
+          <div className="flex justify-evenly gap-5 w-full max-w-[calc(100%_-_20px)] ml-[5%] mb-[50px] pt-0 pb-[5px] px-[5px]">
+            <img className="h-[25px] gap-10 " src={google_icon}></img>
+            <img className="h-[25px] gap-10" src={facebook_icon}></img>
+            <img className="h-[25px] gap-10" src={x_icon}></img>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
