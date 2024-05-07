@@ -3,6 +3,7 @@ import Footer from "@/Components/Footer";
 import { getFirstAndLastDateOfMonth, formatDate} from '../utils/generateReportDate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
 
 
@@ -21,6 +22,8 @@ interface UserData {
   
 
 const IncomePage = () => {
+
+    //const{userId} = useAuth();
 
     const[userData, setUserData] = useState<UserData[]>([]);
 
@@ -116,10 +119,14 @@ const IncomePage = () => {
                     {Object.entries(incomeByType).map(([type, {data, totalIncome}], key) => (
                         <div key={key} className="p-2 bg-primary-white w-[1350px] m-auto   rounded-xl mb-9 ">
                             <div className="w-[1350px] m-auto shadow-gray-100 py-2	">
-                                <div className="w-[1250px] m-auto border-b-2 border-primary-green-blue pb-3 flex flex-row gap-2  items-center">
-                                    <FontAwesomeIcon icon={faMoneyBillWave} className="color[primary-green-blue] text-2xl"/>
+                                <div className="w-[1250px] m-auto border-b-2 border-primary-green-blue pb-3 flex flex-row gap-5  items-center">
+                                    <FontAwesomeIcon icon={faMoneyBillWave} className="color-primary-green-blue text-2xl"/>
                                     <h3 className="text-2xl	font-semibold  w-11/12">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
-                                    <h3 className="text-2xl	font-semibold">${totalIncome}</h3>
+                                    <div className="flex flex-row items-center gap-5">
+                                        <h3 className="text-2xl	font-semibold color-[#D9D9D9]">${totalIncome}</h3>
+                                        <FontAwesomeIcon icon={faArrowRight}/>
+                                    </div>
+
                                 </div>
                              
                                 <div className="m-auto">
