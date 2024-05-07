@@ -11,6 +11,7 @@ import AuthProvider from "@/Components/AuthProvider";
 import RequireAuth from "@/Components/RequireAuth";
 import { AuthenticationPage } from "./Pages/AuthenticationPage";
 
+
 const App = () => {
   // const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ const App = () => {
   // };
 
   return (
+
     <div className="App">
       <AuthProvider>
         <Routes>
@@ -83,6 +85,8 @@ const App = () => {
       </AuthProvider>
     </div>
   );
+  
 };
+
 
 export default App;
