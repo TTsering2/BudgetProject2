@@ -18,7 +18,7 @@ export const AuthenticationPage: React.FC<AuthenticationPageProps> = ({
 
   return (
     <div className="bg-[url('/assets/bg.png')] bg-cover bg-center ">
-       <Header myBoolProp={false}></Header>
+      <Header myBoolProp={false}></Header>
       {/* <h1>{mode === "login" ? "Login" : "Sign Up"}</h1> */}
       {mode === "login" ? <LoginForm /> : <SignUpForm />}
       <p onClick={toggleMode} style={{ textAlign: "center" }}>
