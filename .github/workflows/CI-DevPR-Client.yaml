@@ -1,0 +1,42 @@
+# Title: CI-DevPR-Client
+# Author:      @Ttsering2
+# Date:         5/6/2022
+# Description:  CI for pull requests to dev branch of client
+
+name: CI-DEVPR-Server
+
+on: 
+  push:
+    branches: 
+      - dev
+  pull_request:
+    branches:
+      - dev 
+  workflow_dispatch:
+
+jobs:
+  client_build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: List repository root
+      run: cd ${{ github.workspace }}/client
+
+   - name: Set up Node.js 22.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Lint
+      run: npm run lint
+
+      -name: Format
+      run: npm run format
+
+    - name: Build
+      run: npm run build

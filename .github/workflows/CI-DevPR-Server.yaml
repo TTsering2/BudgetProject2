@@ -15,16 +15,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_test:
+  server_build_and_test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    # - name: Change to server directory
-    #   run: cd /server
-
-    # - name: List files
-    #   run: ls -la
     - name: List repository root
       run: cd ${{ github.workspace }}/server
 
@@ -39,3 +34,29 @@ jobs:
         dotnet restore Budgets.sln
         dotnet build Budgets.sln --no-restore
         dotnet test Budgets.sln --no-build --verbosity normal
+          
+  client_build_and_test:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v3
+
+      - name: List repository root
+        run: cd ${{ github.workspace }}/client
+
+    - name: Set up Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+        -name: Format
+        run: npm run format
+
+      - name: Build
+        run: npm run build
