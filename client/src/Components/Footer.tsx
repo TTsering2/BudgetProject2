@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
-    <footer className="footer bg-[#0A2430] text-white p-6">
+    <footer className="footer bg-[#0A2430] text-white h-36">
       <div className="w-10/12 mx-auto">
-        <section className="flex flex-row  items-center justify-between pb-4">
+        <section className="flex flex-row  items-center justify-between pt-4 pb-4">
           <div className="flex flex-row mr-6 items-center	">
             <img
               src="./assets/logo_footer.png"
