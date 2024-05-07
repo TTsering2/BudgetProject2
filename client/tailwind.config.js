@@ -23,6 +23,9 @@ export default {
       content: {
         "wallet": "url('./assets/wallet.png')",
         "logofooter": "url('./assets/calendar.png')",
+      },
+      minHeight: {
+        "1/2" : "50vh",
       }
     },
     screens : {
