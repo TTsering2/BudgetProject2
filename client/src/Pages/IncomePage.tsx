@@ -1,6 +1,8 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import { getFirstAndLastDateOfMonth, formatDate} from '../utils/generateReportDate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
 
 
@@ -49,10 +51,12 @@ const IncomePage = () => {
         //If there is no element type then create new type and assign value of empty array
         if(!dataContainer[element.type]){
             dataContainer[element.type] = [];
+
         }
             dataContainer[element.type].push(element);
             return dataContainer
     }, {})
+
 
     //Get Budget Report
     const getBudgetReport = async() => {
@@ -105,30 +109,28 @@ const IncomePage = () => {
                             <button className="bg-primary-green-blue text-white	p-2 px-7 rounded  text-center mx-auto block">Add a New Income</button>
                         </div>
                     
-                    <ul className="w-[1350px] m-auto bg-primary-white rounded-xl my-5">
+                    <div className="w-[1350px] m-auto">
                     {Object.entries(incomeByType).map(([type, data], key) => (
-                        <div key={key} className="p-4 border-b-2 border-primary-dark-blue w-[1350px] m-auto ">
-                            <div className=" p-4 w-[1350px] m-auto my-3">
-                                <h3 className="text-2xl	font-semibold ">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
-                                
-                                {/* TOTAL AMOUNT 
-                                
-                            /*{"paycheck": [{title:, type:"paycheck", amount:100}, {title:, type:"paycheck", amount:100}, {title:, type:"paycheck", amount:100}],
-                                "salary": [{title:, type:"salary", amount:100}, {title:, type:"salary", amount:100}, {title:, type:"salary", amount:100}],
-                            ""}*/
-                                }
+                        <div key={key} className="p-2 bg-primary-white w-[1350px] m-auto   rounded-xl mb-9 ">
+                            <div className="w-[1350px] m-auto shadow-gray-100 py-2	">
+                                <div className="w-[1250px] m-auto border-b-2 border-primary-green-blue pb-3 flex flex-row gap-2  items-center">
+                                    <FontAwesomeIcon icon={faMoneyBillWave} className="color[primary-green-blue] text-2xl"/>
+                                    <h3 className="text-2xl	font-semibold  w-11/12">{type.charAt(0).toUpperCase() + type.substring(1)}</h3>
+                   
+                                </div>
+                             
                                 <div className="m-auto">
                                 {data.map((element: UserData, index: number) => (
-                                    <div key={index} className="flex flex-row justify-between w-[1000px]">
-                                        <h5  className=" p-4">{element.title.charAt(0).toUpperCase() + element.title.substring(1)}</h5>
-                                        <h3>{element.amount}</h3>
+                                    <div key={index} className="flex flex-row justify-between w-11/12 m-auto my-5 ">
+                                        <h5 className=" p-1 font-semibold ">{element.title.charAt(0).toUpperCase() + element.title.substring(1)}</h5>
+                                        <h5  className="text-2x font-semibold ">${element.amount}</h5>
                                     </div>
                                 ))}
                                 </div>
                             </div>
                         </div>
                     ))}
-                    </ul>
+                    </div>
 
 
                 </section>
