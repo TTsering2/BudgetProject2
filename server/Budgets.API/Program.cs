@@ -28,13 +28,10 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserValidator, ValidatorUsers>();
 
-<<<<<<< HEAD
 //Add Budget Report service
 builder.Services.AddScoped<IBudgetReportService, BudgetReportService>();
 
 
-=======
->>>>>>> f97f61f7a762e0693a36525266f1e90529a7db1f
 // Add CORS
 builder.Services.AddCors(options =>
 {
