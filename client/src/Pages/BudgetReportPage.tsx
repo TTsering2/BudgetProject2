@@ -9,13 +9,8 @@ const BudgetReportPage: FC = () => {
       <main className="w-10/12 mx-auto flex-grow bg-primary-white mb-8 rounded-md">
         <div className="hello flex flex-col h-full">
           {/* Top Row */}
-          <div className="min-h-1/2">
-            {/* Content for Top Row */}
-            {/* <div className="bg-gray-100 h-96">
-
-            </div> */}
-          </div>
-
+          //Place holder for top row
+          <div className="min-h-1/2"></div>
           {/* Bottom Row */}
           <div className="grid grid-cols-4 min-h-96">
             {/* Column 1 */}
