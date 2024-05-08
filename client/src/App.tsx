@@ -68,9 +68,9 @@ const App = () => {
           <Route
             path="/stockDashboard"
             element={
-              <RequireAuth>
-                <StockPage />
-              </RequireAuth>
+              // <RequireAuth>
+              <StockPage />
+              // </RequireAuth>
             }
           />
 

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import AuthContext from "@/Hooks/AuthContext";
-import StockPage, { Stock } from "@/Pages/StockPage";
+// import AuthContext from "@/Hooks/AuthContext";
+import { Stock } from "@/Pages/StockPage";
 import useAuth from "@/Hooks/useAuth";
 
 type AddStockProps = {
   setStocks: React.Dispatch<React.SetStateAction<Stock[]>>;
+  className?: string;
 };
 
 const AddStock: React.FC<AddStockProps> = ({ setStocks }) => {
@@ -17,7 +18,8 @@ const AddStock: React.FC<AddStockProps> = ({ setStocks }) => {
     price: 0,
     quantity: 0,
     date: new Date().toISOString(),
-    userId: auth ? auth.userId : null, // Check if auth is not null before accessing auth.userId
+    userId: 2,
+    // userId: auth ? auth.userId : null, // Check if auth is not null before accessing auth.userId
   });
 
   const handleAddStock = async () => {

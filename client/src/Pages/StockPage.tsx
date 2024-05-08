@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { error } from "console";
 import Stock from "@/Components/Stock";
 import AddStock from "@/Components/HandleAddStock";
+import Footer from "@/Components/Footer";
 
 export type Stock = {
   id: number;
@@ -29,7 +30,7 @@ const StockPage: FC = () => {
       // Check if auth is not null
       try {
         const response = await fetch(
-          `http://localhost:5112/api/Stock/user/${auth.userId}`,
+          `http://localhost:5112/api/Stock/user/${3}`,
         );
 
         if (!response.ok) {
@@ -51,18 +52,29 @@ const StockPage: FC = () => {
   function handleUpdateStock() {}
 
   return (
-    <div>
-      <AddStock setStocks={setStocks} />
-      {stocks.map((stock, index) => (
-        <div key={stock.id}>
-          {/* Display the stock information */}
+    <div className="bg-[url('/assets/bg.png')] bg-cover bg-center min-h-screen">
+      <div className="mb-4">
+        <AddStock
+          setStocks={setStocks}
+          className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+        />
+        <section className="flex flex-col items-center justify-between text-center w-full m-auto pb-14 ">
+          {stocks.map((stock, index) => (
+            <div
+              key={stock.id}
+              className="w-70% bg-white shadow p-4 mb-4 rounded-lg max-w-full mx-auto"
+            >
+              {/* Display the stock information */}
 
-          <Stock
-            key={index}
-            stock={{ ...stock, date: new Date(stock.date).toISOString() }}
-          />
-        </div>
-      ))}
+              <Stock
+                key={index}
+                stock={{ ...stock, date: new Date(stock.date).toISOString() }}
+              />
+            </div>
+          ))}
+        </section>
+      </div>
+      <Footer></Footer>
     </div>
   );
 };

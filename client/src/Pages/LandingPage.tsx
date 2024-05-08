@@ -7,9 +7,8 @@ import useAuth from "@/Hooks/useAuth";
 // };
 // {  }: Props
 const LandingPage = () => {
-
   return (
-    <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">
+    <div className="bg-[url('/assets/bg.png')] bg-cover bg-center ">
       <Header></Header>
       <main className="w-[1300px] mx-auto mt-20">
         <section className="flex flex-row mb-1  items-center">
