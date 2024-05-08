@@ -1,27 +1,27 @@
 interface ValidationErrors {
+
     name?: string;
-    email?: string;
     password?: string;
   }
   
   
   function Validation(values: {
-    email: string;
+    name: string;
     password: string;
   }): ValidationErrors {
     
     const error: ValidationErrors = {}; // Explicitly define the type of 'error' object
   
-    const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // no white space, must contain @ and .
+    //const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // no white space, must contain @ and .
     const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/; //
-  
-    if (values.email === "") {
-      error.email = "Email should not be empty";
-    } else if (!email_pattern.test(values.email)) {
-      error.email = "add '@.com' match";
+    
+      // Validate the email field
+    if (values.name === "") {
+      error.name = "Name should not be empty";
     } else {
-      error.email = "";
+      error.name = "";
     }
+
   
     // Validate the password field
     if (values.password === "") {
