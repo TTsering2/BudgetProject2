@@ -20,7 +20,7 @@ export const NewIncomeForm = ({ display, setDisplay }) => {
             amount: e.target.amount.value,
             type: e.target.type.value,
             date:  new Date().toISOString(),
-            userId: 2
+            userId: 3
         }
 
 

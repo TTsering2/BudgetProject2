@@ -51,7 +51,7 @@ const IncomePage = () => {
   //Get user income
   const getAllUserIncome = async () => {
     try {
-      const response = await fetch(`http://localhost:5112/api/Income/userId=2`);
+      const response = await fetch(`http://localhost:5112/api/Income/userId=3`);
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
@@ -75,7 +75,7 @@ const IncomePage = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5112/incomeReport/userId=2/startDate=${dates.firstDate}/endDate=${dates.lastDate}`,
+        `http://localhost:5112/incomeReport/userId=3/startDate=${dates.firstDate}/endDate=${dates.lastDate}`,
       );
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -145,7 +145,14 @@ const IncomePage = () => {
             {
                 userData.length === 0 ?  /*Component with income*/
  
-                (<h1>NO INCOME</h1>)
+                (<section className="h-4/6 roboto mt-20">
+                     <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 mt-10" >
+                      <h1  className="text-xl text-center my-5">You currently have no income</h1>
+                            <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block" onClick = {() => {setToggleIncomForm(prev => !prev)}}>Add a New Income</button>
+                        </div>
+                   {/*FORM ADD ENTRY */}
+                  {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm}/>}
+                </section>)
                 :
                 /*Component with no income*/
                 (
