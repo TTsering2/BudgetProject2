@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const LandingPage = () => {
   return (
     <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">
-      <Header myBoolProp={true}></Header>
+      <Header></Header>
       <main className="w-[1300px] mx-auto mt-5 mb-10">
         <section className="flex flex-row mb-1  items-center">
           <div className="w-11/12">
