@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from "react";
- 
+import { NewIncomeForm } from "@/Components/NewIncomeForm";
  
 interface UserData {
     type: string;
@@ -33,6 +33,8 @@ const IncomePage = () => {
       month: "",
       differenceInDays:0
     });
+
+    const[toggleIncomeForm, setToggleIncomForm] = useState(true);
 
 
     const { userId, signIn, signOut } = useAuth();
@@ -175,6 +177,11 @@ const IncomePage = () => {
                         <div className="w-[1350px] m-auto my-5" >
                             <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block">Add a New Income</button>
                         </div>
+
+                    {/*FORM ADD ENTRY */}
+                    {toggleIncomeForm && 
+                      <NewIncomeForm />
+                    }
                    
                     <div className="w-[1350px] m-auto ">
                        {Object.entries(incomeByType).map(([type, { data, totalIncome }], key) => (
