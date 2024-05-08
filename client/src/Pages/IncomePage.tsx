@@ -132,7 +132,7 @@ const IncomePage = () => {
 
   return (
     <div className="bg-gradient-bluewhite h-screen">
-      <Header myBoolProp={true}></Header>
+      <Header />
 
       {userData.length === 0 /*Component with income*/ ? (
         <h1>NO INCOME</h1>

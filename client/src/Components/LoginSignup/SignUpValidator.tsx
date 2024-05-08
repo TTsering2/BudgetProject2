@@ -18,12 +18,9 @@ function Validation(values: {
         It must contain at least one lowercase letter.
         It must contain at least one uppercase letter.
         It can only contain alphanumeric characters (letters and digits).
-        It must be at least 8 characters long. 
+        It must be at least 8 characters long.
         */
   const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/; //
-
-
-  
 
   // Validate the email field
   if (values.name === "") {

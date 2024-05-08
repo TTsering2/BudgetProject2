@@ -2,6 +2,7 @@ import { useState } from "react";
 import StockPage from "./HandleAddStock";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import Swal from "sweetalert2";
+import HandleUpdateStock from "./HandleUpdateStock";
 
 type StockProps = {
   stock: {
@@ -17,6 +18,7 @@ type StockProps = {
 
 const Stock: React.FC<StockProps> = ({ stock }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [stocks, setStocks] = useState<StockProps["stock"][]>([]);
 
   const handleDelete = async () => {
     console.log("Deleting stock:", stock.id);
@@ -45,44 +47,6 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
       // Handle successful deletion (e.g., remove the deleted stock from the local state)
     } catch (error) {
       console.error("Failed to delete stock:", error);
-    }
-  };
-
-  const handleUpdate = async (
-    updatedStock: Partial<{
-      companyName: string;
-      tickerSymbol: string;
-      price: number;
-      quantity: number;
-      date: string;
-    }>,
-  ) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5112/api/Stock/${stock.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedStock),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Error updating stock");
-      }
-
-      Swal.fire({
-        title: "Success!",
-        text: "Stock updated successfully",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-
-      // Handle successful update (e.g., update the local state with the updated stock)
-    } catch (error) {
-      console.error("Failed to update stock:", error);
     }
   };
 
@@ -117,7 +81,11 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
             <p>Quantity: {stock.quantity}</p>
             <p>Total: ${stock.price * stock.quantity} </p>
             <p className="mb-4">
-              Date: {new Date(stock.date).toLocaleDateString()}
+              {new Date(stock.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })}
             </p>
           </div>
           <div className="flex justify-center space-x-4">
@@ -127,13 +95,14 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
             >
               Delete
             </button>
-            <button
+            <HandleUpdateStock setStocks={setStocks} stock={stock} />
+            {/* <button
               onClick={handleUpdate}
               className="  bg-primary-green-blue text-white rounded-lg h-10 w-40 drop-shadow-lg 
               hover:bg-primary-dark-blue"
             >
               Update
-            </button>
+            </button> */}
           </div>
         </div>
       )}

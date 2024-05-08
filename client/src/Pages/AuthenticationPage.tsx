@@ -7,10 +7,11 @@ import Header from "@/Components/Header";
 interface AuthenticationPageProps {
   initialMode: "login" | "signup";
 }
+
 export const AuthenticationPage: React.FC<AuthenticationPageProps> = ({
   initialMode,
 }) => {
-  const [mode, setMode] = useState<"login" | "signup">("signup");
+  const [mode, setMode] = useState<"login" | "signup">(initialMode);
 
   const toggleMode = () => {
     setMode(mode === "login" ? "signup" : "login");
