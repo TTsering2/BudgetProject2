@@ -112,7 +112,6 @@ const IncomePage = () => {
   //GET TOTAL INCOME
   const getTotalIncome = (data: Object) => {
     const categories = data;
-    console.log(colors[Math.floor(Math.random() * 3) + 1]);
     const total = Object.values(categories).reduce((sum: number, element) => {
       return (sum += element);
     }, 0);
@@ -179,10 +178,10 @@ const IncomePage = () => {
           </div>
 
           {/*FORM ADD ENTRY */}
-          {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm}/>}
+          {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm} userId={userId}/>}
           
           {/*DATA */}
-          <div className="w-[1350px] m-auto ">
+          <div className="w-[1350px] m-auto overflow-y-visible h-96 overflow-x-hidden">
             {Object.entries(incomeByType).map(
               ([type, { data, totalIncome }], key) => (
                 <div

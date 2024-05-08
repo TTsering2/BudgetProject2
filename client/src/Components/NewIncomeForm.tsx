@@ -1,59 +1,63 @@
 import { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 
-export const NewIncomeForm = ({ display, setDisplay }) => {
+export const NewIncomeForm = ({ display, setDisplay, userId }) => {
+
   const types = ["Salary", "Amount", "Portfolio", "Gift"];
   const [displayForm, setDisplayForm] = useState(display);
+  const[id, setUserId]  = useState(userId);
   const [notification, setNotification] = useState("");
 
-  const[formData,setFormData] = useState(
-    {
-        title: "",
-        amount: 0,
-        type: "",
-        userId: userId,
-    }
-  )
-
-  const { userId, signIn, signOut } = useAuth();
+          console.log(id);
 
     //Post new income
     const postNewIncome = async(e) => {
 
+        console.log(userId);
         e.preventDefault();
-        console.log(e.target);
-        /*
+
+        const incomeForm = {
+            title: e.target.title.value,
+            amount: e.target.amount.value,
+            type: e.target.type.value,
+            date:  new Date().toISOString(),
+            userId: userId
+        }
+
+
         try{
-            const response = await fetch(`http://localhost:5112/api/Income/${userId}`,{
+            const response = await fetch(`http://localhost:5112/api/Income`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    title: "Salary",
-                    amount: 1000,
-                    category: "Salary",
-                    userId: userId
-                })
+                body: JSON.stringify(incomeForm)
             });
             if(!response.ok){
                 throw new Error(response.statusText);
             }
             else{
-                const data = await response.json();
-                console.log(data);
+                const data = await response;
+                if(data.status === 200){
+                    setNotification("Income added successfully");
+                    setDisplay(false);
+                }
+                else{
+                    setNotification("Failed to add income");
+                    setDisplay(false);
+                }
             }
         }
         catch(error){
             console.log(error);
-        }*/
+        }
     }
   
     return (
     displayForm && (
         <form className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/12 bg-[#EEEEEE] p-8 rounded shadow-md" onSubmit={postNewIncome}>
             {
-                notification != "" ? <p>{notification}</p>:""
+                notification != "" ? <p className="text-black">{notification}</p>:""
             }
             <p>{}</p>
         <button className="absolute top-0 right-0 bg-[#DD3535] text-white py-2 px-4 rounded my-2 mx-2 text-center mx-auto block" onClick={() => setDisplay(false)}>X</button>
@@ -71,7 +75,7 @@ export const NewIncomeForm = ({ display, setDisplay }) => {
             name="amount"
             required
             className="block w-5/12 m-auto mt-5 rounded px-5 py-1"
-            onChange={}
+            //onChange={() => setFormData()}
         />
         <select
             id="category"
