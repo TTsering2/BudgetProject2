@@ -6,13 +6,9 @@ import "./LoginPage.css";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@/Hooks/useAuth";
 // import Validation from "./LoginValidator";
- 
+
 // Interface representing the state of the form
-interface LoginUpFormState {
-  userName: string;
-  userPassword: string;
-}
- 
+
 export const LoginForm: React.FC = () => {
   // form title state
   //const [action, setAction] = useState("Welcome back");
@@ -38,12 +34,12 @@ export const LoginForm: React.FC = () => {
     e.preventDefault();
     const username = e.currentTarget.userName.value;
     const password = e.currentTarget.userPassword.value;
- 
+
     // const validationErrors = Validation({
     //   name: userName,
     //   password: userPassword,
     // });
- 
+
     // const newErrors: LoginUpFormState = {
     //   userName: validationErrors.name || " ",
     //   userPassword: validationErrors.password || " ",
@@ -59,10 +55,10 @@ export const LoginForm: React.FC = () => {
     //     throw error;
     //   }
     // }
- 
+
     try {
       await auth?.signIn(username, password);
- 
+
       //TODO: CHANGE THIS BACK TO INCOME DASH BOARD WHEN DONE
       // navigate("/reportDashboard")
       navigate("/incomeDashboard");

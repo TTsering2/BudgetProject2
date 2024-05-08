@@ -14,6 +14,7 @@ export const AuthenticationPage: React.FC<AuthenticationPageProps> = ({
 
   const toggleMode = () => {
     setMode(mode === "login" ? "signup" : "login");
+    console.log(mode);
   };
 
   return (
