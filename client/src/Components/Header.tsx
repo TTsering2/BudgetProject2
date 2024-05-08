@@ -45,7 +45,7 @@ const Header = () => {
         </section>
       ) : (
         <div className="flex flex-row">
-          <Link to="/login" className="mr-3">
+          <Link to="/signup" className="mr-3">
             <button className="bg-primary-green-blue text-white rounded-lg h-10 w-40 drop-shadow-lg">
               Join us
             </button>
