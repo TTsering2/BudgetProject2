@@ -41,7 +41,28 @@ export function extractYearAndMonth(isoDateString: string): { year: number, mont
     const year = date.getUTCFullYear();  
     const month = date.getUTCMonth() + 1;  
 
-    const monthName = date.toLocaleString("en-US", { month: "long" });
+    const monthName = date.toISOString();
 
     return { year, month, monthName };
+}
+
+/**
+ * Computes the first and last day of the year for the given date string.
+ * @param dateStr The date string in "YYYY-MM-DD" format from an HTML input element.
+ * @returns An object containing the first and last day of the year, both set to midnight UTC.
+ */
+export function getYearBounds(dateStr: string): { firstDay: string, lastDay: string } {
+    const date = new Date(dateStr);
+
+    // First day of the year
+    const firstDay = new Date(Date.UTC(date.getFullYear(), 0, 1)); 
+    firstDay.setUTCHours(0, 0, 0, 0); 
+    const firstDayString = firstDay.toISOString(); 
+
+    // Last day of the year
+    const lastDay = new Date(Date.UTC(date.getFullYear(), 11, 31));
+    lastDay.setUTCHours(23, 59, 59, 999); 
+    const lastDayString = lastDay.toISOString(); 
+
+    return { firstDay: firstDayString, lastDay: lastDayString };
 }
