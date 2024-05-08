@@ -30,7 +30,7 @@ const StockPage: FC = () => {
       // Check if auth is not null
       try {
         const response = await fetch(
-          `http://localhost:5112/api/Stock/user/${3}`,
+          `http://localhost:5112/api/Stock/user/${2}`,
         );
 
         if (!response.ok) {
@@ -62,7 +62,7 @@ const StockPage: FC = () => {
           {stocks.map((stock, index) => (
             <div
               key={stock.id}
-              className="w-70% bg-white shadow p-4 mb-4 rounded-lg max-w-full mx-auto"
+              className="w-70% bg-white shadow-lg px-80 py-10 mb-4 rounded-xl max-w-full mx-auto mb-6"
             >
               {/* Display the stock information */}
 

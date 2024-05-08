@@ -26,10 +26,14 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
   };
 
   return (
-    <div className="bg-white shadow p-4 mb-4 rounded relative">
+    <div className="w-3/4 bg-white shadow p-10 mb-6 rounded-lg relative">
       <div className="flex justify-between items-center">
         {/* <div onClick={() => setShowDetails(!showDetails)}> */}
-        <p className="font-bold">{stock.tickerSymbol}</p>
+        <div className="flex justify-between w-full">
+          <p className="font-roboto font-bold">{stock.tickerSymbol}</p>
+
+          <p className="font-roboto font-bold">Price: {stock.price}</p>
+        </div>
         <button
           onClick={() => setShowDetails(!showDetails)}
           className="focus:outline-none hover:text-blue-500 transition-colors"
@@ -39,10 +43,8 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
         </button>
       </div>
 
-      <p>Price: {stock.price}</p>
-
       {showDetails && (
-        <div className="mt-4">
+        <div className="mt-4 font-lato">
           <p>Company Name: {stock.companyName}</p>
           <p>Date: {new Date(stock.date).toLocaleDateString()}</p>
           <p>Quantity: {stock.quantity}</p>

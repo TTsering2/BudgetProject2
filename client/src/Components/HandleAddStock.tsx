@@ -49,8 +49,14 @@ const AddStock: React.FC<AddStockProps> = ({ setStocks }) => {
   // ...
 
   return (
-    <div>
-      <button onClick={() => setModalIsOpen(true)}>Add Stock</button>
+    <div className="flex justify-center my-6">
+      <button
+        className="bg-primary-green-blue text-white px-2 py-1 rounded hover:bg-primary-dark-blue"
+        onClick={() => setModalIsOpen(true)}
+      >
+        Add Stock
+      </button>
+
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <form
           onSubmit={(e) => {
