@@ -14,6 +14,7 @@ import { AuthenticationPage } from "./Pages/AuthenticationPage";
 const App = () => {
   // const navigate = useNavigate();
 
+  
   // const setNavigateToLandingPage:() => void = () => {
   //   navigate("/");
   // }
