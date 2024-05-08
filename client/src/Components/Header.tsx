@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const auth = useAuth();
   async function handleSignOut() {
-    try{
+    try {
       await auth?.signOut();
     } catch (error) {
       console.error(error);

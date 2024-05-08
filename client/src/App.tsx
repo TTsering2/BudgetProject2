@@ -28,7 +28,7 @@ const App = () => {
   // };
 
   return (
-    <div className="App">
+    <div className="app">
       <AuthProvider>
         <Routes>
           {/* Route LandingPage */}

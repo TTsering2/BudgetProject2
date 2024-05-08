@@ -1,7 +1,7 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import { Link } from "react-router-dom";
-import useAuth from "@/Hooks/useAuth";
+// import useAuth from "@/Hooks/useAuth";
 
 // type Props = {
 // };
