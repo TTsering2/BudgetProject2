@@ -1,14 +1,13 @@
 import { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 
-export const NewIncomeForm = ({ display, setDisplay, userId }) => {
+
+export const NewIncomeForm = ({ display, setDisplay }) => {
 
   const types = ["Salary", "Amount", "Portfolio", "Gift"];
   const [displayForm, setDisplayForm] = useState(display);
-  const[id, setUserId]  = useState(userId);
   const [notification, setNotification] = useState("");
-
-          console.log(id);
+  const { userId, signIn, signOut } = useAuth();
 
     //Post new income
     const postNewIncome = async(e) => {
@@ -21,7 +20,7 @@ export const NewIncomeForm = ({ display, setDisplay, userId }) => {
             amount: e.target.amount.value,
             type: e.target.type.value,
             date:  new Date().toISOString(),
-            userId: userId
+            userId: 2
         }
 
 

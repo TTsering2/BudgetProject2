@@ -82,9 +82,8 @@ const IncomePage = () => {
       } else {
         const data = await response.json();
         setReportData(data.incomeByCategory);
-
-        getTotalIncome(reportData);
-
+        const total = getTotalIncome(data.incomeByCategory);
+        setTotalIncome(total);
         return data;
       }
     } catch (err) {
@@ -115,13 +114,22 @@ const IncomePage = () => {
     const total = Object.values(categories).reduce((sum: number, element) => {
       return (sum += element);
     }, 0);
-    setTotalIncome(total);
+    return total;
   };
 
-  useEffect(() => {
-    getAllUserIncome();
-    getBudgetReport();
+    useEffect(() => {
+      getAllUserIncome();
+      getBudgetReport();
   }, []);
+
+  useEffect(() => {
+    if (reportData.length > 0) {
+      const total = getTotalIncome(reportData);
+      setTotalIncome(total);
+    }
+  }, [reportData]);
+
+
 
   //Report width
   const totalWidth = Object.values(reportData).reduce(
@@ -178,7 +186,7 @@ const IncomePage = () => {
           </div>
 
           {/*FORM ADD ENTRY */}
-          {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm} userId={userId}/>}
+          {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm}/>}
           
           {/*DATA */}
           <div className="w-[1350px] m-auto overflow-y-visible h-96 overflow-x-hidden">
