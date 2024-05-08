@@ -10,6 +10,16 @@ csss form layout
   
 }
 */
+.text-error{
+  color:red;
+  font-size: 5px;
+
+  top:-5px;
+  margin: 0, auto;
+  display:block;
+  margin-bottom: 1%;
+
+}
 
 .pic-container{
   height:89%;

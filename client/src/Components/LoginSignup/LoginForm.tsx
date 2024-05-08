@@ -7,20 +7,21 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "@/Hooks/useAuth";
 
 // Interface representing the state of the form
-// interface FormState {
-//   userName: string;
-//   name: string;
-//   userPassword: string;
-// }
+ interface LoginUpFormState {
+  
+  userEmail: string;
+  userPassword: string;
+}
+
 
 export const LoginForm: React.FC = () => {
   // form title state
-  const [action, setAction] = useState("Welcome back");
+  //const [action, setAction] = useState("Welcome back");
 
   // form state
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
-
+  const [errors, setErrors] = useState<LoginUpFormState>({ userEmail: '', userPassword: '' });
   // Sign In error states
   // const [errors, setErrors] = useState<FormState>({
   //   userName: "",
@@ -85,7 +86,7 @@ export const LoginForm: React.FC = () => {
               onChange={UserOnChangeFunction}
               name="userName"
             />
-            {/* {errors.name && <span className="text-error"> {errors.name}</span>} */}
+             {errors.userEmail && <span className="text-error"> {errors.userEmail}</span>} 
           </div>
 
           <div className="p-2">
@@ -97,7 +98,7 @@ export const LoginForm: React.FC = () => {
               onChange={UserOnChangeFunction}
               name="userPassword"
             />
-            {/* {errors.userPassword && <span className="text-error"> {errors.userPassword}</span>} */}
+             {errors.userPassword && <span className="text-error"> {errors.userPassword}</span>}  
           </div>
 
           <div className="pt-6">
