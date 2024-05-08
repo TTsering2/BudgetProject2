@@ -122,7 +122,7 @@ const IncomePage = () => {
   useEffect(() => {
     getAllUserIncome();
     getBudgetReport();
-  }, [userData]);
+  }, []);
 
   //Report width
   const totalWidth = Object.values(reportData).reduce(
