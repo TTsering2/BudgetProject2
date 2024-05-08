@@ -69,12 +69,7 @@ const App = () => {
             }
           />
 
-                    <Route
-            path="/test"
-            element={
-                <IncomePage />
-            }
-          />
+          <Route path="/test" element={<IncomePage />} />
 
           {/* Report Dashboard Protected Routes */}
           <Route
@@ -87,7 +82,6 @@ const App = () => {
           />
         </Routes>
 
-        
         {/* <AuthenticationPage /> */}
       </AuthProvider>
     </div>
@@ -95,5 +89,3 @@ const App = () => {
 };
 
 export default App;
-
-      

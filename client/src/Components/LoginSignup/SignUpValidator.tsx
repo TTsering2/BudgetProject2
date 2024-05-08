@@ -22,9 +22,6 @@ function Validation(values: {
         */
   const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/; //
 
-
-  
-
   // Validate the email field
   if (values.name === "") {
     error.name = "Name should not be empty";
