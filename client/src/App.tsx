@@ -23,75 +23,74 @@ const App = () => {
   // };
 
   return (
-    <AuthenticationPage initialMode={"login"}></AuthenticationPage>
-    // <div className="app">
-    //   <AuthProvider>
-    //     <Routes>
-    //       {/* Route LandingPage */}
-    //       <Route path="/" element={<LandingPage />} />
+    <div className="app">
+      <AuthProvider>
+        <Routes>
+          {/* Route LandingPage */}
+          <Route path="/" element={<LandingPage />} />
 
-    //       {/*Route User Credential page */}
-    //       <Route
-    //         path="/login"
-    //         element={<AuthenticationPage initialMode="login" />}
-    //       />
-    //       <Route
-    //         path="/signup"
-    //         element={<AuthenticationPage initialMode="signup" />}
-    //       />
+          {/*Route User Credential page */}
+          <Route
+            path="/login"
+            element={<AuthenticationPage initialMode="login" />}
+          />
+          <Route
+            path="/signup"
+            element={<AuthenticationPage initialMode="signup" />}
+          />
 
-    //       {/* Income Protected Routes */}
-    //       <Route
-    //         path="/incomeDashboard"
-    //         element={
-    //           <RequireAuth>
-    //             <IncomePage />
-    //           </RequireAuth>
-    //         }
-    //       />
+          {/* Income Protected Routes */}
+          <Route
+            path="/incomeDashboard"
+            element={
+              <RequireAuth>
+                <IncomePage />
+              </RequireAuth>
+            }
+          />
 
-    //       {/*Expense Protected Routes */}
-    //       <Route
-    //         path="/expenseDashboard"
-    //         element={
-    //           <RequireAuth>
-    //             <ExpensePage />
-    //           </RequireAuth>
-    //         }
-    //       />
+          {/*Expense Protected Routes */}
+          <Route
+            path="/expenseDashboard"
+            element={
+              <RequireAuth>
+                <ExpensePage />
+              </RequireAuth>
+            }
+          />
 
-    //       {/* Stock Protected Routes */}
-    //       <Route
-    //         path="/stockDashboard"
-    //         element={
-    //           <RequireAuth>
-    //             <StockPage />
-    //           </RequireAuth>
-    //         }
-    //       />
+          {/* Stock Protected Routes */}
+          <Route
+            path="/stockDashboard"
+            element={
+              <RequireAuth>
+                <StockPage />
+              </RequireAuth>
+            }
+          />
 
-    //                 <Route
-    //         path="/test"
-    //         element={
-    //             <IncomePage />
-    //         }
-    //       />
+                    <Route
+            path="/test"
+            element={
+                <IncomePage />
+            }
+          />
 
-    //       {/* Report Dashboard Protected Routes */}
-    //       <Route
-    //         path="/reportDashboard"
-    //         element={
-    //           <RequireAuth>
-    //             <BudgetReportPage />
-    //           </RequireAuth>
-    //         }
-    //       />
-    //     </Routes>
+          {/* Report Dashboard Protected Routes */}
+          <Route
+            path="/reportDashboard"
+            element={
+              <RequireAuth>
+                <BudgetReportPage />
+              </RequireAuth>
+            }
+          />
+        </Routes>
 
         
-    //     {/* <AuthenticationPage /> */}
-    //   </AuthProvider>
-    // </div>
+        {/* <AuthenticationPage /> */}
+      </AuthProvider>
+    </div>
   );
 };
 
