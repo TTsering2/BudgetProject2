@@ -1,6 +1,6 @@
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
-import { getFirstAndLastDateOfMonth, formatDate} from '../utils/generateReportDate';
+import { getFirstAndLastDateOfMonth } from '../utils/generateReportDate';
 import useAuth from "@/Hooks/useAuth";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -26,11 +26,18 @@ interface UserData {
 const IncomePage = () => {
  
     const[userData, setUserData] = useState<UserData[]>([]);
-    const [showData, setShowData] = useState<{ [key: string]: boolean }>({});
+    const[showData, setShowData] = useState<{ [key: string]: boolean }>({});
     const[reportData, setReportData] = useState([]);
+    const[totalIncome, setTotalIncome] = useState(0);
+    const[currentDate, setCurrentDate] = useState({
+      month: "",
+      differenceInDays:0
+    });
+
+
     const { userId, signIn, signOut } = useAuth();
     const userIdValue = userId?.toString();
-    const [totalIncome, setTotalIncome] = useState(0);
+
 
 
     const toggleShowData = (type: string) => {
@@ -65,9 +72,16 @@ const IncomePage = () => {
   
     //Get Budget Report
     const getBudgetReport = async() => {
+
+        //Get dates
+        const dates = getFirstAndLastDateOfMonth();
+        setCurrentDate({
+            month: dates.monthName,
+            differenceInDays:dates.dateUntilMonthEds
+        });
  
         try{
-            const response = await fetch(`http://localhost:5112/incomeReport/userId=2/startDate=2024-05-01T20:02:30.703Z/endDate=2024-05-29`
+            const response = await fetch(`http://localhost:5112/incomeReport/userId=2/startDate=${dates.firstDate}/endDate=${dates.lastDate}`
         );
             if(!response.ok){
                 throw new Error(response.statusText);
@@ -75,6 +89,7 @@ const IncomePage = () => {
             else{
                 const data = await response.json();
                 setReportData(data.incomeByCategory);
+                
                 getTotalIncome(reportData);
 
                 return data;
@@ -140,8 +155,8 @@ const IncomePage = () => {
                               <p className="text-lg font-normal	">Total Income</p>
                             </div>
                             <div className="w-2/12">
-                              <p className="text-3xl font-semibold" >May 2024</p>
-                              <p  className="text-xl font-normal	">17 Days Left</p>
+                              <p className="text-3xl font-semibold text-right pr-10" >{currentDate.month}</p>
+                              <p  className="text-xl font-normal	text-right pr-10">{currentDate.differenceInDays} Days Left</p>
                             </div>
                         </div>
                             <div className="flex flex-col gap-4">

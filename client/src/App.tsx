@@ -96,9 +96,4 @@ const App = () => {
 
 export default App;
 
-          <Route
-            path="/test"
-            element={
-                <IncomePage />
-            }
-          />
+      

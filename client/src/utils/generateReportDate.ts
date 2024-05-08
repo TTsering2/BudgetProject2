@@ -1,16 +1,24 @@
 
 //This function generates formatted date output for the Budget Report API
 
-export function getFirstAndLastDateOfMonth(year: number, month: number): { firstDate: string, lastDate: string } {
-    // Create a new Date object with the given year and month (months are 0-based)
-    const firstDate: Date = new Date(year, month, 1);
-    const lastDate: Date = new Date(year, month + 1, 0);
+export function getFirstAndLastDateOfMonth() {
 
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     // Format the first and last dates as strings in "YYYY-MM-DDTHH:mm:ss.sssZ" format
-    const firstDateString: string = formatDate(firstDate);
-    const lastDateString: string = formatDate(lastDate);
+    const firstDateString: string = formatDate(firstDayOfMonth);
+    const lastDateString: string = formatDate(lastDayOfMonth);
 
-    return { firstDate: firstDateString, lastDate: lastDateString };
+    const dateUntilMonthEds = lastDayOfMonth - today;
+    const differenceInDays = Math.floor(dateUntilMonthEds / (1000 * 60 * 60 * 24));
+
+
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let monthName = months[today.getMonth()];
+    
+
+    return { firstDate: firstDateString, lastDate: lastDateString, monthName: monthName + " " +  today.getDate(), dateUntilMonthEds:differenceInDays};
 }
 
 export function formatDate(date: Date): string {
@@ -35,9 +43,4 @@ export function formatDate(date: Date): string {
     return `${year}-${formattedMonth}-${formattedDay}T${formattedHours}:${formattedMinutes}:${formattedSeconds}.${milliseconds}Z`;
 }
 
-// Example usage:
-const year: number = 2024;
-const month: number = 4; // May (0-based)
-const { firstDate, lastDate } = getFirstAndLastDateOfMonth(year, month);
-console.log("First Date of the Month:", firstDate);
-console.log("Last Date of the Month:", lastDate);
+
