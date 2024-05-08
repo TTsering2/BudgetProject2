@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import { LoginForm } from "./LoginForm";
 import { SignUpForm } from "./SignUpForm";
-
-export const AuthenticationPage = () => {
-  const [mode, setMode] = useState<"login" | "signup">("login");
-
+ 
+// Define the type for the props
+interface AuthenticationPageProps {
+  initialMode: "login" | "signup";
+}
+ 
+export const AuthenticationPage: React.FC<AuthenticationPageProps> = ({
+  initialMode,
+}) => {
+  const [mode, setMode] = useState<"login" | "signup">(initialMode);
+ 
   const toggleMode = () => {
-    setMode(mode === "login" ? "signup" : "login");
+    const newMode = mode === "login" ? "signup" : "login";
+    setMode(newMode);
+    console.log(newMode);
   };
-
+ 
   return (
     <div>
-      {/* <h1>{mode === "login" ? "Login" : "Sign Up"}</h1> */}
       {mode === "login" ? <LoginForm /> : <SignUpForm />}
-      <p onClick={toggleMode} style={{ textAlign: "center" }}>
+      <p
+        onClick={toggleMode}
+        style={{ textAlign: "center", cursor: "pointer" }}
+      >
         {mode === "login"
           ? "Don't have an account? Sign up here."
           : "Already have an account? Login here."}
@@ -21,3 +32,4 @@ export const AuthenticationPage = () => {
     </div>
   );
 };
+ 
