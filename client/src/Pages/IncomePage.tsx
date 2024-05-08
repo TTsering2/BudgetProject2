@@ -137,53 +137,47 @@ const IncomePage = () => {
     0,
   );
 
-  return (
-    <div className="bg-gradient-bluewhite h-screen">
-      <Header myBoolProp={true}></Header>
-
-      {userData.length === 0 /*Component with income*/ ? (
-        <h1>NO INCOME</h1>
-      ) : (
-        /*Component with no income*/
-        <section className="h-5/6 roboto">
-          <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 ">
-            <h2 className="text-xl">Income Summary</h2>
-            <div className="flex flex-row justify-between mt-9 w-[1300px]">
-              <div>
-                <p className="text-3xl">${totalIncome}</p>
-                <p className="text-lg font-normal	">Total Income</p>
-              </div>
-              <div className="w-2/12">
-                <p className="text-3xl font-semibold text-right pr-10">
-                  {currentDate.month}
-                </p>
-                <p className="text-xl font-normal	text-right pr-10">
-                  {currentDate.differenceInDays} Days Left
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center"></div>
-              <div className="flex items-center">
-                <div
-                  className="bg-blue-500 h-8"
-                  style={{ width: totalWidth + "px" }}
-                ></div>
-              </div>
-              <div className="flex items-center  rounded-xl">
-                {Object.entries(reportData).map(([key, value]) => (
-                  <div key={key} className="w-32 rounded-xl">
-                    {key.charAt(0).toUpperCase() + key.substring(1)}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="w-[1350px] m-auto my-5">
-            <button className="bg-primary-green-blue text-white p-2 px-7 rounded text-center mx-auto block" onClick={() => (setToggleIncomForm(true))}>
-              Add a New Income
-            </button>
-          </div>
+ 
+    return(
+        <div className="bg-gradient-bluewhite h-screen">
+            <Header/>
+ 
+            {
+                userData.length === 0 ?  /*Component with income*/
+ 
+                (<h1>NO INCOME</h1>)
+                :
+                /*Component with no income*/
+                (
+                <section className="h-5/6 roboto">
+                    <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 ">
+                        <h2 className="text-xl">Income Summary</h2>
+                        <div className="flex flex-row justify-between mt-9 w-[1300px]">
+                            <div>
+                              <p className="text-3xl">${totalIncome}</p>
+                              <p className="text-lg font-normal	">Total Income</p>
+                            </div>
+                            <div className="w-2/12">
+                              <p className="text-3xl font-semibold text-right pr-10" >{currentDate.month}</p>
+                              <p  className="text-xl font-normal	text-right pr-10">{currentDate.differenceInDays} Days Left</p>
+                            </div>
+                        </div>
+                            <div className="flex flex-col gap-4">
+                              <div className="flex items-center">
+                              </div>
+                              <div className="flex items-center">
+                                <div className="bg-blue-500 h-8" style={{ width: totalWidth + 'px' }}></div>
+                              </div>
+                              <div className="flex items-center  rounded-xl">
+                                {Object.entries(reportData).map(([key, value]) => (
+                                  <div key={key} className="w-32 rounded-xl">{key.charAt(0).toUpperCase() + key.substring(1)}</div>
+                                ))}
+                              </div>
+                            </div>
+                    </div>
+                        <div className="w-[1350px] m-auto my-5" >
+                            <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block">Add a New Income</button>
+                        </div>
 
           {/*FORM ADD ENTRY */}
           {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm}/>}
