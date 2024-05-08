@@ -5,11 +5,12 @@ import google_icon from "@/Assets/google.png";
 import "./LoginPage.css";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@/Hooks/useAuth";
+import Validation from "./LoginValidator";
 
 // Interface representing the state of the form
  interface LoginUpFormState {
   
-  userEmail: string;
+  userName: string;
   userPassword: string;
 }
 
@@ -21,7 +22,7 @@ export const LoginForm: React.FC = () => {
   // form state
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const [errors, setErrors] = useState<LoginUpFormState>({ userEmail: '', userPassword: '' });
+  const [errors, setErrors] = useState<LoginUpFormState>({ userName: '', userPassword: '' });
   // Sign In error states
   // const [errors, setErrors] = useState<FormState>({
   //   userName: "",
@@ -36,17 +37,41 @@ export const LoginForm: React.FC = () => {
     e.preventDefault();
     const username = e.currentTarget.userName.value;
     const password = e.currentTarget.userPassword.value;
-    try {
-      await auth?.signIn(username, password);
 
-      //TODO: CHANGE THIS BACK TO INCOME DASH BOARD WHEN DONE
-      // navigate("/reportDashboard")
-      navigate("/incomeDashboard");
-    } catch (error) {
-      console.error(error);
-      throw error;
+    const validationErrors = Validation({name :userName, password:userPassword});
+
+    const newErrors: LoginUpFormState = {
+      userName: validationErrors.name || ' ',
+      userPassword: validationErrors.password || ' '
+
+    };
+    setErrors(newErrors);
+    if(Object.keys(validationErrors).length === 0){
+      try{
+        await auth?.signIn(username, password);
+        navigate("/incomeDashboard");
+        console.log("Login successful. UserID: " + auth?.userId);
+
+      }catch(error){
+        console.error(error);
+        throw error;
+
+      }
+      
     }
-    console.log("Login successful. UserID: " + auth?.userId);
+
+
+    // try {
+    //   await auth?.signIn(username, password);
+
+    //   //TODO: CHANGE THIS BACK TO INCOME DASH BOARD WHEN DONE
+    //   // navigate("/reportDashboard")
+    //   navigate("/incomeDashboard");
+    // } catch (error) {
+    //   console.error(error);
+    //   throw error;
+    // }
+    // console.log("Login successful. UserID: " + auth?.userId);
   }
 
   // user input, operate simply input. Without this "onChange" event, we cannot type.
@@ -86,7 +111,7 @@ export const LoginForm: React.FC = () => {
               onChange={UserOnChangeFunction}
               name="userName"
             />
-             {errors.userEmail && <span className="text-error"> {errors.userEmail}</span>} 
+             {errors.userName && <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userName}</span>} 
           </div>
 
           <div className="p-2">
@@ -98,7 +123,7 @@ export const LoginForm: React.FC = () => {
               onChange={UserOnChangeFunction}
               name="userPassword"
             />
-             {errors.userPassword && <span className="text-error"> {errors.userPassword}</span>}  
+             {errors.userPassword && <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userPassword}</span>}  
           </div>
 
           <div className="pt-6">
