@@ -8,9 +8,9 @@ import { Link } from "react-router-dom";
 // {  }: Props
 const LandingPage = () => {
   return (
-    <div className="bg-[url('/assets/bg.png')] bg-cover bg-center ">
-      <Header></Header>
-      <main className="w-[1300px] mx-auto mt-20">
+    <div className="bg-[url('/assets/bg.png')] bg-cover bg-center">
+      <Header myBoolProp={true}></Header>
+      <main className="w-[1300px] mx-auto mt-5 mb-10">
         <section className="flex flex-row mb-1  items-center">
           <div className="w-11/12">
             <h1 className="text-4xl w-6/12 font-semibold">

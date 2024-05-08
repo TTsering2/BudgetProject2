@@ -47,8 +47,6 @@ const StockPage: FC = () => {
 
   async function handleAddStock() {}
 
-  function handleDeletetock() {}
-
   function handleUpdateStock() {}
 
   return (
@@ -61,8 +59,8 @@ const StockPage: FC = () => {
         <section className="flex flex-col items-center justify-between text-center w-full m-auto pb-14 ">
           {stocks.map((stock, index) => (
             <div
-              key={stock.id}
-              className="w-70% bg-white shadow-lg px-80 py-10 mb-4 rounded-xl max-w-full mx-auto mb-6"
+              key={index}
+              className="flex flex-row justify-between w-11/12 my-5"
             >
               {/* Display the stock information */}
 
@@ -74,7 +72,9 @@ const StockPage: FC = () => {
           ))}
         </section>
       </div>
-      <Footer></Footer>
+      <footer className="fixed inset-x-0 bottom-0">
+        <Footer></Footer>
+      </footer>
     </div>
   );
 };
