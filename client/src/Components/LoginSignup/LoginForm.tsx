@@ -7,19 +7,12 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "@/Hooks/useAuth";
 
 // Interface representing the state of the form
- /*interface FormState {
-   userName: string;
-   name: string;
-   userPassword: string;
- }
- */
-/*
  interface LoginUpFormState {
   
   userEmail: string;
   userPassword: string;
 }
-*/
+
 
 export const LoginForm: React.FC = () => {
   // form title state
@@ -28,7 +21,7 @@ export const LoginForm: React.FC = () => {
   // form state
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  //const [errors, setErrors] = useState<LoginUpFormState>({ userEmail: '', userPassword: '' });
+  const [errors, setErrors] = useState<LoginUpFormState>({ userEmail: '', userPassword: '' });
   // Sign In error states
   // const [errors, setErrors] = useState<FormState>({
   //   userName: "",
@@ -83,16 +76,30 @@ export const LoginForm: React.FC = () => {
           <div className="text text-[25px] mt-[42px]">Welcome Back</div>
         </div>
 
-       <form onSubmit={LoginUser}>   
-           <div className = "p-2">
-               <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]" placeholder="Username" type="text" value={userName} onChange={UserOnChangeFunction} name="userName"/>
-                 {/* {errors.userEmail && <span className="text-error"> {errors.userEmail}</span>}   */}
-           </div>
+        <form onSubmit={LoginUser}>
+          <div className="p-2">
+            <input
+              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]"
+              placeholder="Username"
+              type="text"
+              value={userName}
+              onChange={UserOnChangeFunction}
+              name="userName"
+            />
+             {errors.userEmail && <span className="text-error"> {errors.userEmail}</span>} 
+          </div>
 
-           <div className = "p-2">
-               <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]" placeholder="Password" type="password" value={userPassword} onChange={UserOnChangeFunction} name="userPassword"/>
-                 {/* {errors.userPassword && <span className="text-error"> {errors.userPassword}</span>}  */}
-           </div>
+          <div className="p-2">
+            <input
+              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]"
+              placeholder="Password"
+              type="password"
+              value={userPassword}
+              onChange={UserOnChangeFunction}
+              name="userPassword"
+            />
+             {errors.userPassword && <span className="text-error"> {errors.userPassword}</span>}  
+          </div>
 
           <div className="pt-6">
             <button id="LogInSubmit" type="submit">

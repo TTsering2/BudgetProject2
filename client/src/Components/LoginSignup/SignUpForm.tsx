@@ -3,47 +3,50 @@ import facebook_icon from "@/Assets/fb.png";
 import x_icon from "@/Assets/X.png";
 import google_icon from "@/Assets/google.png";
 import "./LoginPage.css";
-import Validation from "./LoginValidator";
-
+import Validation from "./SignUpValidator";
 
 interface SignUpFormState {
-  userName:string,
+  userName: string;
   userEmail: string;
   userPassword: string;
 }
-
 
 export const SignUpForm: React.FC = () => {
   const [userName, setName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  const [errors, setErrors] = useState<SignUpFormState>({userName:'', userEmail: '', userPassword: '' });
-
+  const [errors, setErrors] = useState<SignUpFormState>({
+    userName: "",
+    userEmail: "",
+    userPassword: "",
+  });
 
   const handleSignUpSubmit = async (
-
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
-    const validationErrors = Validation({ name:userName, email :userEmail, password:userPassword});
+    const validationErrors = Validation({
+      name: userName,
+      email: userEmail,
+      password: userPassword,
+    });
 
     const newErrors: SignUpFormState = {
-      userName: validationErrors.name || '',
-      userEmail: validationErrors.email || ' ',
-      userPassword: validationErrors.password || ' '
-
+      userName: validationErrors.name || "",
+      userEmail: validationErrors.email || " ",
+      userPassword: validationErrors.password || " ",
     };
     setErrors(newErrors);
-    if(Object.keys(validationErrors).length === 0){
-      console.log("SUCCESSFUL!")
+    if (Object.keys(validationErrors).length === 0) {
+      console.log("SUCCESSFUL!");
 
       const userName = (
         event.currentTarget.querySelector(
           'input[name="name"]',
         ) as HTMLInputElement
       ).value;
-  
+
       const userEmail = (
         event.currentTarget.querySelector(
           'input[name="userEmail"]',
@@ -55,11 +58,7 @@ export const SignUpForm: React.FC = () => {
         ) as HTMLInputElement
       ).value;
       AddUser(userName, userEmail, password);
-  
     }
-
-    
-   
   };
 
   async function AddUser(name: string, userEmail: string, password: string) {
@@ -130,21 +129,63 @@ export const SignUpForm: React.FC = () => {
           <div className="text text-[25px] mt-[42px]">Nice To Meet You!</div>
         </div>
 
-                <form onSubmit={handleSignUpSubmit}>
-                    <div className="p-2 ">
-                        <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Name" type="text" value={userName} onChange={UserOnChangeFunction} name="name" />
-                        {errors.userName && <div className="error"><span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userName}</span></div>} 
-                    </div>
+        <form onSubmit={handleSignUpSubmit}>
+          <div className="p-2 ">
+            <input
+              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] "
+              placeholder="Name"
+              type="text"
+              value={userName}
+              onChange={UserOnChangeFunction}
+              name="name"
+            />
+            {errors.userName && (
+              <div className="error">
+                <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}">
+                  {" "}
+                  {errors.userName}
+                </span>
+              </div>
+            )}
+          </div>
 
-                    <div className="p-2">
-                        <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]" placeholder="Username" type="text" value={userEmail} onChange={UserOnChangeFunction} name="userName" />
-                         {errors.userEmail && <div className="error"><span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userEmail}</span></div>} 
-                    </div>
+          <div className="p-2">
+            <input
+              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]"
+              placeholder="Username"
+              type="text"
+              value={userEmail}
+              onChange={UserOnChangeFunction}
+              name="userName"
+            />
+            {errors.userEmail && (
+              <div className="error">
+                <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}">
+                  {" "}
+                  {errors.userEmail}
+                </span>
+              </div>
+            )}
+          </div>
 
-                    <div className="p-2">
-                        <input className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] " placeholder="Password" type="password" value={userPassword} onChange={UserOnChangeFunction} name="userPassword" />
-                         {errors.userPassword && <div className="error"><span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}"> {errors.userPassword}</span></div>} 
-                    </div>
+          <div className="p-2">
+            <input
+              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] "
+              placeholder="Password"
+              type="password"
+              value={userPassword}
+              onChange={UserOnChangeFunction}
+              name="userPassword"
+            />
+            {errors.userPassword && (
+              <div className="error">
+                <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}">
+                  {" "}
+                  {errors.userPassword}
+                </span>
+              </div>
+            )}
+          </div>
 
           <div className="pt-6">
             <button id="SignUpSubmit" type="submit">
