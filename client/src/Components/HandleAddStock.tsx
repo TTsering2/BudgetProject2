@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
+import Header from "./Header";
 // import AuthContext from "@/Hooks/AuthContext";
 import { Stock } from "@/Pages/StockPage";
 import useAuth from "@/Hooks/useAuth";
@@ -51,7 +52,8 @@ const AddStock: React.FC<AddStockProps> = ({ setStocks }) => {
   return (
     <div className="flex justify-center my-6">
       <button
-        className="bg-primary-green-blue text-white px-2 py-1 rounded hover:bg-primary-dark-blue"
+        className="
+       bg-primary-green-blue text-white rounded-lg h-10 w-40 drop-shadow-lg hover:bg-primary-dark-blue"
         onClick={() => setModalIsOpen(true)}
       >
         Add Stock

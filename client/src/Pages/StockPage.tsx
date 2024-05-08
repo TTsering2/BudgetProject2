@@ -5,6 +5,12 @@ import { error } from "console";
 import Stock from "@/Components/Stock";
 import AddStock from "@/Components/HandleAddStock";
 import Footer from "@/Components/Footer";
+import Header from "@/Components/Header";
+import { Link } from "react-router-dom";
+
+type HeaderProps = {
+  myBoolProp: boolean;
+};
 
 export type Stock = {
   id: number;
@@ -16,7 +22,12 @@ export type Stock = {
   date: Date;
 };
 
-const StockPage: FC = () => {
+type StockProps = {
+  stock: Stock;
+  onStockDeleted: (id: number) => void;
+};
+
+const StockPage: FC<StockProps> = ({}) => {
   const auth = useAuth();
   const [stocks, setStocks] = useState<Stock[]>([]);
 
@@ -45,13 +56,20 @@ const StockPage: FC = () => {
     }
   }
 
+  // const handleStockDeleted = (id: string) => {
+  //   setStocks((prevStocks) => prevStocks.filter((stock) => stock.id !== id));
+  //   setMessage("Stock deleted successfully");
+  // };
+
   async function handleAddStock() {}
 
   function handleUpdateStock() {}
 
   return (
-    <div className="bg-[url('/assets/bg.png')] bg-cover bg-center min-h-screen">
-      <div className="mb-4">
+    <div className="bg-gradient-bluewhite flex flex-col min-h-screen">
+      <Header myBoolProp={true} />
+
+      <div className="flex-grow mb-4 font-roboto leading-loose tracking-wide">
         <AddStock
           setStocks={setStocks}
           className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
@@ -72,7 +90,7 @@ const StockPage: FC = () => {
           ))}
         </section>
       </div>
-      <footer className="fixed inset-x-0 bottom-0">
+      <footer className="mt-auto">
         <Footer></Footer>
       </footer>
     </div>

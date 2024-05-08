@@ -81,6 +81,13 @@ const App = () => {
             }
           />
 
+                    <Route
+            path="/test"
+            element={
+                <IncomePage />
+            }
+          />
+
           {/* Report Dashboard Protected Routes */}
           <Route
             path="/reportDashboard"
