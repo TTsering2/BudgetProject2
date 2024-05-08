@@ -7,12 +7,12 @@ export const NewIncomeForm = ({ display, setDisplay }) => {
   const types = ["Salary", "Amount", "Portfolio", "Gift"];
   const [displayForm, setDisplayForm] = useState(display);
   const [notification, setNotification] = useState("");
-  const { userId, signIn, signOut } = useAuth();
+//const { userId, signIn, signOut } = useAuth();
 
     //Post new income
     const postNewIncome = async(e) => {
 
-        console.log(userId);
+        //console.log(userId);
         e.preventDefault();
 
         const incomeForm = {

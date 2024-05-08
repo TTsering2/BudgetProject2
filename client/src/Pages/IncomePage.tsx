@@ -176,7 +176,7 @@ const IncomePage = () => {
                             </div>
                     </div>
                         <div className="w-[1350px] m-auto my-5" >
-                            <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block">Add a New Income</button>
+                            <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block" onClick = {() => {setToggleIncomForm(prev => !prev)}}>Add a New Income</button>
                         </div>
 
           {/*FORM ADD ENTRY */}
