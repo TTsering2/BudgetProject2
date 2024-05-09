@@ -82,8 +82,11 @@ function HandleUpdateStock({ setStocks, stock }: UpdateStockProps) {
         onRequestClose={handleCloseModal}
         contentLabel="Update Stock"
       >
-        <h2>Update Stock</h2>
+        <h2 className="Lato flex justify-center text-2xl font-semibold mt-10">
+          Updating Stock
+        </h2>
         <form
+          className="flex-center"
           onSubmit={(e) => {
             e.preventDefault();
             handleUpdateStock({
@@ -94,35 +97,48 @@ function HandleUpdateStock({ setStocks, stock }: UpdateStockProps) {
               date,
             });
           }}
+          style={{ margin: "40px", padding: "20px" }}
         >
-          <input
-            type="text"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-          />
-          <input
-            type="text"
-            value={tickerSymbol}
-            onChange={(e) => setTickerSymbol(e.target.value)}
-          />
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-          />
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
-          />
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-          <button type="submit">Submit</button>
+          <div className="flex justify-between">
+            <input
+              type="text"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
+            <input
+              type="text"
+              value={tickerSymbol}
+              onChange={(e) => setTickerSymbol(e.target.value)}
+            />
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+            />
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+            />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+          <button
+            className="mt-20 flex justify-end mx-auto bg-transparent text-black hover:bg-bg-primary-green-blue text-lg transform hover:scale-110 transition-all duration-200 drop-shadow-lg"
+            type="submit"
+          >
+            Submit
+          </button>
         </form>
-        <button onClick={handleCloseModal}>Close</button>
+        <button
+          className="mt-20 flex justify-end mx-auto bg-transparent text-black hover:bg-bg-primary-green-blue text-lg transform hover:scale-110 transition-all duration-200 drop-shadow-lg"
+          onClick={handleCloseModal}
+        >
+          Close
+        </button>
       </Modal>
     </div>
   );

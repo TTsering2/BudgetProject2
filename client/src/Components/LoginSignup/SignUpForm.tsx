@@ -6,62 +6,79 @@ import "./LoginPage.css";
 import Validation from "./SignUpValidator";
 
 interface SignUpFormState {
+  name: string;
   userName: string;
-  userEmail: string;
   userPassword: string;
 }
 
 export const SignUpForm: React.FC = () => {
-  const [userName, setName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
+  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
   const [errors, setErrors] = useState<SignUpFormState>({
+    name: "",
     userName: "",
-    userEmail: "",
     userPassword: "",
   });
 
   const handleSignUpSubmit = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
+    console.log(
+      `Submitting with name: ${name}, username: ${userName}, password: ${userPassword}`,
+    );
     event.preventDefault();
+    console.log("Form submitted");
+
+    console.log("Calling Validation function");
     const validationErrors = Validation({
-      name: userName,
-      email: userEmail,
+      name: name,
+      username: userName,
       password: userPassword,
     });
+    console.log("Validation function returned", validationErrors);
 
+    console.log("Creating newErrors object");
     const newErrors: SignUpFormState = {
-      userName: validationErrors.name || "",
-      userEmail: validationErrors.email || " ",
-      userPassword: validationErrors.password || " ",
+      name: validationErrors.name || "",
+      userName: validationErrors.username || "",
+      userPassword: validationErrors.password || "",
     };
-    setErrors(newErrors);
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("SUCCESSFUL!");
+    console.log("newErrors object created", newErrors);
 
-      const userName = (
-        event.currentTarget.querySelector(
-          'input[name="name"]',
-        ) as HTMLInputElement
-      ).value;
-
-      const userEmail = (
-        event.currentTarget.querySelector(
-          'input[name="userEmail"]',
-        ) as HTMLInputElement
-      ).value;
-      const password = (
-        event.currentTarget.querySelector(
-          'input[name="userPassword"]',
-        ) as HTMLInputElement
-      ).value;
-      AddUser(userName, userEmail, password);
+    // Check if there are any validation errors
+    if (newErrors.name || newErrors.userName || newErrors.userPassword) {
+      // If there are validation errors, set them to state and stop the function
+      setErrors(newErrors);
+      return;
     }
+
+    // setErrors(newErrors);
+    // if (Object.keys(validationErrors).length === 0) {
+    //   console.log("SUCCESSFUL!");
+
+    // const name = (
+    //   event.currentTarget.querySelector(
+    //     'input[name="name"]',
+    //   ) as HTMLInputElement
+    // ).value;
+
+    // const username = (
+    //   event.currentTarget.querySelector(
+    //     'input[name="userName"]',
+    //   ) as HTMLInputElement
+    // ).value;
+    // const password = (
+    //   event.currentTarget.querySelector(
+    //     'input[name="userPassword"]',
+    //   ) as HTMLInputElement
+    // ).value;
+    AddUser(name, userName, userPassword);
+    console.log("User added successfully");
   };
 
-  async function AddUser(name: string, userEmail: string, password: string) {
+  async function AddUser(name: string, username: string, password: string) {
     try {
       console.log("Attempting to add user");
 
@@ -72,7 +89,7 @@ export const SignUpForm: React.FC = () => {
         },
         body: JSON.stringify({
           name: name,
-          userEmail: userEmail,
+          username: username,
           password: password,
         }),
       });
@@ -82,7 +99,7 @@ export const SignUpForm: React.FC = () => {
           "User added successfully. UserID: " +
             data.userId +
             " Username: " +
-            data.userEmail +
+            data.username +
             " Name: " +
             data.name,
         );
@@ -103,10 +120,11 @@ export const SignUpForm: React.FC = () => {
 
   const UserOnChangeFunction = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
     if (name === "name") {
       setName(value);
     } else if (name === "userName") {
-      setUserEmail(value);
+      setUserName(value);
     } else if (name === "userPassword") {
       setUserPassword(value);
     }
@@ -132,40 +150,32 @@ export const SignUpForm: React.FC = () => {
         <form onSubmit={handleSignUpSubmit}>
           <div className="p-2 ">
             <input
-              className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] "
+              className="text-[rgb(0,0,0)] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px] "
               placeholder="Name"
               type="text"
-              value={userName}
+              value={name}
               onChange={UserOnChangeFunction}
               name="name"
             />
-            {errors.userName && (
-              <div className="error">
-                <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}">
-                  {" "}
-                  {errors.userName}
-                </span>
-              </div>
-            )}
           </div>
+          {errors.userName && (
+            <div className="error">
+              <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}">
+                {" "}
+                {errors.userName}
+              </span>
+            </div>
+          )}
 
           <div className="p-2">
             <input
               className="text-[black] w-[calc(100%_-_60px)] h-[30px] text-xs pl-[5%] rounded-[10px]"
               placeholder="Username"
               type="text"
-              value={userEmail}
+              value={userName}
               onChange={UserOnChangeFunction}
               name="userName"
             />
-            {errors.userEmail && (
-              <div className="error">
-                <span className="text-[red] text-[12px] top-[-5px] block mb-[1%] mx-auto my-[0,]}">
-                  {" "}
-                  {errors.userEmail}
-                </span>
-              </div>
-            )}
           </div>
 
           <div className="p-2">

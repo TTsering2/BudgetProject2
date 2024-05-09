@@ -11,7 +11,6 @@ type AddStockProps = {
 };
 
 const AddStock: React.FC<AddStockProps> = ({ setStocks }) => {
-  const auth = useAuth();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newStock, setNewStock] = useState({
     companyName: "",
@@ -53,7 +52,7 @@ const AddStock: React.FC<AddStockProps> = ({ setStocks }) => {
     <div className="flex justify-center my-6">
       <button
         className="
-       bg-primary-green-blue text-white rounded-lg h-10 w-40 drop-shadow-lg hover:bg-primary-dark-blue"
+       bg-primary-green-blue text-white rounded-lg h-10 w-40 drop-shadow-lg hover:bg-primary-dark-blue hover:scale-105 transform transition-all ease-in-out duration-200"
         onClick={() => setModalIsOpen(true)}
       >
         Add Stock

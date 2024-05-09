@@ -19,6 +19,7 @@ type StockProps = {
 const Stock: React.FC<StockProps> = ({ stock }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [stocks, setStocks] = useState<StockProps["stock"][]>([]);
+  // const [stock, setStock] = useState<StockProps["stock"] | null>(null);
 
   const handleDelete = async () => {
     console.log("Deleting stock:", stock.id);
@@ -71,7 +72,7 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
       </div>
       {showDetails && (
         <div className="mt-4 font-Lato">
-          <h3 className="text-2xl font-semibold w-11/12 pl-4 mb-">
+          <h3 className="text-2xl font-semibold w-11/12 pl-4">
             {stock.companyName}
           </h3>
           <div
@@ -96,13 +97,6 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
               Delete
             </button>
             <HandleUpdateStock setStocks={setStocks} stock={stock} />
-            {/* <button
-              onClick={handleUpdate}
-              className="  bg-primary-green-blue text-white rounded-lg h-10 w-40 drop-shadow-lg 
-              hover:bg-primary-dark-blue"
-            >
-              Update
-            </button> */}
           </div>
         </div>
       )}

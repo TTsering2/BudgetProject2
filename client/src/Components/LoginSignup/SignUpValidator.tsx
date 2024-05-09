@@ -1,13 +1,13 @@
 interface ValidationErrors {
   name?: string;
-  email?: string;
+  username?: string;
   password?: string;
 }
 
 // Validation function that takes an object with email and password properties
 function Validation(values: {
   name: string;
-  email: string;
+  username: string;
   password: string;
 }): ValidationErrors {
   // Initialize an empty object to store validation errors
@@ -29,12 +29,10 @@ function Validation(values: {
     error.name = "";
   }
 
-  if (values.email === "") {
-    error.email = "Email should not be empty";
-  } else if (!email_pattern.test(values.email)) {
-    error.email = "add '@.com' match";
+  if (values.username === "") {
+    error.username = "Name should not be empty";
   } else {
-    error.email = "";
+    error.username = "";
   }
 
   // Validate the password field
