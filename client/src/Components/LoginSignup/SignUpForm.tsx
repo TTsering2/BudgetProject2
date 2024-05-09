@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import facebook_icon from "@/Assets/fb.png";
 import x_icon from "@/Assets/X.png";
 import google_icon from "@/Assets/google.png";
@@ -15,6 +16,7 @@ export const SignUpForm: React.FC = () => {
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState<SignUpFormState>({
     name: "",
@@ -54,26 +56,6 @@ export const SignUpForm: React.FC = () => {
       return;
     }
 
-    // setErrors(newErrors);
-    // if (Object.keys(validationErrors).length === 0) {
-    //   console.log("SUCCESSFUL!");
-
-    // const name = (
-    //   event.currentTarget.querySelector(
-    //     'input[name="name"]',
-    //   ) as HTMLInputElement
-    // ).value;
-
-    // const username = (
-    //   event.currentTarget.querySelector(
-    //     'input[name="userName"]',
-    //   ) as HTMLInputElement
-    // ).value;
-    // const password = (
-    //   event.currentTarget.querySelector(
-    //     'input[name="userPassword"]',
-    //   ) as HTMLInputElement
-    // ).value;
     AddUser(name, userName, userPassword);
     console.log("User added successfully");
   };
@@ -103,6 +85,7 @@ export const SignUpForm: React.FC = () => {
             " Name: " +
             data.name,
         );
+        navigate("/");
       } else {
         console.log(
           "Failed to add user. Status:",

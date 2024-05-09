@@ -21,6 +21,10 @@ const Stock: React.FC<StockProps> = ({ stock }) => {
   // const [stock, setStock] = useState<StockProps["stock"] | null>(null);
 
   const handleDelete = async () => {
+    if (!stock.id) {
+      console.error("Stock ID is undefined");
+      return;
+    }
     console.log("Deleting stock:", stock.id);
     try {
       const response = await fetch(

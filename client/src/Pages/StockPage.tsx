@@ -116,7 +116,6 @@ const StockPage: FC = () => {
                 key={index}
                 stock={{
                   ...stock,
-                  ...stock,
                   date:
                     stock.date && !isNaN(new Date(stock.date).getTime())
                       ? new Date(stock.date).toISOString()

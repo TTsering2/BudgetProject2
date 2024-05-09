@@ -66,7 +66,6 @@ function HandleUpdateStock({ setStocks, stock }: UpdateStockProps) {
       console.error("Failed to update stock:", error);
     }
   };
-
   return (
     <div>
       <button
