@@ -78,3 +78,16 @@ export function getYearBounds(dateStr: string): {
 
   return { firstDay: firstDayString, lastDay: lastDayString };
 }
+
+export function cleanDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  const month = padZero(date.getMonth() + 1); // getMonth() is zero-indexed, adjust with +1
+  const day = padZero(date.getDate()); // getDate() returns the day of the month
+  const year = date.getFullYear().toString().slice(2); // Get the last two digits of the year
+
+  return `${month}/${day}/${year}`;
+}
+
+function padZero(number: number): string {
+  return number < 10 ? `0${number}` : `${number}`;
+}

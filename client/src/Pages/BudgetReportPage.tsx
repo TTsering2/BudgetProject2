@@ -9,12 +9,11 @@ import {
   getMonthBounds,
   getYearBounds,
   extractYearAndMonth,
+  cleanDate
 } from "@/Functions/timeFunctions";
-import { calculateRollingSums } from "@/Functions/reportFunctions";
+import { calculateRollingSums, RollingSumResult } from "@/Functions/reportFunctions";
+import { LineAreaChart } from "@/Components/BudgetReportComponents/LineAreaChart";
 
-interface RollingSumResult {
-  [date: string]: number;
-}
 
 const BudgetReportPage: FC = () => {
   const auth = useAuth();
@@ -28,6 +27,8 @@ const BudgetReportPage: FC = () => {
   //State to hold user time input
   const [startDate, setStartDate] = useState(firstDay);
   const [endDate, setEndDate] = useState(lastDay);
+  const [cleanStartDate, setCleanStartDate] = useState(firstDay);
+  const [cleanEndDate, setCleanEndDate] = useState(lastDay);
 
   //State to hold data
   const [incomeReport, setIncomeReport] = useState(null);
@@ -100,7 +101,7 @@ const BudgetReportPage: FC = () => {
 
   const fetchIncome = async () => {
     try {
-      const response = await fetch(`http://localhost:5112/api/Income/userId=2`);
+      const response = await fetch(`http://localhost:5112/api/Income/userId=2/startDate=${startDate}/endDate=${endDate}`);
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
@@ -118,7 +119,7 @@ const BudgetReportPage: FC = () => {
   const fetchExpense = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5112/api/Expense/userId=2`,
+        `http://localhost:5112/api/Expense/userId=2/startDate=${startDate}/endDate=${endDate}`,
       );
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -126,7 +127,7 @@ const BudgetReportPage: FC = () => {
         const data = await response.json();
         const transformData = calculateRollingSums(data);
         console.log({expenseData:transformData});
-        setIncomeData(transformData);
+        setExpenseData(transformData);
         return transformData;
       }
     } catch (err) {
@@ -134,25 +135,48 @@ const BudgetReportPage: FC = () => {
     }
   };
 
+  const cleanStart = () => {
+    setCleanStartDate(cleanDate(startDate));
+  }
+
+  const cleanEnd = () => {
+    setCleanEndDate(cleanDate(endDate));
+  }
+  //Fetch data
   useEffect(() => {
     fetchIncomeReport();
     fetchExpenseReport();
     fetchSummaryReport();
     fetchExpense();
     fetchIncome();
+    cleanStart();
+    cleanEnd();
   }, [auth?.userId, startDate, endDate]);
 
+  //Clean up date
+ 
   return (
     <div className="bg-gradient-bluewhite bg-cover bg-center bg-fixed flex flex-col flex-grow w-full min-h-full ">
       <Header />
       <main className="w-10/12 mx-auto flex-grow bg-primary-white mb-8 rounded-md">
         <div className="flex flex-col h-full">
           {/* Top Row */}
-          <div className="gird grid-cols-2 min-h-1/2">
-            {/* Column 1 */}
-            <div className="bg-gray-200">Line Area Chart</div>
+          <div className="grid grid-cols-3 min-h-1/2">
+            {/* Column 1 - Adjusting layout to accommodate title and chart */}
+            <div className="col-span-2 flex flex-col">
+              <h1 className="text-3xl font-bold self-start">Your Financial Report From {cleanStartDate} to {cleanEndDate}</h1>{" "}
+              {/* Self-aligned to the start */}
+              <div className="flex-grow flex justify-center items-center">
+                <LineAreaChart
+                  incomeData={incomeData}
+                  expenseData={expenseData}
+                />
+              </div>
+            </div>
             {/* Column 2 */}
-            <div className="bg-gray-300">Summary Results</div>
+            <div className="col-span-1 bg-gray-300">
+              Summary Results
+            </div>
           </div>
           {/* Bottom Row */}
           <div className="grid grid-cols-4 min-h-96">
