@@ -1,9 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import Header from "./Header";
-// import AuthContext from "@/Hooks/AuthContext";
 import { Stock } from "@/Pages/StockPage";
-import useAuth from "@/Hooks/useAuth";
 
 type AddStockProps = {
   setStocks: React.Dispatch<React.SetStateAction<Stock[]>>;

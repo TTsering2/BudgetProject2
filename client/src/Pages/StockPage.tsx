@@ -1,15 +1,10 @@
 import useAuth from "@/Hooks/useAuth";
-import AuthContext from "@/Hooks/AuthContext";
 import { FC, useEffect, useState } from "react";
 import Stock from "@/Components/Stock";
 import AddStock from "@/Components/HandleAddStock";
 import Footer from "@/Components/Footer";
 import Header from "@/Components/Header";
 import Swal from "sweetalert2";
-
-type HeaderProps = {
-  myBoolProp: boolean;
-};
 
 export type Stock = {
   id: number;
@@ -21,17 +16,17 @@ export type Stock = {
   date: Date | null;
 };
 
-type StockProps = {
-  stock: Stock;
-  onStockDeleted: (id: number) => void;
-};
+// type StockProps = {
+//   stock: Stock;
+//   onStockDeleted: (id: number) => void;
+// };
 
 const StockPage: FC = ({}) => {
   const auth = useAuth();
   const userId = auth?.userId;
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [stockId, setStockId] = useState("");
-  const [stock, setStock] = useState<Stock | null>(null);
+  // const [stock, setStock] = useState<Stock | null>(null);
 
   //fetch the stocks when the component mounts
   useEffect(() => {

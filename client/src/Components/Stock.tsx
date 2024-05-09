@@ -1,5 +1,4 @@
 import { useState } from "react";
-import StockPage from "./HandleAddStock";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import Swal from "sweetalert2";
 import HandleUpdateStock from "./HandleUpdateStock";
