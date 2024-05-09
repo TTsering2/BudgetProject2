@@ -4,7 +4,7 @@ import useAuth from "@/Hooks/useAuth";
 
 export const NewIncomeForm = ({ display, setDisplay, setRefreshData }) => {
 
-  const types = ["Salary", "Amount", "Portfolio", "Gift"];
+  const types = ["Salary", "Amount", "Portfolio", "Gift", "Gig", "Other"];
   const [displayForm, setDisplayForm] = useState(display);
   const [notification, setNotification] = useState("");
  const { userId, signIn, signOut } = useAuth();
