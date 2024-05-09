@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { NewIncomeForm } from "@/Components/NewIncomeForm";
+import { NewIncomeForm } from "@/Components/IncomeForms/NewIncomeForm";
+import { UpdateIncomeForm } from "@/Components/IncomeForms/UpdateIncome";
 
 interface UserData {
+  id:number,
   type: string;
   title: string;
   amount: number;
@@ -26,14 +28,16 @@ const IncomePage = () => {
   const [showData, setShowData] = useState<{ [key: string]: boolean }>({});
   const [reportData, setReportData] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
+  const [selectedIncomeEntry, setSelectedIncomeEntry] = useState(-1);
   const [currentDate, setCurrentDate] = useState({
     month: "",
     differenceInDays: 0,
   });
 
   const [toggleIncomeForm, setToggleIncomForm] = useState(false);
+  const [refreshData, setRefreshData] = useState(false);
 
-  const { userId, signIn, signOut } = useAuth();
+  const { userId, signIn, signOut } = useAuth(); //Context
   const userIdValue = userId?.toString();
 
   const toggleShowData = (type: string) => {
@@ -43,6 +47,12 @@ const IncomePage = () => {
     }));
   };
 
+  useEffect(() => {},[])
+
+
+  //UPDATE AND DELETE FORM DISPLAY
+  const [displayEditForm, setDisplayEditForm] = useState(false);
+
   const colors: string[] = ["#DD3535", "#F39202", "#FFBE00", "#27CA40"];
   const [barColors, setBarColors] = useState(
     colors[Math.floor(Math.random() * 4)],
@@ -51,7 +61,7 @@ const IncomePage = () => {
   //Get user income
   const getAllUserIncome = async () => {
     try {
-      const response = await fetch(`http://localhost:5112/api/Income/userId=3`);
+      const response = await fetch(`http://localhost:5112/api/Income/userId=${userId}`);
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
@@ -75,7 +85,7 @@ const IncomePage = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5112/incomeReport/userId=3/startDate=${dates.firstDate}/endDate=${dates.lastDate}`,
+        `http://localhost:5112/incomeReport/userId=${userId}/startDate=${dates.firstDate}/endDate=${dates.lastDate}`,
       );
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -120,7 +130,7 @@ const IncomePage = () => {
     useEffect(() => {
       getAllUserIncome();
       getBudgetReport();
-  }, []);
+  }, [refreshData]);
 
   useEffect(() => {
     if (reportData.length > 0) {
@@ -150,8 +160,8 @@ const IncomePage = () => {
                       <h1  className="text-xl text-center my-5">You currently have no income</h1>
                             <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block" onClick = {() => {setToggleIncomForm(prev => !prev)}}>Add a New Income</button>
                         </div>
-                   {/*FORM ADD ENTRY */}
-                  {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm}/>}
+                   {/*FORM ADD ENTRY WHEN USER HAS NO INCOME*/}
+                  {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm} updateScreen ={setRefreshData} />}
                 </section>)
                 :
                 /*Component with no income*/
@@ -188,6 +198,9 @@ const IncomePage = () => {
 
           {/*FORM ADD ENTRY */}
           {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm}/>}
+
+          {/*FORM EDIT & DELETE ENTRY */}
+          {displayEditForm && <UpdateIncomeForm display={displayEditForm} setDisplay={setDisplayEditForm} entryId={selectedIncomeEntry}/>}
           
           {/*DATA */}
           <div className="w-[1350px] m-auto overflow-y-visible h-96 overflow-x-hidden">
@@ -220,7 +233,7 @@ const IncomePage = () => {
                     {/*DISPLAY FIRST ELEMENT*/}
                     <div
                       key={0}
-                      className="flex flex-row justify-between w-11/12 m-auto my-5"
+                      className="flex flex-row justify-between w-11/12 m-auto my-5" onClick={() => {setDisplayEditForm(true); setSelectedIncomeEntry(data[0].id)}}
                     >
                       <h5 className="p-1 font-semibold">
                         {data[0].title.charAt(0).toUpperCase() +
@@ -238,7 +251,7 @@ const IncomePage = () => {
                           .map((element: UserData, index: number) => (
                             <div
                               key={index + 1}
-                              className="flex flex-row justify-between w-11/12 m-auto my-5"
+                              className="flex flex-row justify-between w-11/12 m-auto my-5"  onClick={() => {setDisplayEditForm(true); setSelectedIncomeEntry(element.id)}}
                             >
                               <h5 className="p-1 font-semibold">
                                 {element.title.charAt(0).toUpperCase() +

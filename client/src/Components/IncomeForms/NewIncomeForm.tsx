@@ -2,12 +2,12 @@ import { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 
 
-export const NewIncomeForm = ({ display, setDisplay }) => {
+export const NewIncomeForm = ({ display, setDisplay, updateScreen }) => {
 
   const types = ["Salary", "Amount", "Portfolio", "Gift"];
   const [displayForm, setDisplayForm] = useState(display);
   const [notification, setNotification] = useState("");
-//const { userId, signIn, signOut } = useAuth();
+ const { userId, signIn, signOut } = useAuth();
 
     //Post new income
     const postNewIncome = async(e) => {
@@ -20,7 +20,7 @@ export const NewIncomeForm = ({ display, setDisplay }) => {
             amount: e.target.amount.value,
             type: e.target.type.value,
             date:  new Date().toISOString(),
-            userId: 3
+            userId: userId
         }
 
 
@@ -44,6 +44,7 @@ export const NewIncomeForm = ({ display, setDisplay }) => {
                 else{
                     setNotification("Failed to add income");
                     setDisplay(false);
+                    updateScreen(true);
                 }
             }
         }
@@ -58,7 +59,6 @@ export const NewIncomeForm = ({ display, setDisplay }) => {
             {
                 notification != "" ? <p className="text-black">{notification}</p>:""
             }
-            <p>{}</p>
         <button className="absolute top-0 right-0 bg-[#DD3535] text-white py-2 px-4 rounded my-2 mx-2 text-center mx-auto block" onClick={() => setDisplay(false)}>X</button>
         <h1 className="text-center font-semibold text-size-18">Add New Income</h1>
         <input
