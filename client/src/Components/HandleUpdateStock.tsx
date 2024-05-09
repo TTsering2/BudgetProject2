@@ -99,21 +99,25 @@ function HandleUpdateStock({ setStocks, stock }: UpdateStockProps) {
           style={{ margin: "40px", padding: "20px" }}
         >
           <div className="flex justify-between">
+            <label htmlFor="companyName">Company Name</label>
             <input
               type="text"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
             />
+            <label htmlFor="tickerSymbol">Ticker Symbol</label>
             <input
               type="text"
               value={tickerSymbol}
               onChange={(e) => setTickerSymbol(e.target.value)}
             />
+            <label htmlFor="price">Price</label>
             <input
               type="number"
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
             />
+            <label htmlFor="Qty">Qty</label>
             <input
               type="number"
               value={quantity}
