@@ -25,6 +25,7 @@ public class StockRepository : IStockRepository
         {
             Id = s.Id,
             CompanyName = s.CompanyName,
+            TickerSymbol = s.TickerSymbol,
             Price = s.Price,
             Quantity = s.Quantity,
             UserId = s.UserId,

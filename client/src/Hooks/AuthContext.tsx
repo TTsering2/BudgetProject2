@@ -1,7 +1,7 @@
 import React from "react";
 
 interface AuthContextType {
-  userId?: number;
+  userId: number;
   signIn: (username: string, password: string) => Promise<void>;
   signOut(): Promise<void>;
 }

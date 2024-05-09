@@ -1,5 +1,6 @@
 //Packages
 import { Routes, Route } from "react-router-dom";
+import Modal from "react-modal";
 
 //Pages
 import LandingPage from "@/Pages/LandingPage";
@@ -10,8 +11,12 @@ import BudgetReportPage from "@/Pages/BudgetReportPage";
 import AuthProvider from "@/Components/AuthProvider";
 import RequireAuth from "@/Components/RequireAuth";
 import { AuthenticationPage } from "./Pages/AuthenticationPage";
+import { useEffect } from "react";
 
 const App = () => {
+  useEffect(() => {
+    Modal.setAppElement("#root");
+  }, []);
   // const navigate = useNavigate();
 
   // const setNavigateToLandingPage:() => void = () => {
