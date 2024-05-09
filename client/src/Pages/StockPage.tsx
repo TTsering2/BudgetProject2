@@ -116,14 +116,11 @@ const StockPage: FC = ({}) => {
                 key={index}
                 stock={{
                   ...stock,
+                  ...stock,
                   date:
                     stock.date && !isNaN(new Date(stock.date).getTime())
-                      ? new Date(stock.date).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })
-                      : "N/A",
+                      ? new Date(stock.date).toISOString()
+                      : new Date().toISOString(),
                 }}
               />
             </div>
