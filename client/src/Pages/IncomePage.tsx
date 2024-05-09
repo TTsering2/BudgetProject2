@@ -54,10 +54,8 @@ const IncomePage = () => {
     }));
   };
 
-  useEffect(() => {}, []);
 
   //ADD, UPDATE AND DELETE FORM DISPLAY
-
   const [toggleIncomeForm, setToggleIncomForm] = useState(false);
   const [displayEditForm, setDisplayEditForm] = useState(false);
 

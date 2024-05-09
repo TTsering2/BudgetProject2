@@ -21,7 +21,7 @@ export type Stock = {
 //   onStockDeleted: (id: number) => void;
 // };
 
-const StockPage: FC = ({}) => {
+const StockPage: FC = () => {
   const auth = useAuth();
   const userId = auth?.userId;
   const [stocks, setStocks] = useState<Stock[]>([]);
