@@ -68,18 +68,13 @@ const App = () => {
           <Route
             path="/stockDashboard"
             element={
-              // <RequireAuth>
-              <StockPage />
-              // </RequireAuth>
+              <RequireAuth>
+                <StockPage />
+              </RequireAuth>
             }
           />
 
           <Route path="/test" element={<IncomePage />} />
-<<<<<<< HEAD
-
-          <Route path="/test" element={<IncomePage />} />
-=======
->>>>>>> 664d6143ddb9eb3eb6d4ca3e02b0871e9ea249ee
 
           {/* Report Dashboard Protected Routes */}
           <Route

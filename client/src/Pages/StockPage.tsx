@@ -1,12 +1,10 @@
 import useAuth from "@/Hooks/useAuth";
 import AuthContext from "@/Hooks/AuthContext";
 import { FC, useEffect, useState } from "react";
-import { error } from "console";
 import Stock from "@/Components/Stock";
 import AddStock from "@/Components/HandleAddStock";
 import Footer from "@/Components/Footer";
 import Header from "@/Components/Header";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 type HeaderProps = {
@@ -28,8 +26,9 @@ type StockProps = {
   onStockDeleted: (id: number) => void;
 };
 
-const StockPage: FC<StockProps> = ({}) => {
+const StockPage: FC = ({}) => {
   const auth = useAuth();
+  const userId = auth?.userId;
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [stockId, setStockId] = useState("");
   const [stock, setStock] = useState<Stock | null>(null);
@@ -44,7 +43,7 @@ const StockPage: FC<StockProps> = ({}) => {
       // Check if auth is not null
       try {
         const response = await fetch(
-          `http://localhost:5112/api/Stock/user/${2}`,
+          `http://localhost:5112/api/Stock/user/${userId}`,
         );
 
         if (!response.ok) {
