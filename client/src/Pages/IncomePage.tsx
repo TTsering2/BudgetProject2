@@ -28,13 +28,21 @@ const IncomePage = () => {
   const [showData, setShowData] = useState<{ [key: string]: boolean }>({});
   const [reportData, setReportData] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
-  const [selectedIncomeEntry, setSelectedIncomeEntry] = useState(-1);
+
+  //HANDLE EDIING DATA
+  const [selectedIncomeEntry, setSelectedIncomeEntry] = useState({
+    "id": -1,
+    "title": "",
+    "type": "",
+    "amount":0,
+  });
+
+
   const [currentDate, setCurrentDate] = useState({
     month: "",
     differenceInDays: 0,
   });
 
-  const [toggleIncomeForm, setToggleIncomForm] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
 
   const { userId, signIn, signOut } = useAuth(); //Context
@@ -50,13 +58,10 @@ const IncomePage = () => {
   useEffect(() => {},[])
 
 
-  //UPDATE AND DELETE FORM DISPLAY
+  //ADD, UPDATE AND DELETE FORM DISPLAY
+  
+  const [toggleIncomeForm, setToggleIncomForm] = useState(false);
   const [displayEditForm, setDisplayEditForm] = useState(false);
-
-  const colors: string[] = ["#DD3535", "#F39202", "#FFBE00", "#27CA40"];
-  const [barColors, setBarColors] = useState(
-    colors[Math.floor(Math.random() * 4)],
-  );
 
   //Get user income
   const getAllUserIncome = async () => {
@@ -141,11 +146,26 @@ const IncomePage = () => {
 
 
 
+  //HANDLE ENTRY SELECTION
+  const handleEntrySelection = (element:UserData) => {
+
+    setDisplayEditForm(true);
+
+    setSelectedIncomeEntry({
+      id: element.id,
+      title: element.title,
+      type: element.type,
+      amount: element.amount,
+  });
+    
+  }
+
   //Report width
   const totalWidth = Object.values(reportData).reduce(
     (total, value) => total + value,
     0,
   );
+
 
  
     return(
@@ -197,10 +217,10 @@ const IncomePage = () => {
                         </div>
 
           {/*FORM ADD ENTRY */}
-          {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm}/>}
+          {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm} updateScreen ={setRefreshData}/>}
 
           {/*FORM EDIT & DELETE ENTRY */}
-          {displayEditForm && <UpdateIncomeForm display={displayEditForm} setDisplay={setDisplayEditForm} entryId={selectedIncomeEntry}/>}
+          {displayEditForm && <UpdateIncomeForm display={displayEditForm} setDisplay={setDisplayEditForm} updateScreen ={setRefreshData} initialData ={selectedIncomeEntry}/>}
           
           {/*DATA */}
           <div className="w-[1350px] m-auto overflow-y-visible h-96 overflow-x-hidden">
@@ -233,7 +253,7 @@ const IncomePage = () => {
                     {/*DISPLAY FIRST ELEMENT*/}
                     <div
                       key={0}
-                      className="flex flex-row justify-between w-11/12 m-auto my-5" onClick={() => {setDisplayEditForm(true); setSelectedIncomeEntry(data[0].id)}}
+                      className="flex flex-row justify-between w-11/12 m-auto my-5" onClick={() => handleEntrySelection(data[0])}
                     >
                       <h5 className="p-1 font-semibold">
                         {data[0].title.charAt(0).toUpperCase() +
@@ -249,14 +269,8 @@ const IncomePage = () => {
                         {data
                           .slice(1)
                           .map((element: UserData, index: number) => (
-                            <div
-                              key={index + 1}
-                              className="flex flex-row justify-between w-11/12 m-auto my-5"  onClick={() => {setDisplayEditForm(true); setSelectedIncomeEntry(element.id)}}
-                            >
-                              <h5 className="p-1 font-semibold">
-                                {element.title.charAt(0).toUpperCase() +
-                                  element.title.substring(1)}
-                              </h5>
+                            <div key={index + 1} className="flex flex-row justify-between w-11/12 m-auto my-5" onClick={() => handleEntrySelection(element)}>
+                                <h5 className="p-1 font-semibold">{element.title.charAt(0).toUpperCase() + element.title.substring(1)}</h5>
                               <h5 className="text-2x font-semibold">
                                 ${element.amount}
                               </h5>

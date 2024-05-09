@@ -2,22 +2,31 @@ import { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 
 
-export const UpdateIncomeForm = ({ display, setDisplay, entryId  }) => {
+export const UpdateIncomeForm = ({ display, setDisplay, updateScreen, initialData  }) => {
 
   const types = ["Salary", "Amount", "Portfolio", "Gift"];
   const [displayForm, setDisplayForm] = useState(display);
   const [notification, setNotification] = useState("");
   const { userId, signIn, signOut } = useAuth();
 
+//HANDLE EDIING DATA
+  const [IncomeEntry, setIncomeEntry] = useState({
+    "id": initialData.id,
+    "title": initialData.title,
+    "type": initialData.type,
+    "amount":initialData.amount
+  });
+
+
   const userIdValue = userId?.toString();
 
 
   //DELETE SELECTED ENTRY
   const DeleteIncomeEntry = async(e) => {
-    console.log(entryId);
+    console.log(initialData.id);
         e.preventDefault();
          try{
-            const response = await fetch(`http://localhost:5112/api/Income/incomeId=${entryId}`,{
+            const response = await fetch(`http://localhost:5112/api/Income/incomeId=${initialData.id}`,{
                 method: 'DELETE',
             });
             if(!response.ok){
@@ -29,12 +38,61 @@ export const UpdateIncomeForm = ({ display, setDisplay, entryId  }) => {
                     setNotification("Income Entry deleted successfully");
                        setTimeout(() => {
                         setDisplay(false);
+                        updateScreen(true);
+
                     }, 5000)
                 }
                 else{
                     setNotification("Failed to delete income");
                     setTimeout(() => {
                         setDisplay(false);
+                        updateScreen(true);
+                    }, 5000)
+                }
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+
+  }
+
+
+  //EDIT SELECTED ENTRY
+  const EditSelectedEntry = async(e) =>{
+    e.preventDefault();
+       const incomeForm = {
+            title: e.target.title.value,
+            amount: e.target.amount.value,
+            type: e.target.type.value,
+            userId: userId
+        }
+
+        try{
+            const response = await fetch(`http://localhost:5112/api/Income/${IncomeEntry.id}`,{
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(incomeForm)
+            });
+            if(!response.ok){
+                throw new Error(response.statusText);
+            }
+            else{
+                const data = await response;
+                if(data.status === 204){
+                    setNotification("Income was updated successfully");
+                     setTimeout(() => {
+                        setDisplay(false);
+                        updateScreen(true);
+                    }, 5000)
+                }
+                else{
+                    setNotification("Can't update the income");
+                    setTimeout(() => {
+                        setDisplay(false);
+                        updateScreen(true);
                     }, 5000)
                 }
             }
@@ -48,7 +106,7 @@ export const UpdateIncomeForm = ({ display, setDisplay, entryId  }) => {
   
     return (
     displayForm && (
-        <form className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/12 bg-[#EEEEEE] p-8 rounded shadow-md" >
+        <form className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/12 bg-[#EEEEEE] p-8 rounded shadow-md" onSubmit = {EditSelectedEntry} >
             {
                 notification != "" ? <p className="text-black text-center text-[#11D3B0]">{notification}</p>:""
             }
@@ -57,27 +115,27 @@ export const UpdateIncomeForm = ({ display, setDisplay, entryId  }) => {
         <div className="flex flex-row gap-5">
              <input
             type="text"
-            placeholder="Title"
+            defaultValue={IncomeEntry.title}
             name="title"
-            required
+            
             className="block w-5/12 m-auto mt-5 rounded px-5 py-1"
         />
         <input
             type="text"
             placeholder="Amount"
             name="amount"
-            required
+            defaultValue={IncomeEntry.amount}
             className="block w-5/12 m-auto mt-5 rounded px-5 py-1"
             //onChange={() => setFormData()}
         />
         <select
             id="category"
             name="type"
-            required
+            defaultValue={IncomeEntry.type}
             className="block w-5/12 m-auto px-3 mt-5 py-1 border rounded-md focus:outline-none focus:border-blue-500"
         >
             {types.map((element, key) => (
-            <option key={key}>{element}</option>
+            <option value={element} key={key}>{element}</option>
             ))}
         </select>
         <input
