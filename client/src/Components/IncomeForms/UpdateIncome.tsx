@@ -39,14 +39,14 @@ export const UpdateIncomeForm = ({ display, setDisplay, setRefreshData, initialD
                        setTimeout(() => {
                         setDisplay(false);
                         setRefreshData(prev => !prev);
-                    }, 1000)
+                    }, 500)
                 }
                 else{
                     setNotification("Failed to delete income");
                     setTimeout(() => {
                         setDisplay(false);
                         setRefreshData(prev => !prev);
-                    }, 1000)
+                    }, 500)
                 }
             }
         }

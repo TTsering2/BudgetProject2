@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { NewIncomeForm } from "@/Components/IncomeForms/NewIncomeForm";
 import { UpdateIncomeForm } from "@/Components/IncomeForms/UpdateIncome";
 
+
 interface UserData {
   id:number,
   type: string;
@@ -160,12 +161,11 @@ const IncomePage = () => {
     
   }
 
-  //Report width
-  const totalWidth = Object.values(reportData).reduce(
-    (total, value) => total + value,
-    0,
-  );
 
+  const getRandomColor = () => {
+    // Generate a random hexadecimal color code
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  };
 
  
     return(
@@ -202,14 +202,7 @@ const IncomePage = () => {
                             <div className="flex flex-col gap-4">
                               <div className="flex items-center">
                               </div>
-                              <div className="flex items-center">
-                                <div className="bg-blue-500 h-8" style={{ width: totalWidth + 'px' }}></div>
-                              </div>
-                              <div className="flex items-center  rounded-xl">
-                                {Object.entries(reportData).map(([key, value]) => (
-                                  <div key={key} className="w-32 rounded-xl">{key.charAt(0).toUpperCase() + key.substring(1)}</div>
-                                ))}
-                              </div>
+
                             </div>
                     </div>
                         <div className="w-[1350px] m-auto my-5" >

@@ -42,7 +42,7 @@ export const NewIncomeForm = ({ display, setDisplay, setRefreshData }) => {
                     setTimeout(() => {
                         setDisplay(false);
                         setRefreshData(prev => !prev);
-                    }, 3000)
+                    }, 500)
 
                 }
                 else{
@@ -50,8 +50,7 @@ export const NewIncomeForm = ({ display, setDisplay, setRefreshData }) => {
                     setTimeout(() => {
                         setDisplay(false);
                         setRefreshData(prev => !prev);
-
-                    }, 3000)
+                    }, 500)
                 }
             }
         }
