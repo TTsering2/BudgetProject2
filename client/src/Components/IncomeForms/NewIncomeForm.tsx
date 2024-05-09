@@ -2,7 +2,7 @@ import { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 
 
-export const NewIncomeForm = ({ display, setDisplay, updateScreen }) => {
+export const NewIncomeForm = ({ display, setDisplay, setRefreshData }) => {
 
   const types = ["Salary", "Amount", "Portfolio", "Gift"];
   const [displayForm, setDisplayForm] = useState(display);
@@ -41,7 +41,7 @@ export const NewIncomeForm = ({ display, setDisplay, updateScreen }) => {
                     setNotification("Income added successfully");
                     setTimeout(() => {
                         setDisplay(false);
-                        updateScreen(true);
+                        setRefreshData(prev => !prev);
                     }, 3000)
 
                 }
@@ -49,7 +49,8 @@ export const NewIncomeForm = ({ display, setDisplay, updateScreen }) => {
                     setNotification("Failed to add income");
                     setTimeout(() => {
                         setDisplay(false);
-                        updateScreen(true);
+                        setRefreshData(prev => !prev);
+
                     }, 3000)
                 }
             }
@@ -63,7 +64,7 @@ export const NewIncomeForm = ({ display, setDisplay, updateScreen }) => {
     displayForm && (
         <form className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/12 bg-[#EEEEEE] p-8 rounded shadow-md" onSubmit={postNewIncome}>
             {
-                notification != "" ? <p className="text-black">{notification}</p>:""
+                notification != "" ? <p className="text-black text-center text-[#11D3B0]">{notification}</p>:""
             }
         <button className="absolute top-0 right-0 bg-[#DD3535] text-white py-2 px-4 rounded my-2 mx-2 text-center mx-auto block" onClick={() => setDisplay(false)}>X</button>
         <h1 className="text-center font-semibold text-size-18">Add New Income</h1>

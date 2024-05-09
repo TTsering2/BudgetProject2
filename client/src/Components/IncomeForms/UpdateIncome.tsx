@@ -2,7 +2,7 @@ import { useState } from "react";
 import useAuth from "@/Hooks/useAuth";
 
 
-export const UpdateIncomeForm = ({ display, setDisplay, updateScreen, initialData  }) => {
+export const UpdateIncomeForm = ({ display, setDisplay, setRefreshData, initialData  }) => {
 
   const types = ["Salary", "Amount", "Portfolio", "Gift"];
   const [displayForm, setDisplayForm] = useState(display);
@@ -38,16 +38,15 @@ export const UpdateIncomeForm = ({ display, setDisplay, updateScreen, initialDat
                     setNotification("Income Entry deleted successfully");
                        setTimeout(() => {
                         setDisplay(false);
-                        updateScreen(true);
-
-                    }, 5000)
+                        setRefreshData(prev => !prev);
+                    }, 1000)
                 }
                 else{
                     setNotification("Failed to delete income");
                     setTimeout(() => {
                         setDisplay(false);
-                        updateScreen(true);
-                    }, 5000)
+                        setRefreshData(prev => !prev);
+                    }, 1000)
                 }
             }
         }
@@ -85,15 +84,15 @@ export const UpdateIncomeForm = ({ display, setDisplay, updateScreen, initialDat
                     setNotification("Income was updated successfully");
                      setTimeout(() => {
                         setDisplay(false);
-                        updateScreen(true);
+                        setRefreshData(prev => !prev);
                     }, 3000)
                 }
                 else{
                     setNotification("Can't update the income");
                     setTimeout(() => {
                         setDisplay(false);
-                        updateScreen(true);
-                    }, 3000)
+                        setRefreshData(prev => !prev);
+                    }, 1000)
                 }
             }
         }
