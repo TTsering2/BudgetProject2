@@ -86,14 +86,14 @@ export const UpdateIncomeForm = ({ display, setDisplay, updateScreen, initialDat
                      setTimeout(() => {
                         setDisplay(false);
                         updateScreen(true);
-                    }, 5000)
+                    }, 3000)
                 }
                 else{
                     setNotification("Can't update the income");
                     setTimeout(() => {
                         setDisplay(false);
                         updateScreen(true);
-                    }, 5000)
+                    }, 3000)
                 }
             }
         }

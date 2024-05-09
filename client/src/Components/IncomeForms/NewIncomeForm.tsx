@@ -39,12 +39,18 @@ export const NewIncomeForm = ({ display, setDisplay, updateScreen }) => {
                 const data = await response;
                 if(data.status === 200){
                     setNotification("Income added successfully");
-                    setDisplay(false);
+                    setTimeout(() => {
+                        setDisplay(false);
+                        updateScreen(true);
+                    }, 3000)
+
                 }
                 else{
                     setNotification("Failed to add income");
-                    setDisplay(false);
-                    updateScreen(true);
+                    setTimeout(() => {
+                        setDisplay(false);
+                        updateScreen(true);
+                    }, 3000)
                 }
             }
         }
