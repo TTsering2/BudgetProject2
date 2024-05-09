@@ -6,9 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { NewIncomeForm } from "@/Components/NewIncomeForm";
+import { NewIncomeForm } from "@/Components/IncomeForms/NewIncomeForm";
+import { UpdateIncomeForm } from "@/Components/IncomeForms/UpdateIncome";
 
 interface UserData {
+  id: number;
   type: string;
   title: string;
   amount: number;
@@ -26,14 +28,23 @@ const IncomePage = () => {
   const [showData, setShowData] = useState<{ [key: string]: boolean }>({});
   const [reportData, setReportData] = useState([]);
   const [totalIncome, setTotalIncome] = useState(0);
+
+  //HANDLE EDIING DATA
+  const [selectedIncomeEntry, setSelectedIncomeEntry] = useState({
+    id: -1,
+    title: "",
+    type: "",
+    amount: 0,
+  });
+
   const [currentDate, setCurrentDate] = useState({
     month: "",
     differenceInDays: 0,
   });
 
-  const [toggleIncomeForm, setToggleIncomeForm] = useState(true);
+  const [refreshData, setRefreshData] = useState(false);
 
-  const { userId, signIn, signOut } = useAuth();
+  const { userId, signIn, signOut } = useAuth(); //Context
   const userIdValue = userId?.toString();
 
   const toggleShowData = (type: string) => {
@@ -43,15 +54,19 @@ const IncomePage = () => {
     }));
   };
 
-  const colors: string[] = ["#DD3535", "#F39202", "#FFBE00", "#27CA40"];
-  const [barColors, setBarColors] = useState(
-    colors[Math.floor(Math.random() * 4)],
-  );
+  useEffect(() => {}, []);
+
+  //ADD, UPDATE AND DELETE FORM DISPLAY
+
+  const [toggleIncomeForm, setToggleIncomForm] = useState(false);
+  const [displayEditForm, setDisplayEditForm] = useState(false);
 
   //Get user income
   const getAllUserIncome = async () => {
     try {
-      const response = await fetch(`http://localhost:5112/api/Income/userId=2`);
+      const response = await fetch(
+        `http://localhost:5112/api/Income/userId=${userId}`,
+      );
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
@@ -75,16 +90,15 @@ const IncomePage = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5112/incomeReport/userId=2/startDate=${dates.firstDate}/endDate=${dates.lastDate}`,
+        `http://localhost:5112/incomeReport/userId=${userId}/startDate=${dates.firstDate}/endDate=${dates.lastDate}`,
       );
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
         const data = await response.json();
         setReportData(data.incomeByCategory);
-
-        getTotalIncome(reportData);
-
+        const total = getTotalIncome(data.incomeByCategory);
+        setTotalIncome(total);
         return data;
       }
     } catch (err) {
@@ -115,27 +129,66 @@ const IncomePage = () => {
     const total = Object.values(categories).reduce((sum: number, element) => {
       return (sum += element);
     }, 0);
-    setTotalIncome(total);
-    // console.log(total)
+    return total;
   };
 
   useEffect(() => {
     getAllUserIncome();
     getBudgetReport();
-  }, [userData]);
+  }, [refreshData]);
 
-  //Report width
-  const totalWidth = Object.values(reportData).reduce(
-    (total, value) => total + value,
-    0,
-  );
+  useEffect(() => {
+    if (reportData.length > 0) {
+      const total = getTotalIncome(reportData);
+      setTotalIncome(total);
+    }
+  }, [reportData]);
+
+  //HANDLE ENTRY SELECTION
+  const handleEntrySelection = (element: UserData) => {
+    setDisplayEditForm(true);
+
+    setSelectedIncomeEntry({
+      id: element.id,
+      title: element.title,
+      type: element.type,
+      amount: element.amount,
+    });
+  };
+
+  const getRandomColor = () => {
+    // Generate a random hexadecimal color code
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+  };
 
   return (
     <div className="bg-gradient-bluewhite h-screen">
       <Header />
 
       {userData.length === 0 /*Component with income*/ ? (
-        <h1>NO INCOME</h1>
+        <section className="h-4/6 roboto mt-20">
+          <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 mt-10">
+            <h1 className="text-xl text-center my-5">
+              You currently have no income
+            </h1>
+            <button
+              className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block"
+              onClick={() => {
+                setToggleIncomForm((prev) => !prev);
+              }}
+            >
+              Add a New Income
+            </button>
+          </div>
+          {/*FORM ADD ENTRY WHEN USER HAS NO INCOME*/}
+          {toggleIncomeForm && (
+            <NewIncomeForm
+              display={toggleIncomeForm}
+              setDisplay={setToggleIncomForm}
+              setRefreshData={setRefreshData}
+            />
+          )}
+        </section>
       ) : (
         /*Component with no income*/
         <section className="h-5/6 roboto">
@@ -157,31 +210,40 @@ const IncomePage = () => {
             </div>
             <div className="flex flex-col gap-4">
               <div className="flex items-center"></div>
-              <div className="flex items-center">
-                <div
-                  className="bg-blue-500 h-8"
-                  style={{ width: totalWidth + "px" }}
-                ></div>
-              </div>
-              <div className="flex items-center  rounded-xl">
-                {Object.entries(reportData).map(([key, value]) => (
-                  <div key={key} className="w-32 rounded-xl">
-                    {key.charAt(0).toUpperCase() + key.substring(1)}
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
           <div className="w-[1350px] m-auto my-5">
-            <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block">
+            <button
+              className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block"
+              onClick={() => {
+                setToggleIncomForm((prev) => !prev);
+              }}
+            >
               Add a New Income
             </button>
           </div>
 
           {/*FORM ADD ENTRY */}
-          {toggleIncomeForm && <NewIncomeForm />}
+          {toggleIncomeForm && (
+            <NewIncomeForm
+              display={toggleIncomeForm}
+              setDisplay={setToggleIncomForm}
+              setRefreshData={setRefreshData}
+            />
+          )}
 
-          <div className="w-[1350px] m-auto ">
+          {/*FORM EDIT & DELETE ENTRY */}
+          {displayEditForm && (
+            <UpdateIncomeForm
+              display={displayEditForm}
+              setDisplay={setDisplayEditForm}
+              setRefreshData={setRefreshData}
+              initialData={selectedIncomeEntry}
+            />
+          )}
+
+          {/*DATA */}
+          <div className="w-[1350px] m-auto overflow-y-visible h-96 pr-2 overflow-x-hidden">
             {Object.entries(incomeByType).map(
               ([type, { data, totalIncome }], key) => (
                 <div
@@ -212,6 +274,7 @@ const IncomePage = () => {
                     <div
                       key={0}
                       className="flex flex-row justify-between w-11/12 m-auto my-5"
+                      onClick={() => handleEntrySelection(data[0])}
                     >
                       <h5 className="p-1 font-semibold">
                         {data[0].title.charAt(0).toUpperCase() +
@@ -230,6 +293,7 @@ const IncomePage = () => {
                             <div
                               key={index + 1}
                               className="flex flex-row justify-between w-11/12 m-auto my-5"
+                              onClick={() => handleEntrySelection(element)}
                             >
                               <h5 className="p-1 font-semibold">
                                 {element.title.charAt(0).toUpperCase() +
