@@ -12,6 +12,7 @@ import {
   RollingSumResult,
   zipIncomeExpenseData,
 } from "@/Functions/reportFunctions";
+import { NoDataFound } from "./NoDataFound";
 
 interface LineAreaChartProps {
   incomeData: RollingSumResult[] | null;
@@ -22,18 +23,25 @@ export const LineAreaChart: React.FC<LineAreaChartProps> = ({
   incomeData,
   expenseData,
 }) => {
-  if (incomeData === null || expenseData === null) {
-    return <div>Loading...</div>;
+  if (
+    !incomeData ||
+    incomeData.length === 0 ||
+    !expenseData ||
+    expenseData.length === 0
+  ) {
+    return <NoDataFound />;
   }
 
   const data = zipIncomeExpenseData(incomeData, expenseData);
+  console.log("Zipped data:", data);
+  console.log(data);
   return (
     <ResponsiveContainer width="80%" height="80%">
       <AreaChart
         data={data}
         margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
       >
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="2 2" />
         <XAxis
           dataKey="date"
           label={{ value: "Date", position: "insideBottom", offset: 0 }} // Adjusted offset
@@ -58,7 +66,7 @@ export const LineAreaChart: React.FC<LineAreaChartProps> = ({
         <Area
           type="monotone"
           dataKey="expenseAmount"
-          stackId="1"
+          stackId="2"
           stroke="#d86060"
           fill="#d86060"
           name="Expenses"
