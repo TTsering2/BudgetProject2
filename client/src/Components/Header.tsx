@@ -14,11 +14,13 @@ const Header = () => {
   return (
     <header className="header text-black p-6 w-10/12 mx-auto aling-center flex flex-row justify-between">
       <div>
-        <img
-          src="./assets/SpendWiseTop.svg"
-          alt="logo"
-          className="mr-4 w-40"
-        ></img>
+        <Link to="/">
+          <img
+            src="./assets/SpendWiseTop.svg"
+            alt="logo"
+            className="mr-4 w-40"
+          ></img>
+        </Link>
       </div>
       {auth?.userId !== undefined ? (
         <section className="flex flex-row  items-center justify-between pb-4">
