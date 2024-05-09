@@ -9,9 +9,8 @@ import { useEffect, useState } from "react";
 import { NewIncomeForm } from "@/Components/IncomeForms/NewIncomeForm";
 import { UpdateIncomeForm } from "@/Components/IncomeForms/UpdateIncome";
 
-
 interface UserData {
-  id:number,
+  id: number;
   type: string;
   title: string;
   amount: number;
@@ -32,12 +31,11 @@ const IncomePage = () => {
 
   //HANDLE EDIING DATA
   const [selectedIncomeEntry, setSelectedIncomeEntry] = useState({
-    "id": -1,
-    "title": "",
-    "type": "",
-    "amount":0,
+    id: -1,
+    title: "",
+    type: "",
+    amount: 0,
   });
-
 
   const [currentDate, setCurrentDate] = useState({
     month: "",
@@ -56,18 +54,19 @@ const IncomePage = () => {
     }));
   };
 
-  useEffect(() => {},[])
-
+  useEffect(() => {}, []);
 
   //ADD, UPDATE AND DELETE FORM DISPLAY
-  
+
   const [toggleIncomeForm, setToggleIncomForm] = useState(false);
   const [displayEditForm, setDisplayEditForm] = useState(false);
 
   //Get user income
   const getAllUserIncome = async () => {
     try {
-      const response = await fetch(`http://localhost:5112/api/Income/userId=${userId}`);
+      const response = await fetch(
+        `http://localhost:5112/api/Income/userId=${userId}`,
+      );
       if (!response.ok) {
         throw new Error(response.statusText);
       } else {
@@ -133,9 +132,9 @@ const IncomePage = () => {
     return total;
   };
 
-    useEffect(() => {
-      getAllUserIncome();
-      getBudgetReport();
+  useEffect(() => {
+    getAllUserIncome();
+    getBudgetReport();
   }, [refreshData]);
 
   useEffect(() => {
@@ -145,11 +144,8 @@ const IncomePage = () => {
     }
   }, [reportData]);
 
-
-
   //HANDLE ENTRY SELECTION
-  const handleEntrySelection = (element:UserData) => {
-
+  const handleEntrySelection = (element: UserData) => {
     setDisplayEditForm(true);
 
     setSelectedIncomeEntry({
@@ -157,64 +153,95 @@ const IncomePage = () => {
       title: element.title,
       type: element.type,
       amount: element.amount,
-  });
-    
-  }
-
+    });
+  };
 
   const getRandomColor = () => {
     // Generate a random hexadecimal color code
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
   };
 
- 
-    return(
-        <div className="bg-gradient-bluewhite h-screen">
-            <Header/>
- 
-            {
-                userData.length === 0 ?  /*Component with income*/
- 
-                (<section className="h-4/6 roboto mt-20">
-                     <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 mt-10" >
-                      <h1  className="text-xl text-center my-5">You currently have no income</h1>
-                            <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block" onClick = {() => {setToggleIncomForm(prev => !prev)}}>Add a New Income</button>
-                        </div>
-                   {/*FORM ADD ENTRY WHEN USER HAS NO INCOME*/}
-                  {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm} setRefreshData ={setRefreshData} />}
-                </section>)
-                :
-                /*Component with no income*/
-                (
-                <section className="h-5/6 roboto">
-                    <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 ">
-                        <h2 className="text-xl">Income Summary</h2>
-                        <div className="flex flex-row justify-between mt-9 w-[1300px]">
-                            <div>
-                              <p className="text-3xl">${totalIncome}</p>
-                              <p className="text-lg font-normal	">Total Income</p>
-                            </div>
-                            <div className="w-2/12">
-                              <p className="text-3xl font-semibold text-right pr-10" >{currentDate.month}</p>
-                              <p  className="text-xl font-normal	text-right pr-10">{currentDate.differenceInDays} Days Left</p>
-                            </div>
-                        </div>
-                            <div className="flex flex-col gap-4">
-                              <div className="flex items-center">
-                              </div>
+  return (
+    <div className="bg-gradient-bluewhite h-screen">
+      <Header />
 
-                            </div>
-                    </div>
-                        <div className="w-[1350px] m-auto my-5" >
-                            <button className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block" onClick = {() => {setToggleIncomForm(prev => !prev)}}>Add a New Income</button>
-                        </div>
+      {userData.length === 0 /*Component with income*/ ? (
+        <section className="h-4/6 roboto mt-20">
+          <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 mt-10">
+            <h1 className="text-xl text-center my-5">
+              You currently have no income
+            </h1>
+            <button
+              className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block"
+              onClick={() => {
+                setToggleIncomForm((prev) => !prev);
+              }}
+            >
+              Add a New Income
+            </button>
+          </div>
+          {/*FORM ADD ENTRY WHEN USER HAS NO INCOME*/}
+          {toggleIncomeForm && (
+            <NewIncomeForm
+              display={toggleIncomeForm}
+              setDisplay={setToggleIncomForm}
+              setRefreshData={setRefreshData}
+            />
+          )}
+        </section>
+      ) : (
+        /*Component with no income*/
+        <section className="h-5/6 roboto">
+          <div className="bg-[#FFFFFF] font-bold w-[1350px] m-auto p-6 px-10 rounded mt-6 pb-20 ">
+            <h2 className="text-xl">Income Summary</h2>
+            <div className="flex flex-row justify-between mt-9 w-[1300px]">
+              <div>
+                <p className="text-3xl">${totalIncome}</p>
+                <p className="text-lg font-normal	">Total Income</p>
+              </div>
+              <div className="w-2/12">
+                <p className="text-3xl font-semibold text-right pr-10">
+                  {currentDate.month}
+                </p>
+                <p className="text-xl font-normal	text-right pr-10">
+                  {currentDate.differenceInDays} Days Left
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center"></div>
+            </div>
+          </div>
+          <div className="w-[1350px] m-auto my-5">
+            <button
+              className="bg-primary-green-blue text-white p-2 px-7 rounded  text-center mx-auto block"
+              onClick={() => {
+                setToggleIncomForm((prev) => !prev);
+              }}
+            >
+              Add a New Income
+            </button>
+          </div>
 
           {/*FORM ADD ENTRY */}
-          {toggleIncomeForm && <NewIncomeForm display={toggleIncomeForm} setDisplay={setToggleIncomForm} setRefreshData ={setRefreshData}/>}
+          {toggleIncomeForm && (
+            <NewIncomeForm
+              display={toggleIncomeForm}
+              setDisplay={setToggleIncomForm}
+              setRefreshData={setRefreshData}
+            />
+          )}
 
           {/*FORM EDIT & DELETE ENTRY */}
-          {displayEditForm && <UpdateIncomeForm display={displayEditForm} setDisplay={setDisplayEditForm} setRefreshData ={setRefreshData} initialData ={selectedIncomeEntry}/>}
-          
+          {displayEditForm && (
+            <UpdateIncomeForm
+              display={displayEditForm}
+              setDisplay={setDisplayEditForm}
+              setRefreshData={setRefreshData}
+              initialData={selectedIncomeEntry}
+            />
+          )}
+
           {/*DATA */}
           <div className="w-[1350px] m-auto overflow-y-visible h-96 pr-2 overflow-x-hidden">
             {Object.entries(incomeByType).map(
@@ -246,7 +273,8 @@ const IncomePage = () => {
                     {/*DISPLAY FIRST ELEMENT*/}
                     <div
                       key={0}
-                      className="flex flex-row justify-between w-11/12 m-auto my-5" onClick={() => handleEntrySelection(data[0])}
+                      className="flex flex-row justify-between w-11/12 m-auto my-5"
+                      onClick={() => handleEntrySelection(data[0])}
                     >
                       <h5 className="p-1 font-semibold">
                         {data[0].title.charAt(0).toUpperCase() +
@@ -262,8 +290,15 @@ const IncomePage = () => {
                         {data
                           .slice(1)
                           .map((element: UserData, index: number) => (
-                            <div key={index + 1} className="flex flex-row justify-between w-11/12 m-auto my-5" onClick={() => handleEntrySelection(element)}>
-                                <h5 className="p-1 font-semibold">{element.title.charAt(0).toUpperCase() + element.title.substring(1)}</h5>
+                            <div
+                              key={index + 1}
+                              className="flex flex-row justify-between w-11/12 m-auto my-5"
+                              onClick={() => handleEntrySelection(element)}
+                            >
+                              <h5 className="p-1 font-semibold">
+                                {element.title.charAt(0).toUpperCase() +
+                                  element.title.substring(1)}
+                              </h5>
                               <h5 className="text-2x font-semibold">
                                 ${element.amount}
                               </h5>
