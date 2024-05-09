@@ -25,13 +25,17 @@ export const UpdateIncomeForm = ({ display, setDisplay, entryId  }) => {
             }
             else{
                 const data = await response;
-                if(data.status === 200){
+                if(data.status === 204){
                     setNotification("Income Entry deleted successfully");
-                    setDisplay(false);
+                       setTimeout(() => {
+                        setDisplay(false);
+                    }, 5000)
                 }
                 else{
                     setNotification("Failed to delete income");
-                    setDisplay(false);
+                    setTimeout(() => {
+                        setDisplay(false);
+                    }, 5000)
                 }
             }
         }
@@ -46,7 +50,7 @@ export const UpdateIncomeForm = ({ display, setDisplay, entryId  }) => {
     displayForm && (
         <form className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/12 bg-[#EEEEEE] p-8 rounded shadow-md" >
             {
-                notification != "" ? <p className="text-black">{notification}</p>:""
+                notification != "" ? <p className="text-black text-center text-[#11D3B0]">{notification}</p>:""
             }
         <button className="absolute top-0 right-0 bg-[#DD3535] text-white py-2 px-4 rounded my-2 mx-2 text-center mx-auto block" onClick={() => setDisplay(false)}>X</button>
         <h1 className="text-center font-semibold text-size-18">Update/Delete Income</h1>
