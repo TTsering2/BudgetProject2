@@ -86,7 +86,7 @@ const StockPage: FC<StockProps> = ({}) => {
 
   return (
     <div className="bg-gradient-bluewhite flex flex-col min-h-screen">
-      <Header myBoolProp={true} />
+      <Header />
 
       <div className="flex-grow mb-4 font-roboto leading-loose tracking-wide">
         <div className="flex justify-center space-x-4 ">
@@ -129,7 +129,7 @@ const StockPage: FC<StockProps> = ({}) => {
                           month: "2-digit",
                           day: "2-digit",
                         })
-                      : null,
+                      : "N/A",
                 }}
               />
             </div>

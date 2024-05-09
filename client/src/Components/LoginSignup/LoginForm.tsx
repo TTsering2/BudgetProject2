@@ -8,10 +8,13 @@ import useAuth from "@/Hooks/useAuth";
 // import Validation from "./LoginValidator";
 
 // Interface representing the state of the form
+<<<<<<< HEAD
 interface LoginUpFormState {
   userName: string;
   userPassword: string;
 }
+=======
+>>>>>>> 664d6143ddb9eb3eb6d4ca3e02b0871e9ea249ee
 
 export const LoginForm: React.FC = () => {
   // form title state

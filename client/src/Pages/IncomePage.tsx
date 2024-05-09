@@ -31,7 +31,11 @@ const IncomePage = () => {
     differenceInDays: 0,
   });
 
+<<<<<<< HEAD
   const [toggleIncomeForm, setToggleIncomForm] = useState(true);
+=======
+  const [toggleIncomeForm, setToggleIncomeForm] = useState(true);
+>>>>>>> 664d6143ddb9eb3eb6d4ca3e02b0871e9ea249ee
 
   const { userId, signIn, signOut } = useAuth();
   const userIdValue = userId?.toString();
@@ -110,6 +114,7 @@ const IncomePage = () => {
   );
 
   //GET TOTAL INCOME
+<<<<<<< HEAD
   const getTotalIncome = (data: Object) => {
     const categories = data;
     console.log(colors[Math.floor(Math.random() * 3) + 1]);
@@ -123,6 +128,21 @@ const IncomePage = () => {
     getAllUserIncome();
     getBudgetReport();
   }, [userData]);
+=======
+  // const getTotalIncome = (data: Object) => {
+  //   const categories = data;
+  //   const total = Object.values(categories).reduce((sum: number, element) => {
+  //     return (sum += element);
+  //   }, 0);
+  //   setTotalIncome(total);
+  //   // console.log(total)
+  // };
+
+  // useEffect(() => {
+  //   getAllUserIncome();
+  //   getBudgetReport();
+  // }, [userData]);
+>>>>>>> 664d6143ddb9eb3eb6d4ca3e02b0871e9ea249ee
 
   //Report width
   const totalWidth = Object.values(reportData).reduce(
