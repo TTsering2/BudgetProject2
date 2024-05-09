@@ -110,19 +110,19 @@ const IncomePage = () => {
   );
 
   //GET TOTAL INCOME
-  // const getTotalIncome = (data: Object) => {
-  //   const categories = data;
-  //   const total = Object.values(categories).reduce((sum: number, element) => {
-  //     return (sum += element);
-  //   }, 0);
-  //   setTotalIncome(total);
-  //   // console.log(total)
-  // };
+  const getTotalIncome = (data: Object) => {
+    const categories = data;
+    const total = Object.values(categories).reduce((sum: number, element) => {
+      return (sum += element);
+    }, 0);
+    setTotalIncome(total);
+    // console.log(total)
+  };
 
-  // useEffect(() => {
-  //   getAllUserIncome();
-  //   getBudgetReport();
-  // }, [userData]);
+  useEffect(() => {
+    getAllUserIncome();
+    getBudgetReport();
+  }, [userData]);
 
   //Report width
   const totalWidth = Object.values(reportData).reduce(
