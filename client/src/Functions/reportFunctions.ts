@@ -85,7 +85,7 @@ export function zipIncomeExpenseData(
       combinedMap[income.date].incomeAmount = income.amount;
     }
   }
-
+  
   // Convert the map to an array
   const combinedDataArray: CombinedData[] = Object.values(combinedMap);
 
@@ -93,6 +93,16 @@ export function zipIncomeExpenseData(
   combinedDataArray.sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
+    for (let i = 1; i < combinedDataArray.length; i++) {
+      if (combinedDataArray[i].incomeAmount === 0) {
+        combinedDataArray[i].incomeAmount =
+          combinedDataArray[i - 1].incomeAmount;
+      }
+      if (combinedDataArray[i].expenseAmount === 0) {
+        combinedDataArray[i].expenseAmount =
+          combinedDataArray[i - 1].expenseAmount;
+      }
+    }
 
   return combinedDataArray;
 }

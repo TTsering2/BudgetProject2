@@ -7,7 +7,7 @@ import {
   FormatDateToCsharp,
   getMonthBounds,
   cleanDate,
-} from "@/Functions/timeFunctions";
+} from "@/Functions/TimeFunctions";
 import {
   calculateRollingSums,
   RollingSumResult,
@@ -78,7 +78,7 @@ const BudgetReportPage: FC = () => {
   const fetchIncomeReport = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5112/incomeReport/userId=2/startDate=${startDate}/endDate=${endDate}`,
+        `http://localhost:5112/incomeReport/userId=${contextUserId}/startDate=${startDate}/endDate=${endDate}`,
       );
       if (!response.ok) {
         setIncomeReport(null);
@@ -97,7 +97,7 @@ const BudgetReportPage: FC = () => {
   const fetchExpenseReport = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5112/expenseReport/userId=2/startDate=${startDate}/endDate=${endDate}`,
+        `http://localhost:5112/expenseReport/userId=${contextUserId}/startDate=${startDate}/endDate=${endDate}`,
       );
       if (!response.ok) {
         setExpenseReport(null);
@@ -116,7 +116,7 @@ const BudgetReportPage: FC = () => {
   const fetchSummaryReport = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5112/balanceReport/userId=2/startDate=${startDate}/endDate=${endDate}`,
+        `http://localhost:5112/balanceReport/userId=${contextUserId}/startDate=${startDate}/endDate=${endDate}`,
       );
       if (!response.ok) {
         setSummaryReport(null);
@@ -135,7 +135,7 @@ const BudgetReportPage: FC = () => {
   const fetchIncome = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5112/api/Income/userId=2/startDate=${startDate}/endDate=${endDate}`,
+        `http://localhost:5112/api/Income/userId=${contextUserId}/startDate=${startDate}/endDate=${endDate}`,
       );
       if (!response.ok) {
         setIncomeData(null);
@@ -156,7 +156,7 @@ const BudgetReportPage: FC = () => {
   const fetchExpense = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5112/api/Expense/userId=2/startDate=${startDate}/endDate=${endDate}`,
+        `http://localhost:5112/api/Expense/userId=${contextUserId}/startDate=${startDate}/endDate=${endDate}`,
       );
       if (!response.ok) {
         setExpenseReport(null);
